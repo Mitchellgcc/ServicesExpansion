@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator - Pharmacy Services</title>
+  <script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f8fafc;
+    }
+    .service-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .qr-code {
+      width: 120px;
+      height: 120px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+    .service-info h3 {
+      margin: 0 0 0.5rem 0;
+      color: #1e293b;
+    }
+    .service-url {
+      color: #64748b;
+      font-size: 0.875rem;
+      font-family: monospace;
+      margin: 0.5rem 0;
+    }
+    .download-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .download-btn:hover {
+      background: #2563eb;
+    }
+    h1 {
+      text-align: center;
+      color: #1e293b;
+      margin-bottom: 2rem;
+    }
+    .instructions {
+      background: #dbeafe;
+      border: 1px solid #93c5fd;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      color: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏥 Pharmacy Services QR Code Generator</h1>
+  
+  <div class="instructions">
+    <strong>📋 Instructions:</strong> Use these QR codes on your posters, flyers, and pamphlets. Each QR code takes customers directly to that service's landing page for immediate booking.
+  </div>
+
+  <div id="qr-container"></div>
+
+  <script>
+    const services = [
+      { id: 'metabolic-weight', name: 'Metabolic & Weight Management', icon: '⚡' },
+      { id: 'womens-health', name: 'Women\'s Health Services', icon: '🌸' },
+      { id: 'health-screening', name: 'Health Screening & Monitoring', icon: '🔍' },
+      { id: 'vaccinations', name: 'Core Vaccinations', icon: '🛡️' },
+      { id: 'nhs-services', name: 'NHS Clinical Services', icon: '🏥' },
+      { id: 'mens-health', name: 'Men\'s Health & Performance', icon: '💪' },
+      { id: 'travel-health', name: 'Travel Health Services', icon: '✈️' },
+      { id: 'gut-health', name: 'Gut Health & Digestive Wellness', icon: '🌱' }
+    ];
+
+    const baseURL = 'https://cornwells-services.netlify.app';
+    
+    async function generateQRCode(service) {
+      const url = `${baseURL}/${service.id}`;
+      const canvas = document.createElement('canvas');
+      
+      await QRCode.toCanvas(canvas, url, {
+        width: 120,
+        margin: 2,
+        color: { dark: '#000000', light: '#FFFFFF' },
+        errorCorrectionLevel: 'M'
+      });
+      
+      return canvas;
+    }
+
+    function downloadQR(canvas, serviceName) {
+      const link = document.createElement('a');
+      link.download = `qr-code-${serviceName.toLowerCase().replace(/\s+/g, '-')}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    async function initQRCodes() {
+      const container = document.getElementById('qr-container');
+      
+      for (const service of services) {
+        const serviceCard = document.createElement('div');
+        serviceCard.className = 'service-card';
+        
+        const qrCanvas = await generateQRCode(service);
+        qrCanvas.className = 'qr-code';
+        
+        const serviceInfo = document.createElement('div');
+        serviceInfo.className = 'service-info';
+        serviceInfo.innerHTML = `
+          <h3>${service.icon} ${service.name}</h3>
+          <div class="service-url">${baseURL}/${service.id}</div>
+          <button class="download-btn" onclick="downloadQR(this.closest('.service-card').querySelector('canvas'), '${service.name}')">
+            📥 Download QR Code
+          </button>
+        `;
+        
+        serviceCard.appendChild(qrCanvas);
+        serviceCard.appendChild(serviceInfo);
+        container.appendChild(serviceCard);
+      }
+    }
+
+    // Make downloadQR available globally
+    window.downloadQR = downloadQR;
+    
+    initQRCodes();
+  </script>
+</body>
+</html> 
