@@ -48,9 +48,19 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.875rem;
+      transition: all 0.2s;
     }
     .download-btn:hover {
       background: #2563eb;
+      transform: translateY(-1px);
+    }
+    .download-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .download-btn.downloading {
+      background: #f59e0b;
     }
     h1 {
       text-align: center;
@@ -78,6 +88,7 @@
 
   <script>
     const services = [
+      { id: '', name: 'All Pharmacy Services (Main Page)', icon: '🏥', isMainPage: true },
       { id: 'metabolic-weight', name: 'Metabolic & Weight Management', icon: '⚡' },
       { id: 'womens-health', name: 'Women\'s Health Services', icon: '🌸' },
       { id: 'health-screening', name: 'Health Screening & Monitoring', icon: '🔍' },
@@ -91,7 +102,7 @@
     const baseURL = 'https://cornwells-services.netlify.app';
     
     async function generateQRCode(service) {
-      const url = `${baseURL}/${service.id}`;
+      const url = service.isMainPage ? baseURL : `${baseURL}/${service.id}`;
       console.log(`Generating QR for ${service.name}: ${url}`);
       
       // Use QR-Server API (more reliable than Google Charts)
@@ -159,37 +170,105 @@
     }
 
     function downloadQR(canvas, serviceName) {
+      // Get the button that was clicked
+      const button = event.target;
+      const originalText = button.innerHTML;
+      
       try {
+        // Show downloading state
+        button.innerHTML = '⏳ Downloading...';
+        button.disabled = true;
+        button.classList.add('downloading');
+        
         console.log(`Downloading QR for: ${serviceName}`);
-        const link = document.createElement('a');
         const fileName = `qr-code-${serviceName.toLowerCase().replace(/[^a-z0-9]/g, '-')}.png`;
         
-        // Get the canvas data as a blob for better browser compatibility
-        canvas.toBlob(function(blob) {
-          const url = URL.createObjectURL(blob);
-          link.href = url;
-          link.download = fileName;
-          link.style.display = 'none';
-          
-          document.body.appendChild(link);
-          link.click();
-          
-          // Clean up
-          setTimeout(() => {
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-          }, 100);
-          
-          console.log(`Download started for: ${fileName}`);
-        }, 'image/png');
+        // Method 1: Try blob approach first (best quality)
+        if (canvas.toBlob) {
+          canvas.toBlob(function(blob) {
+            if (blob) {
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = fileName;
+              link.style.display = 'none';
+              
+              document.body.appendChild(link);
+              link.click();
+              
+              // Clean up
+              setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              }, 100);
+              
+              console.log(`Download started for: ${fileName}`);
+              
+              // Reset button
+              setTimeout(() => {
+                button.innerHTML = '✅ Downloaded';
+                setTimeout(() => {
+                  button.innerHTML = originalText;
+                  button.disabled = false;
+                  button.classList.remove('downloading');
+                }, 2000);
+              }, 500);
+              
+            } else {
+              // Fallback if blob creation fails
+              downloadFallback(canvas, fileName, button, originalText);
+            }
+          }, 'image/png', 0.95);
+        } else {
+          // Fallback for older browsers
+          downloadFallback(canvas, fileName, button, originalText);
+        }
         
       } catch (error) {
         console.error('Download failed:', error);
-        // Fallback to dataURL method
+        downloadFallback(canvas, fileName, button, originalText);
+      }
+    }
+    
+    function downloadFallback(canvas, fileName, button, originalText) {
+      try {
+        console.log('Using fallback download method');
         const link = document.createElement('a');
-        link.download = `qr-code-${serviceName.toLowerCase().replace(/[^a-z0-9]/g, '-')}.png`;
+        link.download = fileName;
         link.href = canvas.toDataURL('image/png');
+        link.style.display = 'none';
+        
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
+        
+        console.log(`Fallback download completed for: ${fileName}`);
+        
+        // Reset button state
+        setTimeout(() => {
+          button.innerHTML = '✅ Downloaded';
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+            button.classList.remove('downloading');
+          }, 2000);
+        }, 500);
+        
+      } catch (error) {
+        console.error('Fallback download also failed:', error);
+        
+        // Reset button to error state
+        button.innerHTML = '❌ Failed';
+        button.style.background = '#ef4444';
+        
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          button.disabled = false;
+          button.classList.remove('downloading');
+          button.style.background = '';
+        }, 3000);
+        
+        alert('Download failed. Please right-click the QR code and select "Save image as..."');
       }
     }
 
@@ -212,9 +291,10 @@
           
           const serviceInfo = document.createElement('div');
           serviceInfo.className = 'service-info';
+          const serviceUrl = service.isMainPage ? baseURL : `${baseURL}/${service.id}`;
           serviceInfo.innerHTML = `
             <h3>${service.icon} ${service.name}</h3>
-            <div class="service-url">${baseURL}/${service.id}</div>
+            <div class="service-url">${serviceUrl}</div>
             <button class="download-btn" onclick="downloadQR(this.closest('.service-card').querySelector('canvas'), '${service.name}')">
               📥 Download QR Code
             </button>
