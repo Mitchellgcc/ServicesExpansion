@@ -1,4 +1,5 @@
 import { services, getFeaturedServices, getServiceById } from './data/services.js';
+import { supabase, SERVICE_TYPES, TIME_SLOTS } from './config/supabase.js';
 import QRCode from 'qrcode';
 import anime from 'animejs';
 
@@ -273,29 +274,69 @@ class PharmacyLandingApp {
         <div class="bg-slate-800 rounded-3xl p-8 max-w-md w-full border border-white/10">
           <h3 class="text-2xl font-bold text-white mb-6 text-center">Book Your Consultation</h3>
           
-          <div class="space-y-4 mb-8">
+          <form id="booking-form" class="space-y-4 mb-8">
             <div>
-              <label class="block text-gray-300 mb-2">Your Name</label>
-              <input type="text" class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" placeholder="Enter your name">
+              <label class="block text-gray-300 mb-2">Your Name*</label>
+              <input 
+                type="text" 
+                id="patient-name" 
+                required
+                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
+                placeholder="Enter your full name">
             </div>
             
             <div>
-              <label class="block text-gray-300 mb-2">Phone Number</label>
-              <input type="tel" class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" placeholder="Your phone number">
+              <label class="block text-gray-300 mb-2">Phone Number*</label>
+              <input 
+                type="tel" 
+                id="phone-number" 
+                required
+                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
+                placeholder="Your phone number (e.g., 07123 456789)">
             </div>
             
             <div>
-              <label class="block text-gray-300 mb-2">Preferred Time</label>
-              <select class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white">
-                <option>Morning (9am-12pm)</option>
-                <option>Afternoon (12pm-5pm)</option>
-                <option>Evening (5pm-7pm)</option>
+              <label class="block text-gray-300 mb-2">Email (Optional)</label>
+              <input 
+                type="email" 
+                id="email" 
+                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
+                placeholder="your.email@example.com">
+            </div>
+            
+            <div>
+              <label class="block text-gray-300 mb-2">Preferred Time*</label>
+              <select id="preferred-time" required class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white">
+                <option value="">Select your preferred time</option>
+                <option value="Morning (9am-12pm)">Morning (9am-12pm)</option>
+                <option value="Afternoon (12pm-5pm)">Afternoon (12pm-5pm)</option>
+                <option value="Evening (5pm-7pm)">Evening (5pm-7pm)</option>
               </select>
             </div>
-          </div>
+            
+            <div>
+              <label class="block text-gray-300 mb-2">Additional Notes (Optional)</label>
+              <textarea 
+                id="notes" 
+                rows="3"
+                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
+                placeholder="Any specific questions or requirements?"></textarea>
+            </div>
+            
+            <div class="text-xs text-gray-400 bg-white/5 p-3 rounded-lg">
+              <label class="flex items-start space-x-2">
+                <input type="checkbox" id="consent" required class="mt-1">
+                <span>I consent to being contacted about this consultation and understand my data will be handled according to privacy policies.*</span>
+              </label>
+            </div>
+          </form>
           
           <div class="space-y-3">
-            <button class="btn-primary-landing" onclick="this.closest('#booking-modal').remove(); app.showSuccessMessage('Booking request sent! We\\'ll call you within 2 hours.')">
+            <button 
+              type="submit" 
+              form="booking-form"
+              class="btn-primary-landing w-full" 
+              id="submit-booking">
               📅 Request Consultation
             </button>
             <button class="btn-secondary-landing" onclick="this.closest('#booking-modal').remove()">
@@ -307,6 +348,12 @@ class PharmacyLandingApp {
     `;
     
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Add form submission handler
+    document.getElementById('booking-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.handleBookingSubmission(serviceId);
+    });
   }
 
   handleCallClick() {
@@ -387,6 +434,82 @@ class PharmacyLandingApp {
     });
   }
 
+  async handleBookingSubmission(serviceId) {
+    const submitButton = document.getElementById('submit-booking');
+    const originalText = submitButton.innerHTML;
+    
+    try {
+      // Show loading state
+      submitButton.innerHTML = '⏳ Submitting...';
+      submitButton.disabled = true;
+      
+      // Get form data
+      const formData = {
+        patient_name: document.getElementById('patient-name').value.trim(),
+        phone_number: document.getElementById('phone-number').value.trim(),
+        email: document.getElementById('email').value.trim() || null,
+        preferred_time_slot: TIME_SLOTS[document.getElementById('preferred-time').value],
+        notes: document.getElementById('notes').value.trim() || null,
+        service_type: serviceId,
+        service_name: SERVICE_TYPES[serviceId],
+        source_url: window.location.href,
+        consent_given: document.getElementById('consent').checked,
+        preferred_contact_method: 'phone'
+      };
+      
+      // Get UTM parameters for marketing tracking
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmParams = {};
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(param => {
+        if (urlParams.has(param)) {
+          utmParams[param] = urlParams.get(param);
+        }
+      });
+      
+      if (Object.keys(utmParams).length > 0) {
+        formData.utm_params = utmParams;
+      }
+      
+      console.log('Submitting booking:', formData);
+      
+      // Submit to Supabase
+      const { data, error } = await supabase
+        .from('service_consultations')
+        .insert([formData])
+        .select();
+      
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error('Failed to submit booking. Please try again.');
+      }
+      
+      console.log('Booking submitted successfully:', data);
+      
+      // Close modal and show success
+      document.getElementById('booking-modal').remove();
+      this.showSuccessMessage('🎉 Booking request sent! We\'ll call you within 2 hours to confirm your consultation.');
+      
+      // Optional: Track conversion event (for analytics)
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'consultation_booking', {
+          event_category: 'conversion',
+          event_label: serviceId,
+          value: 1
+        });
+      }
+      
+    } catch (error) {
+      console.error('Booking submission error:', error);
+      
+      // Show error message
+      this.showErrorMessage('Sorry, there was an issue submitting your booking. Please try again or call us directly.');
+      
+      // Reset button
+      submitButton.innerHTML = originalText;
+      submitButton.disabled = false;
+    }
+  }
+
   showSuccessMessage(message) {
     const toast = document.createElement('div');
     toast.className = 'fixed bottom-6 left-6 right-6 bg-green-600 text-white p-4 rounded-2xl shadow-xl z-50 text-center font-semibold';
@@ -399,6 +522,20 @@ class PharmacyLandingApp {
         toast.remove();
       }
     }, 4000);
+  }
+  
+  showErrorMessage(message) {
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-6 left-6 right-6 bg-red-600 text-white p-4 rounded-2xl shadow-xl z-50 text-center font-semibold';
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      if (toast.parentElement) {
+        toast.remove();
+      }
+    }, 7000);
   }
 
   updateMetaDescription(description) {
