@@ -90,17 +90,33 @@
     const baseURL = 'https://cornwells-services.netlify.app';
     
     async function generateQRCode(service) {
-      const url = `${baseURL}/${service.id}`;
-      const canvas = document.createElement('canvas');
-      
-      await QRCode.toCanvas(canvas, url, {
-        width: 120,
-        margin: 2,
-        color: { dark: '#000000', light: '#FFFFFF' },
-        errorCorrectionLevel: 'M'
-      });
-      
-      return canvas;
+      try {
+        const url = `${baseURL}/${service.id}`;
+        const canvas = document.createElement('canvas');
+        
+        await QRCode.toCanvas(canvas, url, {
+          width: 120,
+          margin: 2,
+          color: { dark: '#000000', light: '#FFFFFF' },
+          errorCorrectionLevel: 'M'
+        });
+        
+        return canvas;
+      } catch (error) {
+        console.error('Error generating QR code for', service.name, error);
+        // Create a placeholder canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = 120;
+        canvas.height = 120;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#f3f4f6';
+        ctx.fillRect(0, 0, 120, 120);
+        ctx.fillStyle = '#6b7280';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('QR Error', 60, 60);
+        return canvas;
+      }
     }
 
     function downloadQR(canvas, serviceName) {
@@ -111,6 +127,17 @@
     }
 
     async function initQRCodes() {
+      // Check if QRCode library is loaded
+      if (typeof QRCode === 'undefined') {
+        console.error('QRCode library not loaded');
+        document.getElementById('qr-container').innerHTML = `
+          <div style="padding: 2rem; text-align: center; color: #ef4444;">
+            <p><strong>Error:</strong> QR Code library failed to load. Please refresh the page.</p>
+          </div>
+        `;
+        return;
+      }
+
       const container = document.getElementById('qr-container');
       
       for (const service of services) {
@@ -139,7 +166,11 @@
     // Make downloadQR available globally
     window.downloadQR = downloadQR;
     
-    initQRCodes();
+    // Wait for the page to load and QRCode library to be available
+    window.addEventListener('load', () => {
+      // Give a small delay to ensure QRCode library is fully loaded
+      setTimeout(initQRCodes, 100);
+    });
   </script>
 </body>
 </html> 
