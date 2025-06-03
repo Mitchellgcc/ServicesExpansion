@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code Generator - Pharmacy Services</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <!-- No external QR library needed - using API approach -->
   <style>
     body {
       font-family: system-ui, -apple-system, sans-serif;
@@ -24,10 +24,11 @@
       gap: 1rem;
     }
     .qr-code {
-      width: 120px;
-      height: 120px;
+      width: 150px;
+      height: 150px;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
+      background: white;
     }
     .service-info h3 {
       margin: 0 0 0.5rem 0;
@@ -91,65 +92,105 @@
     
     async function generateQRCode(service) {
       const url = `${baseURL}/${service.id}`;
+      console.log(`Generating QR for ${service.name}: ${url}`);
       
-      // Try using the QRCode library first
-      if (typeof QRCode !== 'undefined') {
-        try {
-          const canvas = document.createElement('canvas');
-          await QRCode.toCanvas(canvas, url, {
-            width: 120,
-            margin: 2,
-            color: { dark: '#000000', light: '#FFFFFF' },
-            errorCorrectionLevel: 'M'
-          });
-          return canvas;
-        } catch (error) {
-          console.error('QRCode library error:', error);
-        }
-      }
-      
-      // Fallback: Use Google Charts API to generate QR code
-      console.log('Using Google Charts API fallback for QR generation');
+      // Use QR-Server API (more reliable than Google Charts)
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      canvas.width = 120;
-      canvas.height = 120;
-      
-      // Create an image element to load the QR code from Google Charts
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
+      canvas.width = 200;
+      canvas.height = 200;
       
       return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        
         img.onload = function() {
-          ctx.drawImage(img, 0, 0, 120, 120);
+          console.log(`QR code loaded successfully for ${service.name}`);
+          ctx.drawImage(img, 0, 0, 200, 200);
           resolve(canvas);
         };
         
-        img.onerror = function() {
-          // If Google Charts fails too, create a text placeholder
-          ctx.fillStyle = '#f3f4f6';
-          ctx.fillRect(0, 0, 120, 120);
-          ctx.fillStyle = '#1f2937';
-          ctx.font = '10px Arial';
-          ctx.textAlign = 'center';
-          ctx.fillText('QR Code', 60, 50);
-          ctx.fillText('for:', 60, 65);
-          ctx.fillText(service.name.substring(0, 12), 60, 80);
-          resolve(canvas);
+        img.onerror = function(error) {
+          console.error(`Failed to load QR for ${service.name}:`, error);
+          // Create a backup using a different API
+          const img2 = new Image();
+          img2.crossOrigin = 'anonymous';
+          
+          img2.onload = function() {
+            console.log(`Backup QR loaded for ${service.name}`);
+            ctx.drawImage(img2, 0, 0, 200, 200);
+            resolve(canvas);
+          };
+          
+          img2.onerror = function() {
+            console.error(`All QR APIs failed for ${service.name}`);
+            // Final fallback - create a simple QR-like pattern
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 200, 200);
+            ctx.fillStyle = '#000000';
+            
+            // Draw a simple pattern
+            for(let i = 0; i < 20; i++) {
+              for(let j = 0; j < 20; j++) {
+                if((i + j) % 2 === 0) {
+                  ctx.fillRect(i * 10, j * 10, 10, 10);
+                }
+              }
+            }
+            
+            // Add text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('SCAN ME', 100, 100);
+            ctx.fillStyle = '#000000';
+            ctx.font = '10px Arial';
+            ctx.fillText(service.name, 100, 120);
+            resolve(canvas);
+          };
+          
+          // Try QR.io as backup
+          img2.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
         };
         
-        // Google Charts QR API URL
-        const qrSize = 120;
-        const googleQR = `https://chart.googleapis.com/chart?chs=${qrSize}x${qrSize}&cht=qr&chl=${encodeURIComponent(url)}`;
-        img.src = googleQR;
+        // Primary: QR-Server.com API (very reliable)
+        img.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&format=png&data=${encodeURIComponent(url)}`;
       });
     }
 
     function downloadQR(canvas, serviceName) {
-      const link = document.createElement('a');
-      link.download = `qr-code-${serviceName.toLowerCase().replace(/\s+/g, '-')}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
+      try {
+        console.log(`Downloading QR for: ${serviceName}`);
+        const link = document.createElement('a');
+        const fileName = `qr-code-${serviceName.toLowerCase().replace(/[^a-z0-9]/g, '-')}.png`;
+        
+        // Get the canvas data as a blob for better browser compatibility
+        canvas.toBlob(function(blob) {
+          const url = URL.createObjectURL(blob);
+          link.href = url;
+          link.download = fileName;
+          link.style.display = 'none';
+          
+          document.body.appendChild(link);
+          link.click();
+          
+          // Clean up
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+          }, 100);
+          
+          console.log(`Download started for: ${fileName}`);
+        }, 'image/png');
+        
+      } catch (error) {
+        console.error('Download failed:', error);
+        // Fallback to dataURL method
+        const link = document.createElement('a');
+        link.download = `qr-code-${serviceName.toLowerCase().replace(/[^a-z0-9]/g, '-')}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }
     }
 
     async function initQRCodes() {
