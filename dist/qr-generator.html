@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code Generator - Pharmacy Services</title>
-  <script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     body {
       font-family: system-ui, -apple-system, sans-serif;
@@ -90,33 +90,59 @@
     const baseURL = 'https://cornwells-services.netlify.app';
     
     async function generateQRCode(service) {
-      try {
-        const url = `${baseURL}/${service.id}`;
-        const canvas = document.createElement('canvas');
-        
-        await QRCode.toCanvas(canvas, url, {
-          width: 120,
-          margin: 2,
-          color: { dark: '#000000', light: '#FFFFFF' },
-          errorCorrectionLevel: 'M'
-        });
-        
-        return canvas;
-      } catch (error) {
-        console.error('Error generating QR code for', service.name, error);
-        // Create a placeholder canvas
-        const canvas = document.createElement('canvas');
-        canvas.width = 120;
-        canvas.height = 120;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#f3f4f6';
-        ctx.fillRect(0, 0, 120, 120);
-        ctx.fillStyle = '#6b7280';
-        ctx.font = '12px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('QR Error', 60, 60);
-        return canvas;
+      const url = `${baseURL}/${service.id}`;
+      
+      // Try using the QRCode library first
+      if (typeof QRCode !== 'undefined') {
+        try {
+          const canvas = document.createElement('canvas');
+          await QRCode.toCanvas(canvas, url, {
+            width: 120,
+            margin: 2,
+            color: { dark: '#000000', light: '#FFFFFF' },
+            errorCorrectionLevel: 'M'
+          });
+          return canvas;
+        } catch (error) {
+          console.error('QRCode library error:', error);
+        }
       }
+      
+      // Fallback: Use Google Charts API to generate QR code
+      console.log('Using Google Charts API fallback for QR generation');
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = 120;
+      canvas.height = 120;
+      
+      // Create an image element to load the QR code from Google Charts
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      return new Promise((resolve) => {
+        img.onload = function() {
+          ctx.drawImage(img, 0, 0, 120, 120);
+          resolve(canvas);
+        };
+        
+        img.onerror = function() {
+          // If Google Charts fails too, create a text placeholder
+          ctx.fillStyle = '#f3f4f6';
+          ctx.fillRect(0, 0, 120, 120);
+          ctx.fillStyle = '#1f2937';
+          ctx.font = '10px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText('QR Code', 60, 50);
+          ctx.fillText('for:', 60, 65);
+          ctx.fillText(service.name.substring(0, 12), 60, 80);
+          resolve(canvas);
+        };
+        
+        // Google Charts QR API URL
+        const qrSize = 120;
+        const googleQR = `https://chart.googleapis.com/chart?chs=${qrSize}x${qrSize}&cht=qr&chl=${encodeURIComponent(url)}`;
+        img.src = googleQR;
+      });
     }
 
     function downloadQR(canvas, serviceName) {
@@ -127,39 +153,51 @@
     }
 
     async function initQRCodes() {
-      // Check if QRCode library is loaded
-      if (typeof QRCode === 'undefined') {
-        console.error('QRCode library not loaded');
-        document.getElementById('qr-container').innerHTML = `
+      console.log('Initializing QR codes...');
+      console.log('QRCode library available:', typeof QRCode !== 'undefined');
+      
+      const container = document.getElementById('qr-container');
+      container.innerHTML = '<div style="text-align: center; color: #6b7280;">Generating QR codes...</div>';
+      
+      try {
+        for (const service of services) {
+          console.log('Generating QR for:', service.name);
+          
+          const serviceCard = document.createElement('div');
+          serviceCard.className = 'service-card';
+          
+          const qrCanvas = await generateQRCode(service);
+          qrCanvas.className = 'qr-code';
+          
+          const serviceInfo = document.createElement('div');
+          serviceInfo.className = 'service-info';
+          serviceInfo.innerHTML = `
+            <h3>${service.icon} ${service.name}</h3>
+            <div class="service-url">${baseURL}/${service.id}</div>
+            <button class="download-btn" onclick="downloadQR(this.closest('.service-card').querySelector('canvas'), '${service.name}')">
+              📥 Download QR Code
+            </button>
+          `;
+          
+          serviceCard.appendChild(qrCanvas);
+          serviceCard.appendChild(serviceInfo);
+          
+          // Clear loading message on first QR code
+          if (container.firstChild && container.firstChild.textContent === 'Generating QR codes...') {
+            container.innerHTML = '';
+          }
+          
+          container.appendChild(serviceCard);
+        }
+        
+        console.log('All QR codes generated successfully');
+      } catch (error) {
+        console.error('Error during QR code generation:', error);
+        container.innerHTML = `
           <div style="padding: 2rem; text-align: center; color: #ef4444;">
-            <p><strong>Error:</strong> QR Code library failed to load. Please refresh the page.</p>
+            <p><strong>Error:</strong> Failed to generate QR codes. ${error.message}</p>
           </div>
         `;
-        return;
-      }
-
-      const container = document.getElementById('qr-container');
-      
-      for (const service of services) {
-        const serviceCard = document.createElement('div');
-        serviceCard.className = 'service-card';
-        
-        const qrCanvas = await generateQRCode(service);
-        qrCanvas.className = 'qr-code';
-        
-        const serviceInfo = document.createElement('div');
-        serviceInfo.className = 'service-info';
-        serviceInfo.innerHTML = `
-          <h3>${service.icon} ${service.name}</h3>
-          <div class="service-url">${baseURL}/${service.id}</div>
-          <button class="download-btn" onclick="downloadQR(this.closest('.service-card').querySelector('canvas'), '${service.name}')">
-            📥 Download QR Code
-          </button>
-        `;
-        
-        serviceCard.appendChild(qrCanvas);
-        serviceCard.appendChild(serviceInfo);
-        container.appendChild(serviceCard);
       }
     }
 
