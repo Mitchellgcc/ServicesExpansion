@@ -7,7 +7,7 @@ class PharmacyLandingApp {
     this.currentService = null;
     // Use production URL for QR codes if available, otherwise use current origin
     this.baseURL = window.location.hostname === 'localhost' ? 
-      'https://pharmacy-services.netlify.app' : 
+      'https://cornwells-services.netlify.app' : 
       window.location.origin;
     this.init();
   }
