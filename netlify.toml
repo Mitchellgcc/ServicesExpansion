@@ -1,6 +1,6 @@
 [build]
-  publish = "deploy"
-  command = "TIMESTAMP=$(date +%s) && mkdir -p deploy && sed \"s/TIMESTAMP_PLACEHOLDER/$TIMESTAMP/g\" index.html > deploy/index.html && sed \"s/TIMESTAMP_PLACEHOLDER/$TIMESTAMP/g\" style.css > deploy/style.css && cp app.js _headers _redirects deploy/ && echo \"Deployment with timestamp: $TIMESTAMP\" && ls -la deploy/"
+  publish = "."
+  command = "echo 'Direct deployment - no build needed'"
 
 [build.environment]
   NODE_VERSION = "18"
