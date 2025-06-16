@@ -856,104 +856,112 @@ class PharmacyLandingApp {
     const allServices = getAllServicesForSelector();
     
     return `
-      <div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-        <!-- Mobile-First Header -->
-        <div class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 safe-area-top">
-          <div class="px-4 py-4">
+      <div class="min-h-screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <!-- Premium Glass Header -->
+        <div class="glass-card sticky top-0 z-50 safe-area-top" style="border-radius: 0; border-top: none; border-left: none; border-right: none;">
+          <div class="px-6 py-5">
             <div class="text-center">
-              <h1 class="text-xl font-bold text-gray-900">Cornwells Pharmacy</h1>
-              <p class="text-sm text-gray-600 mt-1">Choose Your Service</p>
+              <h1 class="text-2xl font-bold text-gray-900 mb-1">Cornwells Pharmacy</h1>
+              <p class="text-gray-600">Choose Your Service</p>
             </div>
           </div>
         </div>
 
-        <!-- Mobile Hero Section -->
-        <div class="px-4 py-6 text-center text-white">
-          <h2 class="text-2xl font-bold mb-2">Expert Healthcare Services</h2>
-          <p class="text-white/90 mb-6">Professional consultations available today</p>
-          
-          <!-- Quick Stats -->
-          <div class="flex justify-center space-x-6 mb-6">
-            <div class="text-center">
-              <div class="text-lg font-bold">Fast</div>
-              <div class="text-xs text-white/80">Response</div>
-            </div>
-            <div class="text-center">
-              <div class="text-lg font-bold">10</div>
-              <div class="text-xs text-white/80">Locations</div>
-            </div>
-            <div class="text-center">
-              <div class="text-lg font-bold">Free</div>
-              <div class="text-xs text-white/80">Consultation</div>
+        <!-- Floating Hero Stats -->
+        <div class="px-6 py-8 text-center">
+          <div class="glass-card inline-block px-8 py-6 mb-8 animate-float">
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Expert Healthcare Services</h2>
+            <p class="text-gray-700 mb-6">Professional consultations available today</p>
+            
+            <!-- Premium Stats Grid -->
+            <div class="grid grid-cols-3 gap-6">
+              <div class="text-center">
+                <div class="text-2xl mb-2">⚡</div>
+                <div class="font-bold text-lg text-gray-900">15-min</div>
+                <div class="text-sm text-gray-600">Response</div>
+              </div>
+              <div class="text-center">
+                <div class="text-2xl mb-2">📍</div>
+                <div class="font-bold text-lg text-gray-900">10</div>
+                <div class="text-sm text-gray-600">Locations</div>
+              </div>
+              <div class="text-center">
+                <div class="text-2xl mb-2">💯</div>
+                <div class="font-bold text-lg text-gray-900">Free</div>
+                <div class="text-sm text-gray-600">Consultation</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Enhanced Service Cards -->
-        <div class="bg-white rounded-t-3xl px-4 py-6 min-h-screen">
-          <div class="max-w-2xl mx-auto">
-            <div class="space-y-4">
+        <!-- Premium Service Cards Grid -->
+        <div class="px-6 pb-8">
+          <div class="max-w-4xl mx-auto">
+            <div class="grid gap-6">
               ${allServices.map((service, index) => `
-                <div class="service-card bg-white border-2 border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200" data-service="${service.id}">
-                  <!-- Service Header -->
-                  <div class="p-4 bg-gradient-to-r ${service.colorScheme.primary} text-white">
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center space-x-3">
-                        <div class="text-2xl">${service.icon}</div>
-                        <div>
-                          <h3 class="font-bold text-lg leading-tight">${service.title}</h3>
-                          <p class="text-white/90 text-sm">${service.headline}</p>
-                        </div>
+                <div class="service-card stagger-${(index % 10) + 1} animate-breathe" data-service="${service.id}" style="animation-delay: ${index * 0.1}s;">
+                  <!-- Premium Service Header -->
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-4">
+                      <div class="text-4xl animate-float" style="animation-delay: ${index * 0.2}s;">${service.icon}</div>
+                      <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">${service.title}</h3>
+                        <p class="text-gray-600">${service.headline}</p>
                       </div>
-                      <div class="text-right">
-                        <div class="text-xs font-semibold">Available Today</div>
-                        <div class="text-xs text-white/80">Quick response</div>
-                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="badge-available mb-1">Available Today</div>
+                      <div class="text-xs text-gray-500">15-min response</div>
                     </div>
                   </div>
                   
-                  <!-- Quick Benefits -->
-                  <div class="p-4">
-                    <div class="space-y-2 mb-4">
-                      ${service.specificBenefits.slice(0, 2).map(benefit => `
-                        <div class="flex items-start space-x-2 text-sm">
-                          <div class="w-1.5 h-1.5 bg-gradient-to-r ${service.colorScheme.primary} rounded-full mt-2 flex-shrink-0"></div>
-                          <span class="text-gray-700">${benefit}</span>
-                        </div>
-                      `).join('')}
-                    </div>
-                    
-                    <!-- Quick Action Buttons -->
-                    <div class="flex space-x-2">
-                      <button 
-                        onclick="window.app.showQuickBooking('${service.id}')" 
-                        class="flex-1 bg-gradient-to-r ${service.colorScheme.primary} text-white py-3 px-4 rounded-xl font-semibold text-sm shadow-lg transform transition-all active:scale-95"
-                      >
-                        📞 Quick Book
-                      </button>
-                      <button 
-                        onclick="window.app.loadServiceLanding('${service.id}')" 
-                        class="px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold text-sm border border-gray-200"
-                      >
-                        Learn More
-                      </button>
-                    </div>
+                  <!-- Enhanced Benefits -->
+                  <div class="space-y-3 mb-6">
+                    ${service.specificBenefits.slice(0, 2).map(benefit => `
+                      <div class="flex items-start space-x-3">
+                        <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));"></div>
+                        <span class="text-gray-700 leading-relaxed">${benefit}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                  
+                  <!-- Premium Action Buttons -->
+                  <div class="flex space-x-3">
+                    <button 
+                      onclick="window.app.showQuickBooking('${service.id}')" 
+                      class="btn-primary flex-1 animate-glow"
+                    >
+                      📞 Quick Book
+                    </button>
+                    <button 
+                      onclick="window.app.loadServiceLanding('${service.id}')" 
+                      class="btn-secondary px-6"
+                    >
+                      Learn More →
+                    </button>
                   </div>
                 </div>
               `).join('')}
             </div>
             
-            <!-- Emergency Contact -->
-            <div class="text-center mt-8 pt-6 border-t border-gray-100">
-              <p class="text-sm text-gray-600 mb-3">Need to speak to someone immediately?</p>
-              <button data-call-pharmacy class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg">
+            <!-- Premium Emergency Contact -->
+            <div class="glass-card text-center mt-12 p-8">
+              <div class="text-3xl mb-4">🚨</div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Need Immediate Help?</h3>
+              <p class="text-gray-600 mb-6">Speak to a qualified pharmacist right now</p>
+              <button data-call-pharmacy class="btn-primary bg-gradient-to-r from-green-500 to-green-600 animate-breathe">
                 📞 Call Pharmacy Now
               </button>
             </div>
             
-            <div class="safe-area-bottom"></div>
+            <div class="safe-area-bottom mt-8"></div>
           </div>
         </div>
+        
+        <!-- Floating Action Button -->
+        <button class="fab animate-breathe" onclick="window.app.handleCallClick()" title="Call Pharmacy">
+          📞
+        </button>
       </div>
     `;
   }
@@ -964,70 +972,77 @@ class PharmacyLandingApp {
     if (!service) return;
 
     const modalHTML = `
-      <div id="quick-booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center">
-        <!-- iPhone-optimized modal -->
-        <div class="bg-white w-full sm:max-w-sm sm:w-full sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto">
+      <div id="quick-booking-modal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+        <!-- Premium Glass Modal -->
+        <div class="modal-content w-full sm:max-w-md sm:w-full sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto">
           <!-- Safe area padding for iPhone -->
-          <div class="px-4 py-4 pb-safe">
-            <!-- Compact Header -->
-            <div class="text-center mb-4">
-              <div class="flex items-center justify-center space-x-2 mb-2">
-                <div class="text-2xl">${service.icon}</div>
-                <h2 class="text-lg font-bold text-gray-900">${service.title}</h2>
-              </div>
-              <p class="text-sm text-blue-600 font-semibold">📞 Request a callback</p>
+          <div class="px-6 py-6 pb-safe">
+            <!-- Premium Header -->
+            <div class="text-center mb-6">
+              <div class="text-5xl mb-3 animate-float">${service.icon}</div>
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">${service.title}</h2>
+              <div class="badge-available inline-block">📞 Request a callback</div>
             </div>
             
-            <form id="quick-booking-form" class="space-y-4">
-              <!-- Phone Number (Compact) -->
+            <form id="quick-booking-form" class="space-y-6">
+              <!-- Premium Phone Input -->
               <div>
-                <label for="quick-phone" class="block text-sm font-semibold text-gray-700 mb-2">Your Phone Number</label>
+                <label for="quick-phone" class="block text-base font-semibold text-gray-700 mb-3">Your Phone Number</label>
                 <input 
                   type="tel" 
                   id="quick-phone" 
                   required 
                   placeholder="07XXX XXX XXX"
-                  class="w-full px-4 py-3 text-lg font-semibold text-center border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors"
+                  class="form-input w-full text-lg font-semibold text-center"
                   autocomplete="tel"
                   inputmode="numeric"
                 >
-                <div id="quick-phone-feedback" class="mt-1 text-center text-sm"></div>
+                <div id="quick-phone-feedback" class="mt-2 text-center text-sm"></div>
               </div>
 
-              <!-- Time Preference (Compact) -->
+              <!-- Premium Time Selection -->
               <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">When works best?</label>
-                <div class="space-y-2">
-                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
-                    <input type="radio" name="quick-time" value="today" class="mr-3 scale-110" ${new Date().getHours() < 17 ? 'checked' : ''}>
+                <label class="block text-base font-semibold text-gray-700 mb-3">When works best?</label>
+                <div class="space-y-3">
+                  <label class="glass-card flex items-center p-4 cursor-pointer hover:bg-white/20 transition-all">
+                    <input type="radio" name="quick-time" value="today" class="mr-4 scale-125" ${new Date().getHours() < 17 ? 'checked' : ''}>
                     <div class="flex items-center justify-between w-full">
-                      <span class="font-medium text-sm">Today</span>
-                      <span class="text-xs text-gray-600">Next available</span>
+                      <div class="flex items-center space-x-3">
+                        <div class="text-xl">⚡</div>
+                        <span class="font-semibold">Today</span>
+                      </div>
+                      <span class="text-sm text-gray-600">Next available</span>
                     </div>
                   </label>
-                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
-                    <input type="radio" name="quick-time" value="tomorrow" class="mr-3 scale-110" ${new Date().getHours() >= 17 ? 'checked' : ''}>
+                  <label class="glass-card flex items-center p-4 cursor-pointer hover:bg-white/20 transition-all">
+                    <input type="radio" name="quick-time" value="tomorrow" class="mr-4 scale-125" ${new Date().getHours() >= 17 ? 'checked' : ''}>
                     <div class="flex items-center justify-between w-full">
-                      <span class="font-medium text-sm">Tomorrow</span>
-                      <span class="text-xs text-gray-600">Morning/afternoon</span>
+                      <div class="flex items-center space-x-3">
+                        <div class="text-xl">🌅</div>
+                        <span class="font-semibold">Tomorrow</span>
+                      </div>
+                      <span class="text-sm text-gray-600">Morning/afternoon</span>
                     </div>
                   </label>
-                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
-                    <input type="radio" name="quick-time" value="this-week" class="mr-3 scale-110">
+                  <label class="glass-card flex items-center p-4 cursor-pointer hover:bg-white/20 transition-all">
+                    <input type="radio" name="quick-time" value="this-week" class="mr-4 scale-125">
                     <div class="flex items-center justify-between w-full">
-                      <span class="font-medium text-sm">This Week</span>
-                      <span class="text-xs text-gray-600">When convenient</span>
+                      <div class="flex items-center space-x-3">
+                        <div class="text-xl">📅</div>
+                        <span class="font-semibold">This Week</span>
+                      </div>
+                      <span class="text-sm text-gray-600">When convenient</span>
                     </div>
                   </label>
                 </div>
               </div>
 
-              <!-- Action Buttons (iPhone-optimized) -->
-              <div class="space-y-3 pt-3">
+              <!-- Premium Action Buttons -->
+              <div class="space-y-4 pt-4">
                 <button 
                   type="submit" 
                   id="quick-submit-btn" 
-                  class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-xl font-bold text-base shadow-lg transform transition-all active:scale-95 min-h-[44px]"
+                  class="btn-primary w-full animate-glow"
                   disabled
                 >
                   📞 Book Consultation
@@ -1035,26 +1050,28 @@ class PharmacyLandingApp {
                 <button 
                   type="button" 
                   onclick="document.getElementById('quick-booking-modal').remove()" 
-                  class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold text-sm min-h-[44px]"
+                  class="btn-secondary w-full"
                 >
                   Cancel
                 </button>
               </div>
             </form>
 
-            <!-- Compact Trust Indicators -->
-            <div class="flex justify-center space-x-4 mt-4 pt-3 border-t border-gray-100">
-              <div class="text-center">
-                <div class="text-sm mb-0.5">⚡</div>
-                <div class="text-xs font-semibold text-gray-900">Fast</div>
-              </div>
-              <div class="text-center">
-                <div class="text-sm mb-0.5">🔒</div>
-                <div class="text-xs font-semibold text-gray-900">Private</div>
-              </div>
-              <div class="text-center">
-                <div class="text-sm mb-0.5">💯</div>
-                <div class="text-xs font-semibold text-gray-900">Free</div>
+            <!-- Premium Trust Indicators -->
+            <div class="glass-card mt-6 p-4">
+              <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <div class="text-2xl mb-1">⚡</div>
+                  <div class="text-xs font-semibold text-gray-900">Fast</div>
+                </div>
+                <div>
+                  <div class="text-2xl mb-1">🔒</div>
+                  <div class="text-xs font-semibold text-gray-900">Private</div>
+                </div>
+                <div>
+                  <div class="text-2xl mb-1">💯</div>
+                  <div class="text-xs font-semibold text-gray-900">Free</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1598,117 +1615,135 @@ class PharmacyLandingApp {
 
   generateServiceLandingHTML(service) {
     return `
-      <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
-        <!-- Mobile Navigation -->
-        <nav class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 safe-area-top">
-          <div class="px-4 py-4">
+      <div class="min-h-screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <!-- Premium Glass Navigation -->
+        <nav class="glass-card sticky top-0 z-50 safe-area-top" style="border-radius: 0; border-top: none; border-left: none; border-right: none;">
+          <div class="px-6 py-5">
             <div class="flex items-center justify-between">
-              <button onclick="window.app.loadServiceSelector()" class="flex items-center space-x-2 text-gray-600 font-medium">
+              <button onclick="window.app.loadServiceSelector()" class="btn-secondary flex items-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
                 <span>Back</span>
               </button>
-              <h1 class="text-lg font-bold text-gray-900">Cornwells</h1>
-              <button data-call-pharmacy class="bg-green-600 text-white px-4 py-2 rounded-xl font-semibold text-sm">
+              <h1 class="text-xl font-bold text-gray-900">Cornwells</h1>
+              <button data-call-pharmacy class="btn-primary bg-gradient-to-r from-green-500 to-green-600">
                 📞 Call
               </button>
             </div>
           </div>
         </nav>
 
-        <!-- Mobile Hero -->
-        <div class="px-4 py-8 text-center text-white">
-          <div class="fade-in-up">
-            <div class="text-6xl mb-6">${service.icon}</div>
-            <h1 class="text-3xl font-bold mb-4 leading-tight">${service.title}</h1>
-            <p class="text-lg text-white/90 mb-8 leading-relaxed max-w-sm mx-auto">
+        <!-- Premium Hero Section -->
+        <div class="px-6 py-12 text-center">
+          <div class="glass-card inline-block px-8 py-8 animate-float">
+            <div class="text-7xl mb-6 animate-breathe">${service.icon}</div>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4 leading-tight">${service.title}</h1>
+            <p class="text-lg text-gray-700 mb-6 leading-relaxed max-w-md mx-auto">
               ${service.description}
             </p>
+            <div class="badge-available text-lg px-6 py-2">Available Today</div>
           </div>
         </div>
 
-        <!-- Mobile Benefits Section -->
-        <div class="bg-white rounded-t-3xl mt-8 min-h-screen">
-          <div class="px-4 py-8">
-            <!-- What You Get -->
-            <div class="mb-8">
-              <h2 class="text-2xl font-bold text-gray-900 mb-6">What You Get</h2>
-              <div class="space-y-4">
-                ${service.specificBenefits.map(benefit => `
-                  <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-2xl">
-                    <div class="w-6 h-6 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                      </svg>
+        <!-- Premium Content Sections -->
+        <div class="px-6 pb-8">
+          <div class="max-w-4xl mx-auto space-y-8">
+            
+            <!-- What You Get Section -->
+            <div class="glass-card p-8">
+              <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">What You Get</h2>
+              <div class="grid gap-6">
+                ${service.specificBenefits.map((benefit, index) => `
+                  <div class="glass-card p-6 stagger-${index + 1} animate-float" style="animation-delay: ${index * 0.1}s;">
+                    <div class="flex items-start space-x-4">
+                      <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <p class="text-gray-700 leading-relaxed text-lg">${benefit}</p>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">${benefit}</p>
                   </div>
                 `).join('')}
               </div>
             </div>
 
-            <!-- How It Works -->
-            <div class="mb-8">
-              <h2 class="text-2xl font-bold text-gray-900 mb-6">How It Works</h2>
-              <div class="space-y-4">
+            <!-- How It Works Section -->
+            <div class="glass-card p-8">
+              <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">How It Works</h2>
+              <div class="grid gap-6">
                 ${service.uniqueProcess.map((step, index) => `
-                  <div class="flex items-start space-x-4 p-4 bg-gradient-to-r ${service.colorScheme.secondary} rounded-2xl">
-                    <div class="w-8 h-8 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">
-                      ${index + 1}
+                  <div class="glass-card p-6 stagger-${index + 1} animate-float" style="animation-delay: ${(index + 3) * 0.1}s;">
+                    <div class="flex items-start space-x-6">
+                      <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-lg" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));">
+                        ${index + 1}
+                      </div>
+                      <p class="text-gray-700 leading-relaxed text-lg pt-2">${step}</p>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">${step}</p>
                   </div>
                 `).join('')}
               </div>
             </div>
 
-            <!-- Social Proof -->
-            <div class="bg-gradient-to-r ${service.colorScheme.primary} rounded-2xl p-6 text-white text-center mb-8">
-              <div class="text-3xl mb-3">⭐⭐⭐⭐⭐</div>
-              <p class="font-semibold text-lg mb-2">${service.socialProof}</p>
-              <p class="text-white/80 text-sm">${service.urgency}</p>
+            <!-- Premium Social Proof -->
+            <div class="glass-card p-8 text-center" style="background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));">
+              <div class="text-5xl mb-4">⭐⭐⭐⭐⭐</div>
+              <h3 class="text-2xl font-bold text-white mb-3">${service.socialProof}</h3>
+              <p class="text-white/90 text-lg">${service.urgency}</p>
             </div>
 
-            <!-- Mobile CTA Section -->
-            <div class="space-y-4 mb-8">
-              <button data-book-consultation="${service.id}" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-5 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95">
-                📅 Book My Consultation
-              </button>
-              <button data-call-pharmacy class="w-full bg-gray-100 text-gray-900 py-5 rounded-2xl font-bold text-lg border-2 border-gray-200">
-                📞 Call to Discuss First
-              </button>
-            </div>
-
-            <!-- Trust Indicators -->
-            <div class="grid grid-cols-2 gap-4 mb-8">
-              <div class="text-center p-4 bg-gray-50 rounded-2xl">
-                <div class="text-3xl mb-2">⚡</div>
-                <div class="font-semibold text-gray-900 text-sm">Quick Access</div>
-                <div class="text-xs text-gray-600">24-48h appointments</div>
+            <!-- Premium CTA Section -->
+            <div class="glass-card p-8">
+              <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Ready to Get Started?</h3>
+                <p class="text-gray-600">Book your consultation or speak to our team</p>
               </div>
-              <div class="text-center p-4 bg-gray-50 rounded-2xl">
-                <div class="text-3xl mb-2">🏆</div>
-                <div class="font-semibold text-gray-900 text-sm">Expert Care</div>
-                <div class="text-xs text-gray-600">Qualified pharmacists</div>
-              </div>
-              <div class="text-center p-4 bg-gray-50 rounded-2xl">
-                <div class="text-3xl mb-2">🔒</div>
-                <div class="font-semibold text-gray-900 text-sm">Confidential</div>
-                <div class="text-xs text-gray-600">Private consultations</div>
-              </div>
-              <div class="text-center p-4 bg-gray-50 rounded-2xl">
-                <div class="text-3xl mb-2">📍</div>
-                <div class="font-semibold text-gray-900 text-sm">Local</div>
-                <div class="text-xs text-gray-600">10 locations</div>
+              
+              <div class="grid gap-4 max-w-md mx-auto">
+                <button data-book-consultation="${service.id}" class="btn-primary w-full text-lg py-5 animate-glow">
+                  📅 Book My Consultation
+                </button>
+                <button data-call-pharmacy class="btn-secondary w-full text-lg py-5">
+                  📞 Call to Discuss First
+                </button>
               </div>
             </div>
 
-            <!-- Contact Info -->
-            <div class="text-center text-gray-600 text-sm safe-area-bottom">
-              <p class="mb-2">Available Mon-Sat, 9am-6pm</p>
-              <p>Trusted healthcare since 1835</p>
+            <!-- Premium Trust Indicators -->
+            <div class="glass-card p-8">
+              <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Why Choose Cornwells?</h3>
+              <div class="grid grid-cols-2 gap-6">
+                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.1s;">
+                  <div class="text-4xl mb-3">⚡</div>
+                  <div class="font-bold text-gray-900 mb-1">Quick Access</div>
+                  <div class="text-sm text-gray-600">24-48h appointments</div>
+                </div>
+                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.2s;">
+                  <div class="text-4xl mb-3">🏆</div>
+                  <div class="font-bold text-gray-900 mb-1">Expert Care</div>
+                  <div class="text-sm text-gray-600">Qualified pharmacists</div>
+                </div>
+                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.3s;">
+                  <div class="text-4xl mb-3">🔒</div>
+                  <div class="font-bold text-gray-900 mb-1">Confidential</div>
+                  <div class="text-sm text-gray-600">Private consultations</div>
+                </div>
+                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.4s;">
+                  <div class="text-4xl mb-3">📍</div>
+                  <div class="font-bold text-gray-900 mb-1">Local</div>
+                  <div class="text-sm text-gray-600">10 locations</div>
+                </div>
+              </div>
             </div>
+
+            <!-- Footer -->
+            <div class="glass-card text-center p-6">
+              <p class="text-gray-600 mb-2">Available Mon-Sat, 9am-6pm</p>
+              <p class="text-gray-500">Trusted healthcare since 1835</p>
+            </div>
+            
+            <div class="safe-area-bottom"></div>
           </div>
         </div>
       </div>
