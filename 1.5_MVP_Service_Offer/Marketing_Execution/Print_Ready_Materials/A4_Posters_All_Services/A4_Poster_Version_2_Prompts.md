@@ -1,147 +1,144 @@
-# A4 Poster Version (2) AI Generation Prompts
-## Completely Different Design Approaches for True A/B Testing
+# A4 Poster Version 2: Museum-Quality Artistic Concepts
+## Sophisticated Alternative Designs for A/B Testing
 
-**Strategic Approach:** These Version (2) prompts offer genuinely different visual concepts, color palettes, and artistic styles while maintaining the same high-quality, eye-catching appeal. Each provides a distinct design choice rather than minor variations.
-
----
-
-## 1. ENHANCED NHS SERVICES: "Pharmacy First Plus"(2).png
-
-**ORIGINAL CONCEPT:** 3D pharmacy Green Cross made of translucent, frosted glass with golden light emanating from within.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
-```
-Create a warm, human-centered A2 window poster about accessible healthcare. **Visual Concept:** A beautiful, close-up photograph of two hands - one older, one younger - gently holding a single, perfect white dove that is glowing with soft, warm light from within. The dove represents peace of mind and accessible care. **Color Palette:** Warm skin tones, pure white of the dove, soft golden glow, against a rich, deep navy blue background with subtle texture. **Typography:** "Care in Safe Hands" in a warm, humanistic serif font. **Sub-headline:** "NHS free when available - Private guaranteed appointments £25." **Artistic Style:** Intimate portrait photography with cinematic lighting - deeply human, trustworthy, and emotionally resonant. **Branding:** "Cornwells Chemists" in elegant, trustworthy typography with designated logo space.
-```
+**Design Philosophy:** Each Version 2 concept matches the artistic sophistication of the originals while offering genuinely different visual narratives. These are gallery-worthy artistic concepts, not generic stock photography.
 
 ---
 
-## 2. GUT HEALTH & DIGESTIVE WELLNESS: "Tummy Troubles Triage"(2).png
+## 1. ENHANCED NHS SERVICES: "Pharmacy First Plus"
+**Original Concept:** Glass Green Cross with golden light
+**Version 2 Concept:** Human-centered care narrative
 
-**ORIGINAL CONCEPT:** Thick rope transforming from tangled knot to smooth, glowing golden line.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
+**IMAGE GENERATION PROMPT:**
 ```
-Create a vibrant, nature-inspired A2 window poster about digestive harmony. **Visual Concept:** A stunning macro photograph of a single, perfect spiral seashell (nautilus) sitting on smooth, wet beach stones. Inside the shell's chambers, instead of darkness, there's a beautiful, flowing pattern of bioluminescent blue-green light, like gentle ocean waves. **Color Palette:** Ocean blues and teals, luminescent aqua, natural stone greys, against a soft, sandy beige background. **Typography:** "Find Your Natural Rhythm" in a flowing, organic serif font. **Sub-headline:** "Expert digestive health consultations - restore your balance." **Artistic Style:** Nature macro photography with ethereal lighting - calming, organic, and naturally healing. **Branding:** "Cornwells Chemists" in clean, natural typography with designated logo space.
+Create a breathtaking, artistic A2 poster about the sacred act of healing. **Visual Concept:** Two cupped hands, photographed from above in dramatic chiaroscuro lighting, hold a single, luminous white dove that appears to be made of pure, soft light. The dove is gently glowing from within, casting ethereal shadows through the fingers. The hands are positioned over a deep navy blue, textured background that suggests the vastness of night sky. **Color Palette:** The warm, human tones of the hands, the pure white luminescence of the dove, against the rich, midnight navy background with subtle star-like light particles. **Typography:** "In Safe Hands" in elegant, serif typography with subtle golden accents. **Sub-headline:** "Your trusted NHS service, enhanced with private care options." **Artistic Style:** Renaissance-inspired chiaroscuro meets contemporary fine art photography - deeply spiritual, profoundly human, and utterly trustworthy. **Branding:** "Cornwells Chemists" in refined, golden typography with designated logo space.
 ```
 
 ---
 
-## 3. HEALTH SCREENING: "Know Your Numbers Campaign"(2).png
+## 2. GUT HEALTH & DIGESTIVE WELLNESS: "Tummy Troubles Triage"
+**Original Concept:** Rope transforming from knot to golden light
+**Version 2 Concept:** Nature's perfect spiral harmony
 
-**ORIGINAL CONCEPT:** Antique magnifying glass revealing hidden glowing health data pattern.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
+**IMAGE GENERATION PROMPT:**
 ```
-Create a modern, tech-inspired A2 window poster about personal health insights. **Visual Concept:** A beautiful, minimalist composition featuring a single, perfect crystal prism suspended in mid-air. White light enters from one side and emerges as a spectacular rainbow spectrum on the other side. Within each color band, subtle health icons (heart, blood drop, glucose molecule) appear as elegant, glowing symbols. **Color Palette:** Pure white light, full rainbow spectrum, against a clean, gradient grey background transitioning from light to dark. **Typography:** "See Your Complete Spectrum" in a clean, modern sans-serif font. **Sub-headline:** "Three essential health checks reveal your full picture - £59." **Artistic Style:** High-end product photography with scientific precision - clean, modern, and revelatory. **Branding:** "Cornwells Chemists" in contemporary, authoritative typography with designated logo space.
-```
-
----
-
-## 4. METABOLIC & WEIGHT MANAGEMENT: "GLP-1 Quickstart"(2).png
-
-**ORIGINAL CONCEPT:** Fabric measuring tape with inspiring words flowing freely in spiral against sky background.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
-```
-Create a powerful, transformation-focused A2 window poster about personal evolution. **Visual Concept:** A stunning, artistic photograph of a single butterfly emerging from its chrysalis, captured at the exact moment of transformation. The butterfly's wings are iridescent and catch the light beautifully, while the chrysalis appears to be made of delicate, translucent gold. **Color Palette:** Deep emerald greens, iridescent blues and purples, metallic gold, against a soft, out-of-focus garden background in warm, natural tones. **Typography:** "Your Transformation Begins" in an elegant, inspiring serif font. **Sub-headline:** "Medically supervised weight management - emerge renewed from £199/month." **Artistic Style:** Fine art nature photography with macro detail - transformative, beautiful, and naturally inspiring. **Branding:** "Cornwells Chemists" in refined, premium typography with designated logo space.
+Create a mesmerizing, artistic A2 poster about natural harmony and flow. **Visual Concept:** A perfect nautilus shell, photographed in macro detail, sits on a bed of smooth, wet river stones. From within the shell's spiral chambers, bioluminescent patterns flow outward like living light, creating intricate, glowing pathways that mirror the shell's natural geometry. The patterns pulse gently with life, suggesting the rhythm of healthy digestion. **Color Palette:** Deep ocean blues and teals, luminescent aqua and white light, against the natural greys and browns of the river stones. **Typography:** "Nature's Perfect Design" in flowing, organic serif font. **Sub-headline:** "Restore your body's natural rhythm with expert guidance." **Artistic Style:** National Geographic-quality macro photography meets bioluminescent art - mysterious, beautiful, and deeply connected to natural processes. **Branding:** "Cornwells Chemists" in organic, flowing typography with designated logo space.
 ```
 
 ---
 
-## 5. VAPE CESSATION: "Vape-Free Kickstart"(2).png
+## 3. HEALTH SCREENING: "Know Your Numbers Campaign"
+**Original Concept:** Magnifying glass revealing hidden health patterns
+**Version 2 Concept:** Light spectrum revelation of hidden truths
 
-**ORIGINAL CONCEPT:** Flock of birds breaking away from dissolving electronic vape pen.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
+**IMAGE GENERATION PROMPT:**
 ```
-Create a powerful, liberation-themed A2 window poster about breaking chains. **Visual Concept:** A dramatic, artistic photograph of a single, strong hand breaking through what appears to be a wall of dark, smoky glass. The glass is shattering into thousands of sparkling fragments that catch the light like diamonds. Beyond the broken barrier, there's a bright, clear, sunlit landscape visible. **Color Palette:** Deep charcoal and black of the barrier, brilliant diamond-like sparkles, bright golden sunlight, against a gradient from dark to brilliant light. **Typography:** "Break Through to Freedom" in a bold, empowering sans-serif font. **Sub-headline:** "Professional vape cessation support - shatter the habit from £30." **Artistic Style:** Dramatic action photography with cinematic lighting - powerful, liberating, and triumphant. **Branding:** "Cornwells Chemists" in strong, confident typography with designated logo space.
-```
-
----
-
-## 6. WOMEN'S HEALTH: "Menopause Symptom Review"(2).png
-
-**ORIGINAL CONCEPT:** Traditional hand fan with four seasons watercolor painting.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
-```
-Create a powerful, goddess-inspired A2 window poster about feminine strength. **Visual Concept:** A breathtaking photograph of a single, ancient oak tree with a magnificent, full canopy. The tree is backlit by golden hour sunlight, creating a natural halo effect. The roots are partially visible and glow with the same golden light, symbolizing deep, enduring strength. **Color Palette:** Rich earth browns of the trunk, vibrant greens of the leaves, brilliant gold of the backlighting, against a deep, twilight purple sky. **Typography:** "Rooted in Strength" in a bold, empowering serif font. **Sub-headline:** "Expert menopause support - embrace your power from £45." **Artistic Style:** Majestic landscape photography with golden hour lighting - powerful, grounding, and naturally empowering. **Branding:** "Cornwells Chemists" in strong, elegant typography with designated logo space.
+Create a stunning, scientific-artistic A2 poster about revealing hidden truths. **Visual Concept:** A perfect crystal prism sits on a pristine white surface, with a single beam of pure white light entering from the left. As the light passes through the prism, it explodes into a magnificent rainbow spectrum, but instead of simple colors, each band contains intricate, glowing health data visualizations - heartbeat rhythms, blood flow patterns, cellular structures - all rendered in beautiful, luminous detail. **Color Palette:** The crystal clarity of the prism, the full spectrum of rainbow colors, each containing detailed golden data patterns, against a pure white, gallery-like background. **Typography:** "Every Color Tells Your Story" in precise, modern serif font. **Sub-headline:** "Three vital health checks reveal your complete picture for £59." **Artistic Style:** Scientific photography meets data visualization art - precise, revelatory, and intellectually beautiful. **Branding:** "Cornwells Chemists" in clean, authoritative typography with designated logo space.
 ```
 
 ---
 
-## 7. MEN'S HEALTH: "Men's Confidential MOT"(2).png
+## 4. METABOLIC & WEIGHT MANAGEMENT: "GLP-1 Quickstart"
+**Original Concept:** Measuring tape flowing freely with inspiring words
+**Version 2 Concept:** Metamorphosis and transformation
 
-**ORIGINAL CONCEPT:** Cast-iron kettlebell with golden aura and light pouring from cracks in concrete floor.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
+**IMAGE GENERATION PROMPT:**
 ```
-Create a sophisticated, automotive-inspired A2 window poster about personal maintenance. **Visual Concept:** A stunning, close-up photograph of a vintage luxury car engine - beautifully maintained, chrome gleaming, every component perfectly tuned. The engine is lit with warm, professional lighting that highlights the precision engineering. A single, elegant diagnostic tool rests beside it, glowing with soft blue light. **Color Palette:** Rich chrome silvers, deep engine blacks, warm copper accents, professional blue diagnostic light, against a clean, dark garage background. **Typography:** "Precision Maintenance for Life's Engine" in a sleek, automotive-inspired sans-serif font. **Sub-headline:** "Confidential men's health MOT - professional tune-up from £35." **Artistic Style:** High-end automotive photography with professional lighting - sophisticated, masculine, and precision-focused. **Branding:** "Cornwells Chemists" in clean, professional typography with designated logo space.
-```
-
----
-
-## 8. FAMILY HEALTH HUB: "Peace of Mind Pediatric Clinic"(2).png
-
-**ORIGINAL CONCEPT:** Wooden alphabet block with holographic blueprint of house rising from it.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
-```
-Create a magical, nurturing A2 window poster about protective care. **Visual Concept:** A beautiful, artistic photograph of a child's paper airplane made from pages of a medical textbook, floating gracefully through the air. The airplane casts a shadow that transforms into the silhouette of a protective angel or guardian figure. Soft, warm sunlight streams through, creating a sense of safety and wonder. **Color Palette:** Warm paper whites and creams, soft golden sunlight, gentle shadow greys, against a dreamy, soft-focus background of a child's bedroom. **Typography:** "Where Knowledge Takes Flight" in a gentle, whimsical serif font. **Sub-headline:** "Expert pediatric care when your little ones need it most - £20." **Artistic Style:** Whimsical fine art photography with magical realism - protective, nurturing, and wonder-filled. **Branding:** "Cornwells Chemists" in warm, family-friendly typography with designated logo space.
+Create a breathtaking, artistic A2 poster about profound transformation. **Visual Concept:** A golden chrysalis, photographed in exquisite detail, hangs from a delicate branch against a soft-focus background of emerald green forest light. The chrysalis is beginning to crack open, and from within, brilliant golden light streams out in rays. At the very edge of the frame, we see the first glimpse of a magnificent butterfly wing - iridescent, jewel-toned, and full of promise. **Color Palette:** Rich, warm golds of the chrysalis, vibrant emerald greens of the forest light, and the jewel tones of the emerging butterfly wing. **Typography:** "Your Moment of Emergence" in elegant, transformative script font. **Sub-headline:** "Medically supervised transformation programs from £199." **Artistic Style:** Fine art nature photography meets symbolic storytelling - hopeful, beautiful, and profoundly transformative. **Branding:** "Cornwells Chemists" in refined, golden typography with designated logo space.
 ```
 
 ---
 
-## 9. MENTAL HEALTH: "Community Wellbeing Point"(2).png
+## 5. VAPE CESSATION: "Vape-Free Kickstart"
+**Original Concept:** Birds breaking free from dissolving vape pen
+**Version 2 Concept:** Breaking through barriers to freedom
 
-**ORIGINAL CONCEPT:** Elegant antique key with golden light teeth against warm wood grain background.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
+**IMAGE GENERATION PROMPT:**
 ```
-Create a serene, hope-inspiring A2 window poster about finding inner peace. **Visual Concept:** A stunning photograph of a single, perfect lotus flower floating on still, dark water. The flower is illuminated by a gentle beam of natural light from above, creating beautiful reflections in the water. The petals appear to glow with inner light, symbolizing resilience and growth through difficult times. **Color Palette:** Pure white and soft pink of the lotus, deep, reflective water blues and blacks, golden natural light, against a soft, misty background. **Typography:** "Beauty Rises from Still Waters" in a peaceful, flowing serif font. **Sub-headline:** "Confidential mental health support - find your calm." **Artistic Style:** Zen-inspired nature photography with spiritual lighting - peaceful, hopeful, and deeply calming. **Branding:** "Cornwells Chemists" in gentle, supportive typography with designated logo space.
-```
-
----
-
-## 10. TRAVEL HEALTH: "Essential Travel Jab Package"(2).png
-
-**ORIGINAL CONCEPT:** Premium leather luggage tag with glowing antique world map and golden DNA strand.
-
-**VERSION (2) - COMPLETELY DIFFERENT APPROACH:**
-```
-Create an adventurous, wanderlust-inspiring A2 window poster about global protection. **Visual Concept:** A dramatic, artistic photograph of a vintage compass sitting on an old, weathered world map. The compass needle points toward a bright, glowing destination marked with a small, golden shield symbol. Ancient trade routes on the map glow with soft, protective light, suggesting safe passage. **Color Palette:** Antique brass of the compass, aged parchment colors of the map, warm golden glowing routes, protective shield gold, against a rich, deep brown leather background. **Typography:** "Navigate with Confidence" in a bold, adventure-inspired serif font. **Sub-headline:** "Complete travel health protection - ready for adventure from £95." **Artistic Style:** Vintage adventure photography with cinematic lighting - bold, exploratory, and protection-focused. **Branding:** "Cornwells Chemists" in strong, adventurous typography with designated logo space.
+Create a powerful, artistic A2 poster about breaking through to freedom. **Visual Concept:** A human hand, photographed in dramatic black and white, is pushing through what appears to be a sheet of dark, cracked glass. The glass is shattering around the hand in beautiful, crystalline fragments that catch and reflect light. Beyond the breaking glass, we see a burst of warm, golden sunlight and the suggestion of an open, limitless sky. The contrast between the dark glass and the bright freedom beyond is striking. **Color Palette:** Dramatic black and white for the hand and glass, with brilliant golden light streaming through the cracks and beyond. **Typography:** "Break Through" in bold, liberating sans-serif font. **Sub-headline:** "Expert support to help you quit vaping for good." **Artistic Style:** High-contrast fine art photography meets conceptual symbolism - dramatic, empowering, and deeply liberating. **Branding:** "Cornwells Chemists" in strong, supportive typography with designated logo space.
 ```
 
 ---
 
-## A/B Testing Strategy for Version (2) Materials
+## 6. WOMEN'S HEALTH: "Menopause Symptom Review"
+**Original Concept:** Japanese fan showing four seasons transition
+**Version 2 Concept:** Ancient wisdom and enduring strength
 
-### **Key Variations Introduced:**
-
-1. **Enhanced Messaging Specificity:** Version (2) includes more specific pricing and service details
-2. **Additional Visual Elements:** Subtle symbolic additions that reinforce key benefits
-3. **Stronger Call-to-Action:** More direct booking language and urgency
-4. **Value Proposition Clarity:** Clearer articulation of unique selling points
-
-### **Testing Protocol:**
-
-**Week 1-2:** Deploy Version (1) materials across all target branches
-**Week 3-4:** Deploy Version (2) materials in alternating branches
-**Week 5:** Analyze performance data and optimize winning elements
-
-### **Success Metrics:**
-- Enquiry rate per 100 materials displayed
-- Conversion rate from enquiry to booking
-- Revenue generated per material investment
-- Patient feedback on clarity and appeal
-
-### **Print Specifications for Version (2):**
-- **Paper:** 200gsm silk finish for professional appearance
-- **Size:** A4 (210mm × 297mm) for consistent display
-- **Quantities:** 20 per service per branch for initial testing
-- **Finishing:** Professional color printing with UV coating for durability
+**IMAGE GENERATION PROMPT:**
+```
+Create a majestic, artistic A2 poster celebrating timeless feminine strength. **Visual Concept:** An ancient, magnificent oak tree stands silhouetted against a golden sunset sky. The tree's massive trunk and sprawling branches are rendered in rich, dark silhouette, but the leaves are not ordinary - they are made of pure, golden light, glowing like thousands of tiny lanterns. The golden light from the leaves creates a warm, protective aura around the entire tree. **Color Palette:** Deep, rich browns and blacks of the tree silhouette, brilliant golden light of the luminous leaves, against a warm, sunset sky of oranges, pinks, and deep purples. **Typography:** "Rooted in Strength, Crowned with Light" in elegant, goddess-inspired serif font. **Sub-headline:** "Expert support through life's powerful transitions." **Artistic Style:** Fine art landscape photography meets mystical symbolism - majestic, empowering, and deeply spiritual. **Branding:** "Cornwells Chemists" in elegant, golden typography with designated logo space.
+```
 
 ---
 
-*These Version (2) prompts maintain the artistic integrity and brand consistency of the original designs while introducing strategic variations that will enable data-driven optimization of marketing materials for maximum patient engagement and service uptake.* 
+## 7. MEN'S HEALTH: "Men's Confidential MOT"
+**Original Concept:** Kettlebell with golden aura and cracked floor
+**Version 2 Concept:** Precision engineering and hidden power
+
+**IMAGE GENERATION PROMPT:**
+```
+Create a sophisticated, artistic A2 poster about precision and hidden power. **Visual Concept:** The engine bay of a classic, luxury vintage car - all chrome, precision engineering, and beautiful mechanical complexity. A skilled mechanic's hand holds a high-tech diagnostic tool that's connected to the engine. On the tool's screen, instead of engine data, we see beautiful, glowing health metrics - heartbeat patterns, vital signs, all rendered in electric blue light. The contrast between the vintage craftsmanship and modern technology is striking. **Color Palette:** Rich chrome and steel of the engine, deep automotive blues and blacks, with electric blue light from the diagnostic screen, all set against the warm, leather interior tones of the classic car. **Typography:** "Precision Care for Peak Performance" in strong, automotive-inspired font. **Sub-headline:** "Confidential men's health consultations and diagnostics." **Artistic Style:** Automotive photography meets high-tech visualization - masculine, sophisticated, and precision-focused. **Branding:** "Cornwells Chemists" in strong, chrome-effect typography with designated logo space.
+```
+
+---
+
+## 8. FAMILY HEALTH HUB: "Peace of Mind Pediatric Clinic"
+**Original Concept:** Alphabet block with holographic house blueprint
+**Version 2 Concept:** Magical protection and guardian care
+
+**IMAGE GENERATION PROMPT:**
+```
+Create a magical, artistic A2 poster about protection and care taking flight. **Visual Concept:** A simple, white paper airplane sits on a child's wooden desk, photographed from a low angle. As we look at the scene, the paper airplane casts an impossible shadow on the wall behind it - the shadow is not of a paper airplane, but of a magnificent guardian angel with outstretched wings, protecting and watching over. The lighting is warm and golden, suggesting a child's bedroom at sunset. **Color Palette:** Warm, natural wood tones of the desk, pure white of the paper airplane, and the soft golden light creating the angel shadow, all against a gentle, pastel-colored child's room background. **Typography:** "Every Child Deserves a Guardian" in gentle, protective script font. **Sub-headline:** "Expert pediatric care when your little ones need it most." **Artistic Style:** Conceptual photography meets magical realism - protective, loving, and deeply reassuring to parents. **Branding:** "Cornwells Chemists" in warm, family-friendly typography with designated logo space.
+```
+
+---
+
+## 9. MENTAL HEALTH: "Community Wellbeing Point"
+**Original Concept:** Antique key with golden light teeth
+**Version 2 Concept:** Zen tranquility and inner peace
+
+**IMAGE GENERATION PROMPT:**
+```
+Create a serene, artistic A2 poster about finding inner peace and clarity. **Visual Concept:** A single, perfect lotus flower floats on the surface of completely still, mirror-like water. The water is so still it creates a perfect reflection of the lotus. The lighting is soft and ethereal, suggesting early morning mist. Around the lotus, gentle ripples of light emanate outward in perfect concentric circles, but these ripples are made of soft, golden light rather than water disturbance. **Color Palette:** Pure white and soft pink of the lotus petals, the deep, mirror-like blue-black of the still water, and the gentle golden light of the ripples, all set against a misty, ethereal background. **Typography:** "Still Waters Run Deep" in peaceful, zen-inspired font. **Sub-headline:** "Confidential mental health support in a safe, judgment-free space." **Artistic Style:** Zen photography meets spiritual symbolism - peaceful, healing, and deeply calming. **Branding:** "Cornwells Chemists" in gentle, supportive typography with designated logo space.
+```
+
+---
+
+## 10. TRAVEL HEALTH: "Essential Travel Jab Package"
+**Original Concept:** Leather luggage tag with glowing world map and DNA strand
+**Version 2 Concept:** Adventure navigation and exploration
+
+**IMAGE GENERATION PROMPT:**
+```
+Create an adventurous, artistic A2 poster about navigation and discovery. **Visual Concept:** An antique brass compass sits open on a weathered, vintage world map. The compass needle doesn't point north - instead, it points to a small, glowing golden heart symbol on the map. From this heart, golden pathways of light spread out across the map, connecting to various exotic destinations around the world. The map appears aged and well-traveled, with coffee stains and worn edges. **Color Palette:** Rich brass and copper tones of the compass, warm parchment colors of the aged map, and brilliant golden light of the pathways, all suggesting adventure and discovery. **Typography:** "Your Heart Knows the Way" in adventurous, explorer-inspired serif font. **Sub-headline:** "Complete travel health protection for every journey." **Artistic Style:** Vintage cartography meets adventure photography - romantic, wanderlust-inducing, and full of possibility. **Branding:** "Cornwells Chemists" styled like an explorer's stamp with designated logo space.
+```
+
+---
+
+## DESIGN IMPLEMENTATION NOTES
+
+**Artistic Quality Standards:**
+- Each concept is gallery-worthy and could stand alone as fine art
+- Deep symbolic meaning that resonates emotionally with target demographics
+- Professional photography/rendering quality with museum-level attention to detail
+- Sophisticated color palettes that avoid cliché healthcare imagery
+
+**Brand Integration:**
+- "Cornwells Chemists" branding integrated organically into each artistic concept
+- Logo placement designed to complement rather than compete with the artwork
+- Typography choices that enhance the artistic narrative
+
+**A/B Testing Strategy:**
+- Version 1 (Original): Symbolic transformation concepts
+- Version 2 (These): Human connection and natural beauty concepts
+- Both maintain identical messaging hierarchy and call-to-action placement
+
+**Print Specifications:**
+- All designed for A4 format (210mm × 297mm)
+- High-resolution requirements for professional printing
+- Color profiles optimized for both digital and print reproduction
+- Premium paper stock recommendations for maximum visual impact
+
+---
+
+*These Version 2 prompts maintain the artistic integrity and brand consistency of the original designs while introducing strategic variations that will enable data-driven optimization of marketing materials for maximum patient engagement and service uptake.* 

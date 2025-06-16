@@ -123,7 +123,7 @@ class PharmacyLandingApp {
     
     // Update page title
     document.title = `Book ${service.title} - Cornwells Pharmacy`;
-    this.updateMetaDescription(`Quick booking for ${service.title}. We'll call you within 15 minutes.`);
+    this.updateMetaDescription(`Quick booking for ${service.title}. Request a callback for consultation.`);
   }
 
   generateUltraFastBookingHTML(service, branch, material) {
@@ -144,7 +144,7 @@ class PharmacyLandingApp {
             </div>
             <div class="text-right">
               <div class="text-xs text-green-600 font-semibold">✅ Available ${isToday ? 'Today' : 'Tomorrow'}</div>
-              <div class="text-xs text-gray-500">15-min response</div>
+              <div class="text-xs text-gray-500">Quick response</div>
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@ class PharmacyLandingApp {
               <!-- Step 1: Phone Number -->
               <div class="booking-step active" data-step="1">
                 <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Your Phone Number</h3>
-                <p class="text-gray-600 text-sm text-center mb-4">We'll call you within 15 minutes</p>
+                <p class="text-gray-600 text-sm text-center mb-4">We'll call you back soon</p>
                 
                 <div class="relative">
                   <input 
@@ -258,7 +258,7 @@ class PharmacyLandingApp {
                   id="book-now-btn" 
                   class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95 hidden"
                 >
-                  📞 Call Me Now
+                  📞 Book Consultation
                 </button>
                 
                 <button 
@@ -275,7 +275,7 @@ class PharmacyLandingApp {
             <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-100">
               <div class="text-center">
                 <div class="text-2xl mb-1">⚡</div>
-                <div class="text-xs font-semibold text-gray-900">15-min response</div>
+                <div class="text-xs font-semibold text-gray-900">Quick response</div>
               </div>
               <div class="text-center">
                 <div class="text-2xl mb-1">🔒</div>
@@ -339,7 +339,7 @@ class PharmacyLandingApp {
       
       // Validate and provide feedback
       if (this.isValidUKMobile(value)) {
-        phoneFeedback.innerHTML = '<span class="text-green-600">✅ Perfect! We\'ll call this number</span>';
+        phoneFeedback.innerHTML = '<span class="text-green-600">✅ Perfect!</span>';
         nextBtn.disabled = false;
         nextBtn.textContent = 'Choose Time →';
         nextBtn.classList.remove('opacity-50');
@@ -534,7 +534,7 @@ class PharmacyLandingApp {
           <div class="text-8xl mb-6">✅</div>
           <h2 class="text-2xl font-bold text-gray-900 mb-4">Booking Confirmed!</h2>
           <p class="text-lg text-gray-700 mb-6">
-            We'll call <span class="font-semibold">${phone}</span> within 15 minutes.
+            We'll call <span class="font-semibold">${phone}</span> back soon.
           </p>
           
           <div class="bg-green-50 border border-green-200 rounded-2xl p-6 mb-6">
@@ -573,7 +573,7 @@ class PharmacyLandingApp {
       bookBtn.classList.add('bg-red-500');
       
       setTimeout(() => {
-        bookBtn.innerHTML = '📞 Call Me Now';
+        bookBtn.innerHTML = '📞 Book Consultation';
         bookBtn.classList.remove('bg-red-500');
         bookBtn.disabled = false;
       }, 3000);
@@ -642,7 +642,7 @@ class PharmacyLandingApp {
           <!-- Quick Stats -->
           <div class="flex justify-center space-x-6 mb-6">
             <div class="text-center">
-              <div class="text-lg font-bold">15-min</div>
+              <div class="text-lg font-bold">Fast</div>
               <div class="text-xs text-white/80">Response</div>
             </div>
             <div class="text-center">
@@ -674,7 +674,7 @@ class PharmacyLandingApp {
                       </div>
                       <div class="text-right">
                         <div class="text-xs font-semibold">Available Today</div>
-                        <div class="text-xs text-white/80">15-min response</div>
+                        <div class="text-xs text-white/80">Quick response</div>
                       </div>
                     </div>
                   </div>
@@ -742,7 +742,7 @@ class PharmacyLandingApp {
                 <div class="text-2xl">${service.icon}</div>
                 <h2 class="text-lg font-bold text-gray-900">${service.title}</h2>
               </div>
-              <p class="text-sm text-green-600 font-semibold">✅ We'll call within 15 minutes</p>
+              <p class="text-sm text-blue-600 font-semibold">📞 Request a callback</p>
             </div>
             
             <form id="quick-booking-form" class="space-y-4">
@@ -797,7 +797,7 @@ class PharmacyLandingApp {
                   class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-xl font-bold text-base shadow-lg transform transition-all active:scale-95 min-h-[44px]"
                   disabled
                 >
-                  📞 Call Me Now
+                  📞 Book Consultation
                 </button>
                 <button 
                   type="button" 
@@ -813,7 +813,7 @@ class PharmacyLandingApp {
             <div class="flex justify-center space-x-4 mt-4 pt-3 border-t border-gray-100">
               <div class="text-center">
                 <div class="text-sm mb-0.5">⚡</div>
-                <div class="text-xs font-semibold text-gray-900">15-min</div>
+                <div class="text-xs font-semibold text-gray-900">Fast</div>
               </div>
               <div class="text-center">
                 <div class="text-sm mb-0.5">🔒</div>
@@ -944,7 +944,7 @@ class PharmacyLandingApp {
             <div class="text-6xl mb-4">✅</div>
             <h2 class="text-xl font-bold text-gray-900 mb-2">Booking Confirmed!</h2>
             <p class="text-gray-700 mb-6">
-              We'll call <span class="font-semibold">${phone}</span> within 15 minutes to discuss your ${service.title.toLowerCase()}.
+              We'll call <span class="font-semibold">${phone}</span> back soon to discuss your ${service.title.toLowerCase()}.
             </p>
             
             <div class="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
@@ -984,7 +984,7 @@ class PharmacyLandingApp {
       submitBtn.classList.add('bg-red-500');
       
       setTimeout(() => {
-        submitBtn.innerHTML = '📞 Call Me Now';
+        submitBtn.innerHTML = '📞 Book Consultation';
         submitBtn.classList.remove('bg-red-500');
         submitBtn.disabled = false;
       }, 3000);
