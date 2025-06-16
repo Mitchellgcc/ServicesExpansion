@@ -1739,4 +1739,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.app = new PharmacyLandingApp();
 });
 
-export default PharmacyLandingApp; 
+export default PharmacyLandingApp; console.log('Deployment test');
