@@ -354,14 +354,14 @@ class PharmacyLandingApp {
               <div>
                 <h2 class="text-4xl font-bold text-gray-900 mb-8">What We Offer</h2>
                 <div class="space-y-6">
-                  ${service.features.map(feature => `
+                  ${service.specificBenefits.map(benefit => `
                     <div class="flex items-start space-x-4 fade-in-up">
                       <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center">
                         <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                         </svg>
                       </div>
-                      <p class="text-lg text-gray-700">${feature}</p>
+                      <p class="text-lg text-gray-700">${benefit}</p>
                     </div>
                   `).join('')}
                 </div>
