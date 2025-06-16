@@ -9,32 +9,32 @@
 
 ## BRANCH DEMOGRAPHIC PROFILES & MESSAGING STRATEGY
 
-### 1. **Weeping Cross (ST17)**
+### 1. **Weeping Cross (ST17 0EF)**
 - **Primary Personas:** Mid-career NHS & MOD clinicians, "sandwich-generation" women (47-58), golf-club retirees
 - **Messaging Tone:** Aspirational-clinical ("expert insiders")
 - **Price Elasticity:** Low sensitivity; £25–£59 sweet-spot
 - **Local Icon:** Elegant stethoscope & gold ribbon
 - **Key Partnerships:** Barlaston & Meaford WI, Stafford Golf Club, Berkswich Parish News
-- **Address:** [Branch Address], Weeping Cross, Stafford ST17
-- **Phone:** [Branch Phone Number]
+- **Address:** 51-53 Bodmin Avenue, Weeping Cross, Stafford ST17 0EF
+- **Phone:** 01785 661765
 
-### 2. **Great Wyrley (WS6)**
+### 2. **Great Wyrley (WS6 6DZ)**
 - **Primary Personas:** Mid/late-career commuters to Wolverhampton, craft-fair enthusiasts, local SMEs' HR admins
 - **Messaging Tone:** "Local heritage + convenience"
 - **Price Elasticity:** Low-medium; bundle incentives work well
 - **Local Icon:** Vintage apothecary mortar "since 1835"
 - **Key Partnerships:** Hollybush Garden Centre, Wyrley Women in Business FB group, Landywood Station
-- **Address:** [Branch Address], Great Wyrley WS6
-- **Phone:** [Branch Phone Number]
+- **Address:** 126 Wardles Lane, Great Wyrley, Walsall WS6 6DZ
+- **Phone:** 01922 414060
 
-### 3. **Holmcroft (ST16)**
+### 3. **Holmcroft (ST16 1JG)**
 - **Primary Personas:** Empty-nest homeowners 55-69, NEC contractors, amateur cyclists
 - **Messaging Tone:** Pragmatic, data-driven ("numbers tell truth")
 - **Price Elasticity:** Medium sensitivity; value/metric framing wins
 - **Local Icon:** Simplified smartwatch dial
 - **Key Partnerships:** Holmcroft Community Centre, Stafford Cycling Club, BP machine itself
-- **Address:** [Branch Address], Holmcroft, Stafford ST16
-- **Phone:** [Branch Phone Number]
+- **Address:** Holmcroft Road, Stafford ST16 1JG
+- **Phone:** 01785 250151
 
 ### 4. **Wolstanton (ST5 0EP)**
 - **Primary Personas:** Port Vale FC loyalists, retail-park shift staff, young dads (DIY & gym users)
@@ -42,17 +42,17 @@
 - **Price Elasticity:** Medium; £15–£25 ceiling
 - **Local Icon:** Stylised kettlebell (club colours)
 - **Key Partnerships:** Port Vale FC Foundation, JD Gyms, Wolstanton Retail Park HR bulletin
-- **Address:** [Branch Address], Wolstanton ST5 0EP
-- **Phone:** [Branch Phone Number]
+- **Address:** 117-119 High Street, Wolstanton, Newcastle-under-Lyme ST5 0EP
+- **Phone:** 01782 712165
 
-### 5. **Beaconside (ST18)**
+### 5. **Beaconside (ST18 0BF)**
 - **Primary Personas:** Tech-park software teams (25-40), MOD Stafford officers, micro-SME owners
 - **Messaging Tone:** High-efficiency B2B ("time is capital")
 - **Price Elasticity:** Low resistance B2B; discount triggers faster PO
 - **Local Icon:** Minimalist shield tick
 - **Key Partnerships:** Beaconside Tech Park newsletter, MOD intranet, Stafford Uni Health campus
-- **Address:** [Branch Address], Beaconside, Stafford ST18
-- **Phone:** [Branch Phone Number]
+- **Address:** Weston Road, Stafford ST18 0BF
+- **Phone:** 01785 247360
 
 ### 6. **Newcastle (ST5 1RB)**
 - **Primary Personas:** Keele undergrads, night-economy bar staff, post-grad internationals
@@ -60,26 +60,26 @@
 - **Price Elasticity:** High sensitivity; £95 travel pack OK with student code
 - **Local Icon:** Passport stamp + QR arrow
 - **Key Partnerships:** Keele SU, Ember Lounge noticeboards, Cross-Country bus shelter ads
-- **Address:** [Branch Address], Newcastle-under-Lyme ST5 1RB
-- **Phone:** [Branch Phone Number]
+- **Address:** Newcastle-under-Lyme ST5 1RB
+- **Phone:** 01782 616519
 
-### 7. **Silverdale (ST5 6LQ)**
+### 7. **Silverdale**
 - **Primary Personas:** Multigenerational ex-mining families, carers on UC, young trades apprentices
 - **Messaging Tone:** Empathetic, plain English ("here to listen")
 - **Price Elasticity:** High sensitivity: £15 cap, offer pay-later
 - **Local Icon:** Open handshake outline
 - **Key Partnerships:** Silverdale Community Pantry, St.Luke's Church, Aspire Housing bulletin
-- **Address:** [Branch Address], Silverdale ST5 6LQ
-- **Phone:** [Branch Phone Number]
+- **Address:** Silverdale, Staffordshire
+- **Phone:** 01782 624203
 
-### 8. **Stoke City Centre (ST4)**
+### 8. **Stoke City Centre (ST4 1NH)**
 - **Primary Personas:** City-bus commuters (Urdu/Punjabi speakers), casual retail staff, Stoke City FC supporters
 - **Messaging Tone:** Empowering, bilingual ("صحت بہتر — Better Health")
 - **Price Elasticity:** Medium-high for GLP-1; use "free eligibility check"
 - **Local Icon:** Shield + Urdu sub-line
 - **Key Partnerships:** Hanley Indoor Market, Shelton Mosque, Potteries Centre FB page
-- **Address:** [Branch Address], Stoke-on-Trent ST4
-- **Phone:** [Branch Phone Number]
+- **Address:** 15-19 Campbell Place, Stoke-on-Trent ST4 1NH
+- **Phone:** 01782 848377
 
 ### 9. **Chadsmoor (WS11 5DD)**
 - **Primary Personas:** Parents of KS2 kids, HGV & warehouse shift workers, retired miners
@@ -87,8 +87,8 @@
 - **Price Elasticity:** Medium; bundle offers resonate
 - **Local Icon:** Clock face at 3:30pm
 - **Key Partnerships:** Chadsmoor Primary PTA, Premier Logistics HR, Ebenezer Centre events
-- **Address:** [Branch Address], Chadsmoor WS11 5DD
-- **Phone:** [Branch Phone Number]
+- **Address:** 235 Cannock Road, Chadsmoor, Cannock WS11 5DD
+- **Phone:** 01543 509434
 
 ### 10. **Abbey Hulton (ST2 8BW)**
 - **Primary Personas:** Young mums on UC, grandparents as carers, low-car-ownership households
@@ -96,8 +96,8 @@
 - **Price Elasticity:** High sensitivity: £20 family clinic OK with Klarna
 - **Local Icon:** Friendly cartoon teddy
 - **Key Partnerships:** Children's Centre, Local Co-op noticeboard, St.John's Parent & Toddler group
-- **Address:** [Branch Address], Abbey Hulton ST2 8BW
-- **Phone:** [Branch Phone Number]
+- **Address:** 1375 Leek Road, Abbey Hulton, Stoke-on-Trent ST2 8BW
+- **Phone:** 01782 534422
 
 ---
 
@@ -139,17 +139,17 @@
 - **Value Proposition:** Confidential support and guidance
 - **Compliance:** Information only, not crisis care, emergency call 999
 
-### 7. **Metabolic & Weight Management: "GLP-1 Quickstart"**
-- **Price:** £199/month
+### 7. **Metabolic & Weight Management: "Weight Management Programs"**
+- **Price:** £25 initial consultation, £120 standard program (12 weeks), £180 intensive program (12 weeks)
 - **Target Branches:** Weeping Cross, Great Wyrley (higher income demographics)
-- **Value Proposition:** Medically supervised weight management
-- **Compliance:** POM subject to eligibility and clinical assessment
+- **Value Proposition:** Medically supervised weight management with ongoing support
+- **Compliance:** Professional assessment required, programs based on NICE guidelines
 
-### 8. **Travel Health: "Essential Travel Jab Package"**
-- **Price:** £95 package
+### 8. **Travel Health: "Travel Clinic Services"**
+- **Price:** £20 consultation (redeemable against vaccinations), individual vaccine pricing
 - **Target Branches:** Newcastle, Beaconside (students, business travelers)
-- **Value Proposition:** Holiday-ready in 15 minutes
-- **Compliance:** Risk assessment required for exotic destinations
+- **Value Proposition:** Comprehensive travel health assessment and vaccinations
+- **Compliance:** Risk assessment required, Yellow Fever available at select branches
 
 ### 9. **Women's Health: "Menopause Symptom Review"**
 - **Price:** £45 consultation
@@ -212,8 +212,8 @@ Create an A5 flyer (148mm × 210mm) for "Pharmacy First Plus" at Cornwells Chemi
   • FREE NHS Pharmacy First - Available when pharmacist is free
   • PHARMACY FIRST PLUS £25 - Guaranteed appointment within the hour
   Same expert clinical assessment, your choice of timing."
-- **Booking:** "Call [Phone] or ask at counter"
-- **Footer:** "[Address], Weeping Cross, Stafford ST17 | Cornwells Chemists since 1835"
+- **Booking:** "Call 01785 661765 or ask at counter"
+- **Footer:** "51-53 Bodmin Avenue, Weeping Cross, Stafford ST17 0EF | Cornwells Chemists since 1835"
 - **Compliance:** "NHS service remains free and available. Private service for convenience only."
 
 **Design:** Premium healthcare aesthetic, professional credibility markers, NHS logo compliance
@@ -235,8 +235,8 @@ Create an A5 flyer (148mm × 210mm) for "Pharmacy First Plus" at Cornwells Chemi
   • FREE NHS service - We'll see you as soon as we can
   • FASTER SERVICE £15 - Book your slot, no waiting around
   Same caring pharmacist, same expert help."
-- **Booking:** "Pop in or call [Phone] - payment plans available"
-- **Footer:** "[Address], Silverdale ST5 6LQ | Your local pharmacy since 1835"
+- **Booking:** "Pop in or call 01782 624203 - payment plans available"
+- **Footer:** "Silverdale, Staffordshire | Your local pharmacy since 1835"
 - **Compliance:** "NHS service always free. Private option for convenience."
 
 **Design:** Warm, community-focused, accessible pricing presentation
@@ -260,8 +260,8 @@ Create an A5 flyer (148mm × 210mm) for "Peace of Mind Pediatric Clinic" at Corn
   • Ear infections • Sore throats • Skin problems • Minor injuries
   £20 consultation - After-school slots 3:30pm-5:30pm
   Same-day appointments available"
-- **Booking:** "Call [Phone] or book at counter - perfect for working parents"
-- **Footer:** "[Address], Chadsmoor WS11 5DD | Trusted family pharmacy since 1835"
+- **Booking:** "Call 01543 509434 or book at counter - perfect for working parents"
+- **Footer:** "235 Cannock Road, Chadsmoor, Cannock WS11 5DD | Trusted family pharmacy since 1835"
 - **Compliance:** "For minor ailments only. Emergency care: call 999. GP referral when appropriate."
 
 **Design:** Family-friendly, convenient timing emphasis, working parent appeal
@@ -285,8 +285,8 @@ Create an A5 flyer (148mm × 210mm) for "Peace of Mind Pediatric Clinic" at Corn
   • Just £20 - payment plans available
   • Same day appointments
   We're here for your family."
-- **Booking:** "Pop in anytime or call [Phone] - we understand family budgets"
-- **Footer:** "[Address], Abbey Hulton ST2 8BW | Your community pharmacy since 1835"
+- **Booking:** "Pop in anytime or call 01782 534422 - we understand family budgets"
+- **Footer:** "1375 Leek Road, Abbey Hulton, Stoke-on-Trent ST2 8BW | Your community pharmacy since 1835"
 - **Compliance:** "Minor ailments only. Emergency: 999. Payment plans available."
 
 **Design:** Warm, supportive, budget-conscious, community-focused
@@ -312,8 +312,8 @@ Create an A5 flyer (148mm × 210mm) for "Tummy Troubles Triage" at Cornwells Che
   • £35 consultation (student discount available)
   • Same-day appointments
   Get sorted, get back to your life."
-- **Booking:** "Text [Phone] or scan QR code - quick and easy"
-- **Footer:** "[Address], Newcastle-under-Lyme ST5 1RB | Student-friendly pharmacy since 1835"
+- **Booking:** "Text 01782 616519 or scan QR code - quick and easy"
+- **Footer:** "Newcastle-under-Lyme ST5 1RB | Student-friendly pharmacy since 1835"
 - **Compliance:** "Assessment only, not diagnostic testing. GP referral when appropriate."
 
 **Design:** Modern, tech-savvy, student-appealing, quick service emphasis
@@ -337,8 +337,8 @@ Create an A5 flyer (148mm × 210mm) for "Tummy Troubles Triage" at Cornwells Che
   • £45 comprehensive consultation
   • Professional recommendations you can trust
   Data-driven healthcare for informed decisions."
-- **Booking:** "Call [Phone] for appointment - professional service guaranteed"
-- **Footer:** "[Address], Holmcroft, Stafford ST16 | Clinical excellence since 1835"
+- **Booking:** "Call 01785 250151 for appointment - professional service guaranteed"
+- **Footer:** "Holmcroft Road, Stafford ST16 1JG | Clinical excellence since 1835"
 - **Compliance:** "Clinical assessment only. Diagnostic testing arranged separately if required."
 
 **Design:** Clinical authority, data-focused, professional credibility, value-driven
@@ -364,8 +364,8 @@ Create an A5 flyer (148mm × 210mm) for "Know Your Numbers Campaign" at Cornwell
   • Diabetes screening (HbA1c)
   • Professional interpretation and advice
   £59 complete package - clinical-grade accuracy you can trust."
-- **Booking:** "Call [Phone] for appointment - colleague-to-colleague service"
-- **Footer:** "[Address], Weeping Cross, Stafford ST17 | Professional healthcare since 1835"
+- **Booking:** "Call 01785 661765 for appointment - colleague-to-colleague service"
+- **Footer:** "51-53 Bodmin Avenue, Weeping Cross, Stafford ST17 0EF | Professional healthcare since 1835"
 - **Compliance:** "Screening only. Abnormal results referred to GP. Not diagnostic testing."
 
 **Design:** Clinical excellence, professional peer appeal, comprehensive value
@@ -389,8 +389,8 @@ Create an A5 flyer (148mm × 210mm) for "Know Your Numbers Campaign" at Cornwell
   • Diabetes check
   • Plain English explanation of your results
   £35 for all three - payment plans available if needed."
-- **Booking:** "Pop in or call [Phone] - we're here to help"
-- **Footer:** "[Address], Silverdale ST5 6LQ | Caring for our community since 1835"
+- **Booking:** "Pop in or call 01782 624203 - we're here to help"
+- **Footer:** "Silverdale, Staffordshire | Caring for our community since 1835"
 - **Compliance:** "Health checks only. We'll help you understand your results and when to see your GP."
 
 **Design:** Community-focused, accessible pricing, plain English, supportive
@@ -417,8 +417,8 @@ Create an A5 flyer (148mm × 210mm) for "Men's Confidential MOT" at Cornwells Ch
   • Real advice from a bloke who gets it
   • Sort out any issues before they become problems
   Be the best version of yourself."
-- **Booking:** "Just walk in or call [Phone] - no fuss, no waiting"
-- **Footer:** "[Address], Wolstanton ST5 0EP | Supporting Vale fans since 1835"
+- **Booking:** "Just walk in or call 01782 712165 - no fuss, no waiting"
+- **Footer:** "117-119 High Street, Wolstanton, Newcastle-under-Lyme ST5 0EP | Supporting Vale fans since 1835"
 - **Compliance:** "Confidential consultation only. Private prescriptions incur additional cost."
 
 **Design:** Masculine appeal, sports context, no-nonsense approach, local football connection
@@ -443,8 +443,8 @@ Create an A5 flyer (148mm × 210mm) for "Men's Confidential MOT" at Cornwells Ch
   • Flexible scheduling around your commitments
   • Professional, discreet service
   Peak performance starts with peak health."
-- **Booking:** "Call [Phone] or email - executive scheduling available"
-- **Footer:** "[Address], Beaconside, Stafford ST18 | Professional healthcare since 1835"
+- **Booking:** "Call 01785 247360 or email - executive scheduling available"
+- **Footer:** "Weston Road, Stafford ST18 0BF | Professional healthcare since 1835"
 - **Compliance:** "Professional consultation. Private prescriptions available at additional cost."
 
 **Design:** Executive appeal, productivity focus, professional efficiency, business context
@@ -472,7 +472,7 @@ Create an A5 flyer (148mm × 210mm) for "Community Wellbeing Point" at Cornwells
   • Register for our free community wellbeing talks
   You're not alone - we're here to help."
 - **Booking:** "Just pop in when you're ready - completely confidential"
-- **Footer:** "[Address], Silverdale ST5 6LQ | Supporting our community since 1835"
+- **Footer:** "Silverdale, Staffordshire | Supporting our community since 1835"
 - **Compliance:** "Information and signposting only. Not crisis care. Emergency: call 999."
 
 **Design:** Gentle, supportive, community-focused, stigma-free, accessible
