@@ -1,6 +1,7 @@
 import { services, getFeaturedServices, getAllServicesForSelector, getServiceById } from './data/services.js';
 import { supabase, SERVICE_TYPES, TIME_SLOTS } from './config/supabase.js';
 import { cornwellsTracking } from './utils/tracking.js';
+import { bookingEnhancements } from './utils/booking-enhancements.js';
 import QRCode from 'qrcode';
 import anime from 'animejs';
 
@@ -26,6 +27,23 @@ class PharmacyLandingApp {
     const serviceId = this.extractServiceIdFromPath(window.location.pathname);
     const serviceName = serviceId ? getServiceById(serviceId)?.title : null;
     cornwellsTracking.trackPageView(serviceName);
+    
+    // Register service worker for PWA functionality
+    this.registerServiceWorker();
+  }
+
+  registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/src/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
   }
 
   // Check if user came from QR code
@@ -115,24 +133,30 @@ class PharmacyLandingApp {
     // Track QR landing
     cornwellsTracking.trackPageView(`${service.title} - QR Landing`);
     
-    const content = this.generateUltraFastBookingHTML(service, branch, material);
+    const content = await this.generateUltraFastBookingHTML(service, branch, material);
     document.getElementById('app').innerHTML = content;
     
     // Initialize ultra-fast booking features
-    this.initializeUltraFastBooking();
+    this.initializeEnhancedUltraFastBooking();
     
     // Update page title
     document.title = `Book ${service.title} - Cornwells Pharmacy`;
     this.updateMetaDescription(`Quick booking for ${service.title}. Request a callback for consultation.`);
   }
 
-  generateUltraFastBookingHTML(service, branch, material) {
+  async generateUltraFastBookingHTML(service, branch, material) {
     const branchName = this.getBranchName(branch);
-    const isToday = new Date().getHours() < 17; // Available today if before 5pm
+    const isToday = new Date().getHours() < 17;
+    
+    // Get enhancement data
+    const scarcityData = await bookingEnhancements.getScarcityIndicators(service.id);
+    const socialProof = await bookingEnhancements.getSocialProof(service.id);
+    const personalizedDefaults = bookingEnhancements.getPersonalizedDefaults();
+    const lossAversionMsg = bookingEnhancements.getLossAversionMessage();
     
     return `
       <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
-        <!-- Ultra-Minimal Header -->
+        <!-- Enhanced Header with Behavioral Psychology -->
         <div class="bg-white/95 backdrop-blur-sm px-4 py-3 safe-area-top">
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-2">
@@ -140,12 +164,19 @@ class PharmacyLandingApp {
               <div>
                 <h1 class="font-bold text-gray-900 text-lg leading-tight">${service.title}</h1>
                 <p class="text-sm text-gray-600">${branchName}</p>
+                ${personalizedDefaults.isReturningUser ? '<p class="text-xs text-blue-600">👋 Welcome back!</p>' : ''}
               </div>
             </div>
             <div class="text-right">
               <div class="text-xs text-green-600 font-semibold">✅ Available ${isToday ? 'Today' : 'Tomorrow'}</div>
-              <div class="text-xs text-gray-500">Quick response</div>
+              ${scarcityData.showScarcity ? `<div class="text-xs text-orange-600 font-semibold">⚡ ${scarcityData.message}</div>` : '<div class="text-xs text-gray-500">Quick response</div>'}
             </div>
+          </div>
+          
+          <!-- Social Proof & Loss Aversion -->
+          <div class="mt-2 flex items-center justify-between text-xs">
+            <div class="text-gray-600">👥 ${socialProof.message}</div>
+            ${lossAversionMsg ? `<div class="text-orange-600 font-semibold">${lossAversionMsg}</div>` : ''}
           </div>
         </div>
 
@@ -177,38 +208,73 @@ class PharmacyLandingApp {
             </div>
 
             <form id="ultra-fast-booking" class="space-y-6">
-              <!-- Step 1: Phone Number -->
+              <!-- Step 1: Enhanced Phone Number with Voice Input -->
               <div class="booking-step active" data-step="1">
-                <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Your Phone Number</h3>
-                <p class="text-gray-600 text-sm text-center mb-4">We'll call you back soon</p>
+                <div class="text-center mb-4">
+                  <h3 class="text-xl font-bold text-gray-900 mb-1">Your Phone Number</h3>
+                  <p class="text-gray-600 text-sm mb-2">We'll call you back soon</p>
+                  <div id="progress-message" class="text-xs text-blue-600 font-semibold"></div>
+                </div>
                 
                 <div class="relative">
                   <input 
                     type="tel" 
                     id="ultra-phone" 
                     placeholder="07XXX XXX XXX" 
+                    value="${personalizedDefaults.phoneNumber}"
                     class="w-full px-4 py-4 text-lg font-semibold text-center border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-0 transition-colors"
                     autocomplete="tel"
                     inputmode="numeric"
                   >
+                  
+                  <!-- Voice Input Button -->
+                  <button 
+                    type="button" 
+                    id="voice-input-btn" 
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                    title="Tap to speak your number"
+                  >
+                    🎤
+                  </button>
+                  
                   <div id="phone-feedback" class="mt-2 text-center text-sm"></div>
                 </div>
+                
+                <!-- One-Tap Quick Options for Returning Users -->
+                ${personalizedDefaults.isReturningUser && personalizedDefaults.phoneNumber ? `
+                  <div class="mt-4 text-center">
+                    <button 
+                      type="button" 
+                      id="use-saved-number" 
+                      class="text-sm text-blue-600 font-semibold underline"
+                    >
+                      📞 Use ${personalizedDefaults.phoneNumber}
+                    </button>
+                  </div>
+                ` : ''}
               </div>
 
-              <!-- Step 2: Time Preference -->
+              <!-- Step 2: Smart Time Selection with Real-Time Availability -->
               <div class="booking-step" data-step="2">
-                <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">When works best?</h3>
-                <p class="text-gray-600 text-sm text-center mb-4">Choose your preferred time</p>
+                <div class="text-center mb-4">
+                  <h3 class="text-xl font-bold text-gray-900 mb-1">When works best?</h3>
+                  <p class="text-gray-600 text-sm mb-2">Choose your preferred time</p>
+                  <div id="progress-message-2" class="text-xs text-blue-600 font-semibold">Almost done! Just one more step 💪</div>
+                </div>
                 
-                <div class="grid grid-cols-1 gap-3">
+                <div class="space-y-3" id="time-slots-container">
                   ${isToday ? `
                     <button type="button" class="time-option active" data-time="today">
                       <div class="flex items-center justify-between p-4 border-2 border-blue-500 bg-blue-50 rounded-2xl">
                         <div>
                           <div class="font-semibold text-gray-900">Today</div>
                           <div class="text-sm text-gray-600">Next available slot</div>
+                          ${scarcityData.showScarcity ? `<div class="text-xs text-orange-600 font-semibold">${scarcityData.message}</div>` : ''}
                         </div>
-                        <div class="text-2xl">⚡</div>
+                        <div class="text-right">
+                          <div class="text-2xl">⚡</div>
+                          <div class="text-xs text-green-600">Available</div>
+                        </div>
                       </div>
                     </button>
                   ` : ''}
@@ -216,9 +282,12 @@ class PharmacyLandingApp {
                     <div class="flex items-center justify-between p-4 border-2 ${!isToday ? 'border-blue-500 bg-blue-50' : 'border-gray-200'} rounded-2xl">
                       <div>
                         <div class="font-semibold text-gray-900">Tomorrow</div>
-                        <div class="text-sm text-gray-600">Morning or afternoon</div>
+                        <div class="text-sm text-gray-600">Morning preferred</div>
                       </div>
-                      <div class="text-2xl">📅</div>
+                      <div class="text-right">
+                        <div class="text-2xl">📅</div>
+                        <div class="text-xs text-blue-600">Recommended</div>
+                      </div>
                     </div>
                   </button>
                   <button type="button" class="time-option" data-time="this-week">
@@ -227,8 +296,23 @@ class PharmacyLandingApp {
                         <div class="font-semibold text-gray-900">This Week</div>
                         <div class="text-sm text-gray-600">When convenient</div>
                       </div>
-                      <div class="text-2xl">📋</div>
+                      <div class="text-right">
+                        <div class="text-2xl">📋</div>
+                        <div class="text-xs text-gray-600">Flexible</div>
+                      </div>
                     </div>
+                  </button>
+                </div>
+                
+                <!-- One-Tap Booking for Smart Default -->
+                <div class="mt-6 text-center">
+                  <button 
+                    type="button" 
+                    id="one-tap-book" 
+                    class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95"
+                    style="display: none;"
+                  >
+                    ⚡ Book ${personalizedDefaults.preferredTime === 'today' ? 'Today' : 'Tomorrow'} (One-Tap)
                   </button>
                 </div>
               </div>
@@ -302,7 +386,7 @@ class PharmacyLandingApp {
     `;
   }
 
-  initializeUltraFastBooking() {
+  initializeEnhancedUltraFastBooking() {
     let currentStep = 1;
     let selectedTime = '';
     let phoneNumber = '';
@@ -314,8 +398,19 @@ class PharmacyLandingApp {
     const backBtn = document.getElementById('back-step-btn');
     const confirmPhone = document.getElementById('confirm-phone');
     const confirmTime = document.getElementById('confirm-time');
+    const voiceBtn = document.getElementById('voice-input-btn');
+    const oneTapBtn = document.getElementById('one-tap-book');
+    const progressMsg = document.getElementById('progress-message');
 
-    // Smart phone number formatting
+    // Initialize with personalized defaults
+    const personalizedDefaults = bookingEnhancements.getPersonalizedDefaults();
+    if (personalizedDefaults.phoneNumber && phoneInput) {
+      phoneInput.value = personalizedDefaults.phoneNumber;
+      phoneNumber = personalizedDefaults.phoneNumber;
+      this.validatePhoneAndUpdateUI(phoneNumber, phoneFeedback, nextBtn);
+    }
+
+    // Enhanced phone number formatting with progress tracking
     phoneInput?.addEventListener('input', (e) => {
       let value = e.target.value.replace(/\D/g, '');
       
@@ -337,22 +432,45 @@ class PharmacyLandingApp {
       e.target.value = value;
       phoneNumber = value;
       
-      // Validate and provide feedback
-      if (this.isValidUKMobile(value)) {
-        phoneFeedback.innerHTML = '<span class="text-green-600">✅ Perfect!</span>';
-        nextBtn.disabled = false;
-        nextBtn.textContent = 'Choose Time →';
-        nextBtn.classList.remove('opacity-50');
-      } else if (value.length > 5) {
-        phoneFeedback.innerHTML = '<span class="text-orange-600">⚠️ Please check your number</span>';
-        nextBtn.disabled = true;
-        nextBtn.textContent = 'Enter Phone Number';
-        nextBtn.classList.add('opacity-50');
-      } else {
-        phoneFeedback.innerHTML = '';
-        nextBtn.disabled = true;
-        nextBtn.textContent = 'Enter Phone Number';
-        nextBtn.classList.add('opacity-50');
+      // Enhanced validation with progress anchoring
+      this.validatePhoneAndUpdateUI(value, phoneFeedback, nextBtn, progressMsg);
+      
+      // Track conversion funnel
+      bookingEnhancements.trackConversionFunnel('phone_entry', { 
+        phoneLength: value.length,
+        isValid: this.isValidUKMobile(value)
+      });
+    });
+
+    // Voice Input Implementation
+    voiceBtn?.addEventListener('click', () => {
+      voiceBtn.innerHTML = '🎙️';
+      voiceBtn.classList.add('animate-pulse');
+      
+      bookingEnhancements.startVoiceInput((result) => {
+        voiceBtn.innerHTML = '🎤';
+        voiceBtn.classList.remove('animate-pulse');
+        
+        if (result.success && result.phoneNumber) {
+          phoneInput.value = result.phoneNumber;
+          phoneNumber = result.phoneNumber;
+          this.validatePhoneAndUpdateUI(phoneNumber, phoneFeedback, nextBtn, progressMsg);
+          
+          // Auto-advance if valid
+          if (this.isValidUKMobile(phoneNumber)) {
+            setTimeout(() => this.advanceToStep(2), 500);
+          }
+        } else {
+          phoneFeedback.innerHTML = '<span class="text-red-600">❌ Voice input failed. Please type your number.</span>';
+        }
+      });
+    });
+
+    // One-tap booking for returning users
+    oneTapBtn?.addEventListener('click', () => {
+      if (phoneNumber && this.isValidUKMobile(phoneNumber)) {
+        const smartDefault = bookingEnhancements.getSmartTimeDefault();
+        this.handleUltraFastBooking(phoneNumber, smartDefault);
       }
     });
 
@@ -448,6 +566,38 @@ class PharmacyLandingApp {
     return /^07\d{9}$/.test(cleaned);
   }
 
+  validatePhoneAndUpdateUI(value, phoneFeedback, nextBtn, progressMsg) {
+    if (this.isValidUKMobile(value)) {
+      phoneFeedback.innerHTML = '<span class="text-green-600">✅ Perfect!</span>';
+      nextBtn.disabled = false;
+      nextBtn.textContent = 'Choose Time →';
+      nextBtn.classList.remove('opacity-50');
+      
+      // Progress anchoring
+      const progress = bookingEnhancements.getProgressAnchoring(1, 3);
+      if (progressMsg) progressMsg.textContent = progress.message;
+      
+      // Show one-tap option for smart default
+      const oneTapBtn = document.getElementById('one-tap-book');
+      if (oneTapBtn) {
+        oneTapBtn.style.display = 'block';
+        setTimeout(() => oneTapBtn.style.display = 'none', 3000); // Hide after 3 seconds
+      }
+    } else if (value.length > 5) {
+      phoneFeedback.innerHTML = '<span class="text-orange-600">⚠️ Please check your number</span>';
+      nextBtn.disabled = true;
+      nextBtn.textContent = 'Enter Phone Number';
+      nextBtn.classList.add('opacity-50');
+      if (progressMsg) progressMsg.textContent = '';
+    } else {
+      phoneFeedback.innerHTML = '';
+      nextBtn.disabled = true;
+      nextBtn.textContent = 'Enter Phone Number';
+      nextBtn.classList.add('opacity-50');
+      if (progressMsg) progressMsg.textContent = '';
+    }
+  }
+
   getTimeText(timeOption) {
     switch(timeOption) {
       case 'today': return 'today';
@@ -513,9 +663,43 @@ class PharmacyLandingApp {
       
       // Track conversion
       cornwellsTracking.trackBookingConversion(this.currentService.id, bookingData);
+      bookingEnhancements.trackConversionFunnel('booking_complete', { 
+        serviceId: this.currentService.id,
+        timePreference,
+        bookingType: 'ultra_fast'
+      });
+      
+      // Save user profile for personalization
+      bookingEnhancements.saveUserProfile({
+        phoneNumber: phone,
+        preferredTimes: [timePreference],
+        lastVisit: new Date().toISOString(),
+        previousBookings: [{
+          serviceId: this.currentService.id,
+          serviceName: this.currentService.title,
+          date: new Date().toISOString()
+        }]
+      });
+      
+      // Multi-channel orchestration
+      const bookingDetails = {
+        serviceName: this.currentService.title,
+        time: this.getTimeText(timePreference),
+        date: new Date().toLocaleDateString(),
+        reference: `CW${Date.now().toString().slice(-6)}`
+      };
+      
+      // Send confirmations via multiple channels
+      await Promise.all([
+        bookingEnhancements.sendSMSConfirmation(phone, bookingDetails),
+        bookingEnhancements.sendWhatsAppMessage(phone, bookingDetails)
+      ]);
+      
+      // Request push notification permission for future updates
+      bookingEnhancements.requestNotificationPermission();
       
       // Show success
-      this.showUltraFastSuccess(phone, timePreference);
+      this.showUltraFastSuccess(phone, timePreference, bookingDetails);
       
     } catch (error) {
       console.error('Ultra-fast booking error:', error);
@@ -526,7 +710,7 @@ class PharmacyLandingApp {
     }
   }
 
-  showUltraFastSuccess(phone, timePreference) {
+  showUltraFastSuccess(phone, timePreference, bookingDetails) {
     const container = document.querySelector('.max-w-sm');
     if (container) {
       container.innerHTML = `
@@ -542,9 +726,27 @@ class PharmacyLandingApp {
               <div class="text-2xl">📞</div>
               <div class="font-semibold text-green-800">Keep your phone nearby!</div>
             </div>
-            <p class="text-sm text-green-700">
+            <p class="text-sm text-green-700 mb-3">
               Our pharmacist will call to confirm your ${this.getTimeText(timePreference)} appointment.
             </p>
+            <div class="text-xs text-green-600 font-semibold">
+              Reference: ${bookingDetails?.reference || `#${Date.now().toString().slice(-6)}`}
+            </div>
+          </div>
+          
+          <!-- Multi-Channel Confirmation -->
+          <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6">
+            <h3 class="font-semibold text-blue-800 mb-2">📱 Confirmation Sent</h3>
+            <div class="space-y-1 text-sm text-blue-700">
+              <div class="flex items-center justify-center space-x-2">
+                <span>💬</span>
+                <span>SMS confirmation sent</span>
+              </div>
+              <div class="flex items-center justify-center space-x-2">
+                <span>📱</span>
+                <span>WhatsApp message sent</span>
+              </div>
+            </div>
           </div>
           
           <div class="space-y-3">
@@ -556,14 +758,45 @@ class PharmacyLandingApp {
             </button>
           </div>
           
-          <div class="mt-8 pt-6 border-t border-gray-100 text-center">
-            <p class="text-sm text-gray-600">
-              Booking reference: <span class="font-mono text-xs">#${Date.now().toString().slice(-6)}</span>
-            </p>
+          <!-- PWA Install Prompt -->
+          <div class="mt-6 pt-4 border-t border-gray-100">
+            <button id="install-pwa" class="text-sm text-blue-600 underline" style="display: none;">
+              📱 Add to Home Screen for faster booking
+            </button>
           </div>
         </div>
       `;
+      
+      // Show PWA install prompt if available
+      this.showPWAInstallPrompt();
+      
+      // Add confetti celebration effect
+      this.showConfettiEffect();
     }
+  }
+
+  showPWAInstallPrompt() {
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      const installBtn = document.getElementById('install-pwa');
+      if (installBtn) {
+        installBtn.style.display = 'block';
+        installBtn.addEventListener('click', () => {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the PWA install prompt');
+            }
+            deferredPrompt = null;
+            installBtn.style.display = 'none';
+          });
+        });
+      }
+    });
   }
 
   showUltraFastError() {
@@ -1480,6 +1713,24 @@ class PharmacyLandingApp {
         </div>
       </div>
     `;
+  }
+  showConfettiEffect() {
+    // Create confetti elements
+    for (let i = 0; i < 50; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.animationDelay = Math.random() * 3 + 's';
+      confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      document.body.appendChild(confetti);
+      
+      // Remove confetti after animation
+      setTimeout(() => {
+        if (confetti.parentNode) {
+          confetti.parentNode.removeChild(confetti);
+        }
+      }, 5000);
+    }
   }
 }
 

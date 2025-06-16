@@ -201,6 +201,147 @@
   .pb-safe {
     padding-bottom: max(env(safe-area-inset-bottom), 1rem);
   }
+  
+  /* Enhanced Booking Animations */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+  
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+  
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .animate-bounce-in {
+    animation: bounce-in 0.6s ease-out;
+  }
+  
+  @keyframes progress-fill {
+    from {
+      width: 0%;
+    }
+    to {
+      width: var(--progress-width, 33%);
+    }
+  }
+  
+  .animate-progress {
+    animation: progress-fill 0.5s ease-out;
+  }
+  
+  /* Voice Input Animation */
+  .voice-recording {
+    background: linear-gradient(45deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6);
+    background-size: 400% 400%;
+    animation: gradient-shift 1.5s ease infinite;
+  }
+  
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Scarcity Indicator Animation */
+  .scarcity-blink {
+    animation: scarcity-pulse 1s ease-in-out infinite alternate;
+  }
+  
+  @keyframes scarcity-pulse {
+    from {
+      opacity: 0.7;
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+  
+  /* Success Confetti Effect */
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(-100vh) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #3b82f6;
+    animation: confetti-fall 3s linear infinite;
+    z-index: 1000;
+  }
+  
+  .confetti:nth-child(odd) {
+    background: #ef4444;
+    animation-delay: 0.5s;
+  }
+  
+  .confetti:nth-child(3n) {
+    background: #22c55e;
+    animation-delay: 1s;
+  }
+  
+  /* Multi-channel confirmation animation */
+  .channel-sent {
+    animation: channel-confirm 0.8s ease-out;
+  }
+  
+  @keyframes channel-confirm {
+    0% {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(5px);
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
   }
   
   /* Accessibility Enhancements */
