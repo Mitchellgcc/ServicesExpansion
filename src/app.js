@@ -28,6 +28,17 @@ class PharmacyLandingApp {
     cornwellsTracking.trackPageView(serviceName);
   }
 
+  // Check if user came from QR code
+  isQRCodeVisit() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.has('utm_content') && urlParams.get('utm_content') === 'qr';
+  }
+
+  // Check if user is on mobile device
+  isMobileDevice() {
+    return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
   setupEventListeners() {
     document.addEventListener('click', (e) => {
       if (e.target.matches('[data-book-consultation]')) {
@@ -51,6 +62,14 @@ class PharmacyLandingApp {
       }
     });
 
+    // Handle mobile booking form submission
+    document.addEventListener('submit', (e) => {
+      if (e.target.id === 'mobile-booking-form') {
+        e.preventDefault();
+        this.handleMobileBookingSubmission();
+      }
+    });
+
     window.addEventListener('popstate', () => {
       this.loadCurrentPage();
     });
@@ -61,7 +80,12 @@ class PharmacyLandingApp {
     const serviceId = this.extractServiceIdFromPath(path);
     
     if (serviceId && getServiceById(serviceId)) {
-      this.loadServiceLanding(serviceId);
+      // Check if this is a QR code visit for mobile optimization
+      if (this.isQRCodeVisit() && this.isMobileDevice()) {
+        this.loadMobileQRLanding(serviceId);
+      } else {
+        this.loadServiceLanding(serviceId);
+      }
     } else {
       this.loadServiceSelector();
     }
@@ -71,6 +95,165 @@ class PharmacyLandingApp {
     // Remove leading slash and any trailing slashes
     const cleanPath = path.replace(/^\/+|\/+$/g, '');
     return cleanPath || null;
+  }
+
+  // New mobile QR code landing page
+  async loadMobileQRLanding(serviceId) {
+    const service = getServiceById(serviceId);
+    if (!service) {
+      this.loadServiceSelector();
+      return;
+    }
+
+    this.currentService = service;
+    
+    // Track QR code service page view
+    cornwellsTracking.trackPageView(service.title);
+    cornwellsTracking.trackEvent('qr_scan', {
+      service_id: serviceId,
+      service_name: service.title
+    });
+    
+    const content = this.generateMobileQRLandingHTML(service);
+    document.getElementById('app').innerHTML = content;
+    
+    // Update page title
+    document.title = `Book ${service.title} - Cornwells Pharmacy`;
+    this.updateMetaDescription(`Quick and easy booking for ${service.title}. Professional consultation available within 24-48 hours.`);
+    
+    // Re-initialize animations for new content
+    this.initializeAnimations();
+  }
+
+  // Generate mobile-optimized QR landing page
+  generateMobileQRLandingHTML(service) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const branch = urlParams.get('utm_medium');
+    const branchName = cornwellsTracking.branches[branch] || 'your local';
+    
+    return `
+      <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
+        <!-- Mobile Header -->
+        <div class="bg-white/95 backdrop-blur-sm px-4 py-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <div class="text-2xl">🏥</div>
+            <div>
+              <div class="font-bold text-gray-900">Cornwells Pharmacy</div>
+              <div class="text-xs text-gray-600">${branchName} branch</div>
+            </div>
+          </div>
+          <button data-call-pharmacy class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm font-semibold">
+            📞 Call
+          </button>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="px-4 py-8 text-center text-white">
+          <div class="text-6xl mb-4">${service.icon}</div>
+          <h1 class="text-3xl font-bold mb-3">${service.title}</h1>
+          <p class="text-lg text-white/90 mb-6">${service.description}</p>
+          
+          <!-- Quick Stats -->
+          <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-4 mb-6">
+            <div class="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div class="text-2xl font-bold">24-48h</div>
+                <div class="text-xs text-white/80">Appointment</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold">15-30min</div>
+                <div class="text-xs text-white/80">Consultation</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold">Expert</div>
+                <div class="text-xs text-white/80">Pharmacist</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Booking Form -->
+        <div class="bg-white rounded-t-3xl px-4 py-6 min-h-[60vh]">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Book Your Consultation</h2>
+          
+          <form id="mobile-booking-form" class="space-y-4">
+            <div>
+              <label for="mobile-name" class="block text-sm font-semibold text-gray-700 mb-2">Your Name *</label>
+              <input type="text" id="mobile-name" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+            </div>
+            
+            <div>
+              <label for="mobile-phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+              <input type="tel" id="mobile-phone" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+            </div>
+            
+            <div>
+              <label for="mobile-time" class="block text-sm font-semibold text-gray-700 mb-2">Preferred Time *</label>
+              <select id="mobile-time" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+                <option value="">When works best for you?</option>
+                <option value="0">Morning (9:00 AM - 12:00 PM)</option>
+                <option value="1">Afternoon (12:00 PM - 5:00 PM)</option>
+                <option value="2">Evening (5:00 PM - 7:00 PM)</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="mobile-notes" class="block text-sm font-semibold text-gray-700 mb-2">Any specific concerns? (Optional)</label>
+              <textarea id="mobile-notes" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg" placeholder="Tell us what you'd like to discuss..."></textarea>
+            </div>
+            
+            <div class="flex items-start space-x-3 py-2">
+              <input type="checkbox" id="mobile-consent" required class="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+              <label for="mobile-consent" class="text-sm text-gray-700">
+                I consent to Cornwells Pharmacy contacting me about this consultation. *
+              </label>
+            </div>
+            
+            <button type="submit" id="mobile-submit" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-lg">
+              📅 Book My Consultation
+            </button>
+            
+            <div class="text-center space-y-2 pt-4">
+              <p class="text-sm text-gray-600">
+                ✅ We'll call you within 2 hours to confirm
+              </p>
+              <p class="text-sm text-gray-600">
+                📞 Or call us now: <button data-call-pharmacy class="text-blue-600 font-semibold underline">01782 123456</button>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="bg-gray-50 px-4 py-6">
+          <div class="text-center mb-4">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">Why Choose Cornwells?</h3>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <div class="text-3xl mb-2">🏆</div>
+              <div class="text-sm font-semibold text-gray-900">Expert Care</div>
+              <div class="text-xs text-gray-600">Qualified pharmacists</div>
+            </div>
+            <div>
+              <div class="text-3xl mb-2">⚡</div>
+              <div class="text-sm font-semibold text-gray-900">Quick Access</div>
+              <div class="text-xs text-gray-600">No long waiting times</div>
+            </div>
+            <div>
+              <div class="text-3xl mb-2">🔒</div>
+              <div class="text-sm font-semibold text-gray-900">Confidential</div>
+              <div class="text-xs text-gray-600">Private consultations</div>
+            </div>
+            <div>
+              <div class="text-3xl mb-2">📍</div>
+              <div class="text-sm font-semibold text-gray-900">Local</div>
+              <div class="text-xs text-gray-600">Community focused</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   async loadServiceLanding(serviceId) {
@@ -530,6 +713,102 @@ class PharmacyLandingApp {
       duration: 800,
       easing: 'easeOutCubic'
     });
+  }
+
+  async handleMobileBookingSubmission() {
+    const form = document.getElementById('mobile-booking-form');
+    const submitButton = document.getElementById('mobile-submit');
+    
+    if (!form || !submitButton || !this.currentService) return;
+    
+    // Get form data
+    const formData = {
+      patient_name: document.getElementById('mobile-name').value.trim(),
+      phone_number: document.getElementById('mobile-phone').value.trim(),
+      email: null, // Not collected in mobile form
+      preferred_time_slot: TIME_SLOTS[document.getElementById('mobile-time').value],
+      notes: document.getElementById('mobile-notes').value.trim() || null,
+      service_type: this.currentService.id,
+      service_name: SERVICE_TYPES[this.currentService.id],
+      source_url: window.location.href,
+      consent_given: document.getElementById('mobile-consent').checked,
+      preferred_contact_method: 'phone'
+    };
+    
+    // Add UTM tracking data
+    const utmData = cornwellsTracking.getStoredUTMData();
+    if (Object.keys(utmData).length > 0) {
+      formData.utm_params = utmData;
+    }
+    
+    // Update button state
+    submitButton.disabled = true;
+    submitButton.innerHTML = '⏳ Submitting...';
+    
+    try {
+      const { data, error } = await supabase
+        .from('service_consultations')
+        .insert([formData])
+        .select();
+      
+      if (error) throw error;
+      
+      // Track successful booking
+      cornwellsTracking.trackBookingConversion(this.currentService.id, formData);
+      
+      // Show success message
+      this.showMobileSuccessMessage();
+      
+    } catch (error) {
+      console.error('Mobile booking submission error:', error);
+      this.showMobileErrorMessage();
+      
+      // Reset button
+      submitButton.disabled = false;
+      submitButton.innerHTML = '📅 Book My Consultation';
+    }
+  }
+
+  showMobileSuccessMessage() {
+    const form = document.getElementById('mobile-booking-form');
+    if (form) {
+      form.innerHTML = `
+        <div class="text-center py-8">
+          <div class="text-6xl mb-4">✅</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Booking Submitted!</h3>
+          <p class="text-lg text-gray-700 mb-6">
+            Thank you! We'll call you within 2 hours to confirm your consultation time.
+          </p>
+          <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+            <p class="text-sm text-green-800">
+              📞 Keep your phone nearby - we'll be in touch soon!
+            </p>
+          </div>
+          <button data-call-pharmacy class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold">
+            📞 Call Us Now Instead
+          </button>
+        </div>
+      `;
+    }
+  }
+
+  showMobileErrorMessage() {
+    const form = document.getElementById('mobile-booking-form');
+    if (form) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'bg-red-50 border border-red-200 rounded-xl p-4 mb-4';
+      errorDiv.innerHTML = `
+        <p class="text-sm text-red-800">
+          ⚠️ Sorry, there was an issue submitting your booking. Please try calling us directly.
+        </p>
+      `;
+      form.insertBefore(errorDiv, form.firstChild);
+      
+      // Remove error message after 5 seconds
+      setTimeout(() => {
+        errorDiv.remove();
+      }, 5000);
+    }
   }
 
   async handleBookingSubmission(serviceId) {
