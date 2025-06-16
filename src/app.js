@@ -731,18 +731,22 @@ class PharmacyLandingApp {
     if (!service) return;
 
     const modalHTML = `
-      <div id="quick-booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-sm w-full">
-          <div class="p-6">
-            <!-- Header -->
-            <div class="text-center mb-6">
-              <div class="text-4xl mb-2">${service.icon}</div>
-              <h2 class="text-xl font-bold text-gray-900">${service.title}</h2>
-              <p class="text-sm text-gray-600 mt-1">We'll call you within 15 minutes</p>
+      <div id="quick-booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center">
+        <!-- iPhone-optimized modal -->
+        <div class="bg-white w-full sm:max-w-sm sm:w-full sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto">
+          <!-- Safe area padding for iPhone -->
+          <div class="px-4 py-4 pb-safe">
+            <!-- Compact Header -->
+            <div class="text-center mb-4">
+              <div class="flex items-center justify-center space-x-2 mb-2">
+                <div class="text-2xl">${service.icon}</div>
+                <h2 class="text-lg font-bold text-gray-900">${service.title}</h2>
+              </div>
+              <p class="text-sm text-green-600 font-semibold">✅ We'll call within 15 minutes</p>
             </div>
             
             <form id="quick-booking-form" class="space-y-4">
-              <!-- Phone Number (Primary) -->
+              <!-- Phone Number (Compact) -->
               <div>
                 <label for="quick-phone" class="block text-sm font-semibold text-gray-700 mb-2">Your Phone Number</label>
                 <input 
@@ -750,47 +754,47 @@ class PharmacyLandingApp {
                   id="quick-phone" 
                   required 
                   placeholder="07XXX XXX XXX"
-                  class="w-full px-4 py-4 text-lg font-semibold text-center border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-0 transition-colors"
+                  class="w-full px-4 py-3 text-lg font-semibold text-center border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors"
                   autocomplete="tel"
                   inputmode="numeric"
                 >
                 <div id="quick-phone-feedback" class="mt-1 text-center text-sm"></div>
               </div>
 
-              <!-- Time Preference (Simplified) -->
+              <!-- Time Preference (Compact) -->
               <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-3">When works best?</label>
-                <div class="grid grid-cols-1 gap-2">
-                  <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
-                    <input type="radio" name="quick-time" value="today" class="mr-3" ${new Date().getHours() < 17 ? 'checked' : ''}>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">When works best?</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
+                    <input type="radio" name="quick-time" value="today" class="mr-3 scale-110" ${new Date().getHours() < 17 ? 'checked' : ''}>
                     <div class="flex items-center justify-between w-full">
-                      <span class="font-medium">Today</span>
-                      <span class="text-sm text-gray-600">Next available</span>
+                      <span class="font-medium text-sm">Today</span>
+                      <span class="text-xs text-gray-600">Next available</span>
                     </div>
                   </label>
-                  <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
-                    <input type="radio" name="quick-time" value="tomorrow" class="mr-3" ${new Date().getHours() >= 17 ? 'checked' : ''}>
+                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
+                    <input type="radio" name="quick-time" value="tomorrow" class="mr-3 scale-110" ${new Date().getHours() >= 17 ? 'checked' : ''}>
                     <div class="flex items-center justify-between w-full">
-                      <span class="font-medium">Tomorrow</span>
-                      <span class="text-sm text-gray-600">Morning/afternoon</span>
+                      <span class="font-medium text-sm">Tomorrow</span>
+                      <span class="text-xs text-gray-600">Morning/afternoon</span>
                     </div>
                   </label>
-                  <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
-                    <input type="radio" name="quick-time" value="this-week" class="mr-3">
+                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
+                    <input type="radio" name="quick-time" value="this-week" class="mr-3 scale-110">
                     <div class="flex items-center justify-between w-full">
-                      <span class="font-medium">This Week</span>
-                      <span class="text-sm text-gray-600">When convenient</span>
+                      <span class="font-medium text-sm">This Week</span>
+                      <span class="text-xs text-gray-600">When convenient</span>
                     </div>
                   </label>
                 </div>
               </div>
 
-              <!-- Action Buttons -->
-              <div class="space-y-3 pt-2">
+              <!-- Action Buttons (iPhone-optimized) -->
+              <div class="space-y-3 pt-3">
                 <button 
                   type="submit" 
                   id="quick-submit-btn" 
-                  class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95"
+                  class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-xl font-bold text-base shadow-lg transform transition-all active:scale-95 min-h-[44px]"
                   disabled
                 >
                   📞 Call Me Now
@@ -798,26 +802,26 @@ class PharmacyLandingApp {
                 <button 
                   type="button" 
                   onclick="document.getElementById('quick-booking-modal').remove()" 
-                  class="w-full bg-gray-100 text-gray-700 py-3 rounded-2xl font-semibold"
+                  class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold text-sm min-h-[44px]"
                 >
                   Cancel
                 </button>
               </div>
             </form>
 
-            <!-- Trust Indicators -->
-            <div class="flex justify-center space-x-6 mt-6 pt-4 border-t border-gray-100">
+            <!-- Compact Trust Indicators -->
+            <div class="flex justify-center space-x-4 mt-4 pt-3 border-t border-gray-100">
               <div class="text-center">
-                <div class="text-lg mb-1">⚡</div>
-                <div class="text-xs font-semibold text-gray-900">15-min response</div>
+                <div class="text-sm mb-0.5">⚡</div>
+                <div class="text-xs font-semibold text-gray-900">15-min</div>
               </div>
               <div class="text-center">
-                <div class="text-lg mb-1">🔒</div>
-                <div class="text-xs font-semibold text-gray-900">Confidential</div>
+                <div class="text-sm mb-0.5">🔒</div>
+                <div class="text-xs font-semibold text-gray-900">Private</div>
               </div>
               <div class="text-center">
-                <div class="text-lg mb-1">💯</div>
-                <div class="text-xs font-semibold text-gray-900">Free consultation</div>
+                <div class="text-sm mb-0.5">💯</div>
+                <div class="text-xs font-semibold text-gray-900">Free</div>
               </div>
             </div>
           </div>

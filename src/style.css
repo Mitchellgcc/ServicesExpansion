@@ -194,9 +194,13 @@
       padding-top: max(env(safe-area-inset-top), 1rem);
     }
     
-    .safe-area-bottom {
-      padding-bottom: max(env(safe-area-inset-bottom), 1rem);
-    }
+      .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
   }
   
   /* Accessibility Enhancements */
