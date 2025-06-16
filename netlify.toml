@@ -1,19 +1,8 @@
 [build]
   publish = "."
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 [build.environment]
   NODE_VERSION = "18"
-
-[[headers]]
-  for = "/src/*"
-  [headers.values]
-    Content-Type = "application/javascript; charset=utf-8"
-    Cache-Control = "public, max-age=31536000"
 
 [[headers]]
   for = "*.js"
@@ -30,17 +19,17 @@
   [headers.values]
     Content-Type = "application/json; charset=utf-8"
 
-# Handle ES6 modules properly
-[[headers]]
-  for = "/src/*.js"
-  [headers.values]
-    Content-Type = "application/javascript; charset=utf-8"
-    X-Content-Type-Options = "nosniff"
-
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin" 
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Handle ES6 modules properly
+[[headers]]
+  for = "/src/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    X-Content-Type-Options = "nosniff" 
