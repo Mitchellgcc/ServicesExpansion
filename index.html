@@ -273,6 +273,27 @@
     @media (min-width: 1024px) {
       .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
+    
+    /* Confetti Animation */
+    .confetti-piece {
+      position: absolute;
+      font-size: 1.5rem;
+      animation: confettiFall 3s ease-out forwards;
+      pointer-events: none;
+    }
+    
+    @keyframes confettiFall {
+      0% {
+        top: -10%;
+        opacity: 1;
+        transform: rotate(0deg);
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 <body>
@@ -299,7 +320,7 @@
     // Inline all JavaScript content here
     console.log('Pharmacy Services App Starting...');
     
-    // Services data
+    // Complete Services data - All 10 services
     const services = {
       'metabolic-weight': {
         id: 'metabolic-weight',
@@ -387,6 +408,209 @@
         targetAudience: 'Health-conscious adults 40+ wanting proactive health monitoring',
         icon: '🔍',
         featured: true
+      },
+      'vaccinations': {
+        id: 'vaccinations',
+        title: 'Core Vaccinations',
+        headline: 'Keep Your Family Safe',
+        subheadline: 'Protect against serious illness with convenient vaccination services',
+        description: 'Keep your family healthy and protected with convenient same-day vaccinations.',
+        colorScheme: {
+          primary: 'from-green-600 to-emerald-600',
+          secondary: 'from-green-500/20 to-emerald-500/20',
+          accent: 'bg-green-500',
+          hero: 'from-green-900 via-emerald-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Avoid weeks of illness from flu, COVID, or pneumonia',
+          'Same-day service - no GP wait times or hassle',
+          'Family packages available with special pricing'
+        ],
+        uniqueProcess: [
+          'Quick health check to recommend the right vaccines',
+          'Professional vaccination with comfortable, experienced staff',
+          'Digital certificate ready for travel or work requirements'
+        ],
+        callToAction: 'Protect your family now. Walk-ins welcome today.',
+        socialProof: 'Protecting 2,000+ families this year',
+        urgency: 'Flu season starting - book before it\'s too late',
+        targetAudience: 'Individuals and families wanting protection against preventable diseases',
+        icon: '🛡️',
+        featured: true
+      },
+      'nhs-services': {
+        id: 'nhs-services',
+        title: 'NHS Clinical Services',
+        headline: 'Feel Better Today',
+        subheadline: 'Get NHS treatment now - no GP appointment needed',
+        description: 'Feeling unwell? Get free NHS treatment and medicine without the wait.',
+        colorScheme: {
+          primary: 'from-indigo-600 to-blue-700',
+          secondary: 'from-indigo-500/20 to-blue-500/20',
+          accent: 'bg-indigo-500',
+          hero: 'from-indigo-900 via-blue-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Get rid of UTIs, sore throats, and infections today',
+          'No waiting for GP appointments when you\'re feeling awful',
+          'Walk out with your medicine - completely free on NHS'
+        ],
+        uniqueProcess: [
+          'Walk in when you\'re unwell - no appointment booking stress',
+          'Professional assessment by NHS pharmacist in minutes',
+          'Get treated immediately or referred quickly if needed'
+        ],
+        callToAction: 'Ready to feel better? Get the help you need now.',
+        socialProof: 'Helping 500+ patients get better faster each month',
+        urgency: 'Open now - no appointment needed',
+        targetAudience: 'Anyone needing quick NHS healthcare for minor illnesses',
+        icon: '🏥',
+        featured: true
+      },
+      'mens-health': {
+        id: 'mens-health',
+        title: 'Men\'s Health & Performance',
+        headline: 'Get Your Edge Back',
+        subheadline: 'Reclaim your energy, strength, and confidence',
+        description: 'Ready to feel energized and strong again? Reclaim the vitality you had in your twenties.',
+        colorScheme: {
+          primary: 'from-slate-600 to-gray-800',
+          secondary: 'from-slate-500/20 to-gray-500/20',
+          accent: 'bg-slate-600',
+          hero: 'from-slate-800 via-gray-900 to-black'
+        },
+        specificBenefits: [
+          'Wake up energized instead of exhausted every morning',
+          'Build muscle and strength like you did when you were younger',
+          'Regain confidence in the bedroom with proven treatments'
+        ],
+        uniqueProcess: [
+          'Private consultation about your energy and performance goals',
+          'Comprehensive testing to find what\'s really causing the problem',
+          'Personalized treatment plan to get you back to your best'
+        ],
+        callToAction: 'Ready to feel like your best self again? Take control today.',
+        socialProof: 'Helping 150+ men reclaim their prime',
+        urgency: 'Confidential consultations available this week',
+        targetAudience: 'Men 35-65 wanting to optimize health, energy, and performance',
+        icon: '💪',
+        featured: true
+      },
+      'travel-health': {
+        id: 'travel-health',
+        title: 'Travel Health Services',
+        headline: 'Travel Without Worry',
+        subheadline: 'Protect yourself from diseases that could ruin your trip',
+        description: 'Enjoy your dream holiday with confidence. Get the right protection for any destination.',
+        colorScheme: {
+          primary: 'from-sky-600 to-blue-600',
+          secondary: 'from-sky-500/20 to-blue-500/20',
+          accent: 'bg-sky-500',
+          hero: 'from-sky-900 via-blue-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Avoid malaria, typhoid, and serious travel diseases',
+          'Get expert advice for your exact destination and activities',
+          'Fast-track service for last-minute travel plans'
+        ],
+        uniqueProcess: [
+          'Tell us where you\'re going and we\'ll recommend what you need',
+          'Professional vaccinations and travel health advice in one visit',
+          'All certificates and documentation sorted for your trip'
+        ],
+        callToAction: 'Ready for worry-free travel? Get protected today.',
+        socialProof: 'Protecting 800+ travelers every year',
+        urgency: 'Last-minute appointments available',
+        targetAudience: 'Travelers needing destination-specific health protection and advice',
+        icon: '✈️',
+        featured: true
+      },
+      'gut-health': {
+        id: 'gut-health',
+        title: 'Gut Health & Digestive Wellness',
+        headline: 'Eat Without Fear Again',
+        subheadline: 'Stop bloating, pain, and bathroom emergencies for good',
+        description: 'Ready to enjoy food again without discomfort? Get your digestion working properly.',
+        colorScheme: {
+          primary: 'from-green-500 to-lime-600',
+          secondary: 'from-green-400/20 to-lime-400/20',
+          accent: 'bg-green-500',
+          hero: 'from-green-900 via-lime-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Stop embarrassing bloating and gas that ruins your day',
+          'Find out exactly which foods are causing your problems',
+          'Enjoy meals without worrying about pain or bathroom trips'
+        ],
+        uniqueProcess: [
+          'Complete digestive assessment to find your specific triggers',
+          'Personalized healing plan with natural solutions that work',
+          'Ongoing support until you can eat normally again'
+        ],
+        callToAction: 'Ready to enjoy eating again? Let\'s fix your gut health today.',
+        socialProof: 'Helping 250+ people enjoy food again',
+        urgency: 'Limited gut health consultations this month',
+        targetAudience: 'Adults with IBS, bloating, food intolerances, or digestive discomfort',
+        icon: '🌱',
+        featured: true
+      },
+      'vape-cessation': {
+        id: 'vape-cessation',
+        title: 'Vape & Smoking Cessation',
+        headline: 'Break Free From Vaping',
+        subheadline: 'Finally quit vaping for good with proven support',
+        description: 'Ready to quit vaping? Get professional support that actually works.',
+        colorScheme: {
+          primary: 'from-teal-600 to-cyan-700',
+          secondary: 'from-teal-500/20 to-cyan-500/20',
+          accent: 'bg-teal-600',
+          hero: 'from-teal-900 via-cyan-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Stop spending £200+ monthly on vapes and cigarettes',
+          'Breathe easier and stop the constant coughing',
+          'Proven methods that work - not just willpower'
+        ],
+        uniqueProcess: [
+          'Assessment of your smoking/vaping habits and triggers',
+          'Personalized quit plan with medication support if needed',
+          'Weekly support calls until you\'re completely free'
+        ],
+        callToAction: 'Ready to quit for good? Start your freedom journey today.',
+        socialProof: 'Helped 180+ people quit successfully',
+        urgency: 'New Year, new you - start now',
+        targetAudience: 'Smokers and vapers ready to quit with professional support',
+        icon: '🚭',
+        featured: true
+      },
+      'sexual-health': {
+        id: 'sexual-health',
+        title: 'Sexual Health & Wellness',
+        headline: 'Reclaim Your Confidence',
+        subheadline: 'Discreet, professional sexual health services',
+        description: 'Get confidential sexual health support in a comfortable, judgment-free environment.',
+        colorScheme: {
+          primary: 'from-rose-600 to-pink-700',
+          secondary: 'from-rose-500/20 to-pink-500/20',
+          accent: 'bg-rose-600',
+          hero: 'from-rose-900 via-pink-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Confidential STI testing with same-day results',
+          'Professional treatment for sexual health concerns',
+          'Discreet consultations in a comfortable, private setting'
+        ],
+        uniqueProcess: [
+          'Private consultation about your sexual health concerns',
+          'Professional testing and assessment as needed',
+          'Confidential treatment and ongoing support'
+        ],
+        callToAction: 'Ready to prioritize your sexual health? Book confidentially today.',
+        socialProof: 'Providing discreet care for 300+ individuals',
+        urgency: 'Confidential appointments available this week',
+        targetAudience: 'Adults seeking confidential sexual health services and support',
+        icon: '💕',
+        featured: true
       }
     };
 
@@ -442,7 +666,7 @@
       }
 
       generateServiceSelectorHTML() {
-        const featuredServices = Object.values(services).filter(s => s.featured);
+        const allServices = Object.values(services);
         
         return `
           <div class="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-slate-900">
@@ -454,23 +678,40 @@
                 <p class="text-xl text-gray-300 mb-8 animate-slide-up">
                   Your Health, Our Priority - Professional Care When You Need It Most
                 </p>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-2xl mx-auto mb-8">
+                  <p class="text-white text-lg">
+                    ⚡ <strong>Ultra-Fast Booking:</strong> 3 taps, 30 seconds, done!
+                  </p>
+                  <p class="text-gray-300 text-sm mt-2">
+                    🎤 Voice input • 📱 Mobile optimized • ✨ Smart recommendations
+                  </p>
+                </div>
               </div>
               
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                ${featuredServices.map(service => `
-                  <div class="service-card animate-slide-up">
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+                ${allServices.map(service => `
+                  <div class="service-card animate-slide-up hover:scale-105 transition-transform duration-300">
                     <div class="text-center mb-4">
                       <div class="text-4xl mb-3">${service.icon}</div>
                       <h3 class="text-xl font-bold text-gray-900 mb-2">${service.title}</h3>
-                      <p class="text-gray-600 text-sm">${service.description}</p>
+                      <p class="text-gray-600 text-sm mb-3">${service.description}</p>
+                      <div class="text-xs text-orange-600 font-semibold mb-2">
+                        ⚡ ${service.urgency}
+                      </div>
                     </div>
                     
                     <div class="space-y-3">
                       <button 
                         data-book-consultation="${service.id}"
-                        class="w-full btn-primary animate-pulse-glow"
+                        class="w-full btn-primary animate-pulse-glow text-sm py-3"
                       >
                         📞 Book Consultation
+                      </button>
+                      <button 
+                        onclick="window.location.href='/${service.id}'"
+                        class="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                      >
+                        Learn More →
                       </button>
                     </div>
                   </div>
@@ -478,6 +719,16 @@
               </div>
               
               <div class="text-center mt-12">
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto mb-6">
+                  <p class="text-white text-lg mb-2">🚀 <strong>Why Choose Us?</strong></p>
+                  <ul class="text-gray-300 text-sm space-y-1">
+                    <li>✓ Same-day appointments available</li>
+                    <li>✓ Expert pharmacists & healthcare professionals</li>
+                    <li>✓ 10 locations across Staffordshire</li>
+                    <li>✓ NHS & private services</li>
+                  </ul>
+                </div>
+                
                 <p class="text-gray-300 mb-4">Need immediate assistance?</p>
                 <div class="space-x-4">
                   <a href="tel:01782123456" class="btn-primary">📞 Call Now</a>
@@ -584,74 +835,164 @@
       showBookingModal(serviceId) {
         const service = services[serviceId];
         if (!service) return;
+        
+        // Get smart defaults and personalization
+        const smartTimeDefault = this.getSmartTimeDefault();
+        const savedPhone = localStorage.getItem('cornwells_phone') || '';
 
         const modal = document.createElement('div');
         modal.className = 'modal active';
         modal.innerHTML = `
-          <div class="modal-content">
+          <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
             <div class="text-center mb-6">
-              <div class="text-4xl mb-3">${service.icon}</div>
-              <h3 class="text-2xl font-bold mb-2">${service.title}</h3>
-              <p class="text-gray-600">Book your consultation now</p>
+              <div class="text-4xl mb-2">${service.icon}</div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-2">Book ${service.title}</h3>
+              <p class="text-gray-600 mb-3">${service.callToAction}</p>
+              
+              <!-- Social Proof & Scarcity -->
+              <div class="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-4">
+                <div class="text-sm text-orange-800">
+                  <div class="font-semibold">⚡ ${service.urgency}</div>
+                  <div class="text-xs mt-1">${service.socialProof}</div>
+                </div>
+              </div>
+              
+              <!-- Progress Indicator -->
+              <div class="bg-gray-100 rounded-full h-2 mb-4">
+                <div class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 33%"></div>
+              </div>
+              <div class="text-xs text-gray-500 mb-4">Step 1 of 3 - Contact Details</div>
             </div>
             
             <form id="booking-form" class="space-y-4">
               <div>
-                <label class="block text-sm font-semibold mb-2">Phone Number</label>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  placeholder="07XXX XXX XXX" 
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Phone Number
+                  <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                  <input 
+                    type="tel" 
+                    id="phone"
+                    class="w-full p-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="07123 456789"
+                    value="${savedPhone}"
+                    required
+                  />
+                  <button 
+                    type="button"
+                    id="voice-input-btn"
+                    class="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-blue-500 hover:bg-blue-50 rounded-full transition-colors"
+                    title="Use voice input"
+                  >
+                    🎤
+                  </button>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">We'll call you back within 2 hours</div>
               </div>
               
               <div>
-                <label class="block text-sm font-semibold mb-2">Preferred Time</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Preferred Time
+                  <span class="text-red-500">*</span>
+                </label>
                 <select 
-                  id="time-preference" 
+                  id="time-preference"
                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 >
                   <option value="">Select preferred time</option>
-                  <option value="morning">Morning (9am-12pm)</option>
-                  <option value="afternoon">Afternoon (12pm-5pm)</option>
-                  <option value="evening">Evening (5pm-7pm)</option>
+                  <option value="today" ${smartTimeDefault === 'today' ? 'selected' : ''}>
+                    Today (if available) ⚡
+                  </option>
+                  <option value="tomorrow" ${smartTimeDefault === 'tomorrow' ? 'selected' : ''}>
+                    Tomorrow - Morning preferred
+                  </option>
+                  <option value="this-week" ${smartTimeDefault === 'this-week' ? 'selected' : ''}>
+                    This week - When convenient
+                  </option>
+                  <option value="next-week" ${smartTimeDefault === 'next-week' ? 'selected' : ''}>
+                    Next week - Flexible
+                  </option>
                 </select>
               </div>
               
-              <div class="flex space-x-3">
-                <button 
-                  type="submit" 
-                  class="flex-1 btn-primary"
-                >
-                  📞 Book Consultation
-                </button>
+              <!-- Optional: Brief concern -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Brief description (optional)
+                </label>
+                <textarea 
+                  id="concern-input"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Briefly describe your main concern..."
+                  rows="2"
+                ></textarea>
+                <div class="text-xs text-gray-500 mt-1">Helps us prepare for your consultation</div>
+              </div>
+              
+              <div class="flex space-x-3 pt-4">
                 <button 
                   type="button" 
                   onclick="this.closest('.modal').remove()"
-                  class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                  class="flex-1 bg-gray-200 text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors"
                 >
                   Cancel
                 </button>
+                <button 
+                  type="submit"
+                  id="submit-btn"
+                  class="flex-1 btn-primary relative overflow-hidden"
+                >
+                  <span class="relative z-10">Book Now 🚀</span>
+                </button>
               </div>
             </form>
+            
+            <!-- Trust signals -->
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <div class="text-center text-xs text-gray-500">
+                <div class="flex justify-center space-x-4 mb-2">
+                  <span>🔒 Secure & Confidential</span>
+                  <span>📞 No Spam Calls</span>
+                  <span>⚡ Quick Response</span>
+                </div>
+                <div>Regulated by GPhC • NHS Approved • CQC Registered</div>
+              </div>
+            </div>
           </div>
         `;
 
         document.body.appendChild(modal);
+        
+        // Initialize voice input
+        this.initializeVoiceInput(modal);
 
-        // Handle form submission
+        // Handle form submission with enhanced UX
         modal.querySelector('#booking-form').addEventListener('submit', (e) => {
           e.preventDefault();
           const phone = modal.querySelector('#phone').value;
           const timePreference = modal.querySelector('#time-preference').value;
+          const concern = modal.querySelector('#concern-input').value;
           
-          if (phone && timePreference) {
-            this.handleBookingSubmission(serviceId, phone, timePreference);
+          // Save phone for future use
+          localStorage.setItem('cornwells_phone', phone);
+          
+          // Update progress to 100%
+          const progressBar = modal.querySelector('.bg-blue-500');
+          const progressText = modal.querySelector('.text-xs.text-gray-500');
+          progressBar.style.width = '100%';
+          progressText.textContent = 'Perfect! Ready to book 🎉';
+          
+          // Disable form and show loading
+          const submitBtn = modal.querySelector('#submit-btn');
+          submitBtn.innerHTML = '<span class="animate-spin">⏳</span> Booking...';
+          submitBtn.disabled = true;
+          
+          setTimeout(() => {
+            this.handleBookingSubmission(serviceId, phone, timePreference, concern);
             modal.remove();
-          }
+          }, 1000);
         });
 
         // Close on background click
@@ -660,49 +1001,150 @@
             modal.remove();
           }
         });
+        
+        // Focus phone input if empty, otherwise time input
+        setTimeout(() => {
+          if (!savedPhone) {
+            modal.querySelector('#phone').focus();
+          } else {
+            modal.querySelector('#time-preference').focus();
+          }
+        }, 100);
+      }
+      
+      getSmartTimeDefault() {
+        const now = new Date();
+        const hour = now.getHours();
+        const day = now.getDay(); // 0 = Sunday, 6 = Saturday
+        
+        // Business logic for smart defaults
+        if (day === 0 || day === 6) return 'next-week'; // Weekend
+        if (hour < 9) return 'today';
+        if (hour < 17) return 'today';
+        if (hour < 20) return 'tomorrow';
+        return 'this-week';
+      }
+      
+      initializeVoiceInput(modal) {
+        const voiceBtn = modal.querySelector('#voice-input-btn');
+        const phoneInput = modal.querySelector('#phone');
+        
+        if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+          voiceBtn.style.display = 'none';
+          return;
+        }
+        
+        voiceBtn.addEventListener('click', () => {
+          const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+          recognition.continuous = false;
+          recognition.interimResults = false;
+          recognition.lang = 'en-GB';
+          
+          voiceBtn.innerHTML = '🔴';
+          voiceBtn.classList.add('animate-pulse');
+          
+          recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            const phoneNumber = this.extractPhoneFromSpeech(transcript);
+            phoneInput.value = phoneNumber;
+            voiceBtn.innerHTML = '🎤';
+            voiceBtn.classList.remove('animate-pulse');
+          };
+          
+          recognition.onerror = () => {
+            voiceBtn.innerHTML = '🎤';
+            voiceBtn.classList.remove('animate-pulse');
+          };
+          
+          recognition.start();
+        });
+      }
+      
+      extractPhoneFromSpeech(transcript) {
+        // Extract numbers from speech and format as UK mobile
+        const numbers = transcript.replace(/\D/g, '');
+        if (numbers.length >= 10) {
+          const formatted = numbers.substring(0, 11);
+          return `07${formatted.substring(formatted.startsWith('07') ? 2 : 1, 10)}`;
+        }
+        return transcript;
       }
 
-      handleBookingSubmission(serviceId, phone, timePreference) {
+      handleBookingSubmission(serviceId, phone, timePreference, concern = '') {
         const service = services[serviceId];
         
-        // Show success message
+        // Show enhanced success message with confetti effect
         const successModal = document.createElement('div');
         successModal.className = 'modal active';
         successModal.innerHTML = `
-          <div class="modal-content text-center">
-            <div class="text-6xl mb-4">✅</div>
-            <h3 class="text-2xl font-bold mb-4">Booking Confirmed!</h3>
-            <p class="text-gray-600 mb-4">
-              Thank you for booking ${service.title}. We'll call you back at 
-              <strong>${phone}</strong> during your preferred time 
-              (<strong>${timePreference}</strong>).
-            </p>
-            <p class="text-sm text-gray-500 mb-6">
-              You should receive a call back soon. If you need immediate assistance, 
-              please call us directly.
-            </p>
-            <div class="space-y-3">
-              <button 
-                onclick="this.closest('.modal').remove()"
-                class="w-full btn-primary"
-              >
-                Perfect, Thanks!
-              </button>
-              <a href="tel:01782123456" class="block w-full text-center py-2 text-blue-600 underline">
-                📞 Call Us Directly Instead
-              </a>
+          <div class="modal-content text-center relative overflow-hidden">
+            <!-- Confetti Animation -->
+            <div class="absolute inset-0 pointer-events-none">
+              <div class="confetti-piece" style="left: 10%; animation-delay: 0s;">🎉</div>
+              <div class="confetti-piece" style="left: 20%; animation-delay: 0.2s;">✨</div>
+              <div class="confetti-piece" style="left: 30%; animation-delay: 0.4s;">🎊</div>
+              <div class="confetti-piece" style="left: 40%; animation-delay: 0.6s;">⭐</div>
+              <div class="confetti-piece" style="left: 50%; animation-delay: 0.8s;">🎉</div>
+              <div class="confetti-piece" style="left: 60%; animation-delay: 1s;">✨</div>
+              <div class="confetti-piece" style="left: 70%; animation-delay: 1.2s;">🎊</div>
+              <div class="confetti-piece" style="left: 80%; animation-delay: 1.4s;">⭐</div>
+              <div class="confetti-piece" style="left: 90%; animation-delay: 1.6s;">🎉</div>
+            </div>
+            
+            <div class="relative z-10">
+              <div class="text-6xl mb-4 animate-bounce">✅</div>
+              <h3 class="text-2xl font-bold mb-4 text-green-600">Booking Confirmed!</h3>
+              <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                <p class="text-gray-700 mb-2">
+                  <strong>Service:</strong> ${service.title}
+                </p>
+                <p class="text-gray-700 mb-2">
+                  <strong>Phone:</strong> ${phone}
+                </p>
+                <p class="text-gray-700 mb-2">
+                  <strong>Preferred Time:</strong> ${this.formatTimePreference(timePreference)}
+                </p>
+                ${concern ? `<p class="text-gray-700"><strong>Your concern:</strong> ${concern}</p>` : ''}
+              </div>
+              
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h4 class="font-semibold text-blue-800 mb-2">What happens next?</h4>
+                <ul class="text-sm text-blue-700 space-y-1 text-left">
+                  <li>✓ We'll call you back within 2 hours</li>
+                  <li>✓ Our expert pharmacist will discuss your needs</li>
+                  <li>✓ We'll book your appointment at a convenient time</li>
+                  <li>✓ You'll receive SMS confirmation with all details</li>
+                </ul>
+              </div>
+              
+              <div class="space-y-3">
+                <button 
+                  onclick="this.closest('.modal').remove()"
+                  class="w-full btn-primary animate-pulse-glow"
+                >
+                  Perfect, Thanks! 🎉
+                </button>
+                <div class="flex space-x-2">
+                  <a href="tel:01782123456" class="flex-1 text-center py-2 text-blue-600 underline text-sm">
+                    📞 Call Us Now
+                  </a>
+                  <a href="https://cornwells.co.uk" target="_blank" class="flex-1 text-center py-2 text-blue-600 underline text-sm">
+                    🌐 Visit Website
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         `;
 
         document.body.appendChild(successModal);
 
-        // Auto-close after 10 seconds
+        // Auto-close after 15 seconds
         setTimeout(() => {
           if (document.body.contains(successModal)) {
             successModal.remove();
           }
-        }, 10000);
+        }, 15000);
 
         // Close on background click
         successModal.addEventListener('click', (e) => {
@@ -711,13 +1153,35 @@
           }
         });
 
-        // Track the booking (simplified)
-        console.log('Booking submitted:', {
+        // Enhanced tracking with all details
+        console.log('Enhanced Booking submitted:', {
           service: serviceId,
+          serviceTitle: service.title,
           phone: phone,
           timePreference: timePreference,
-          timestamp: new Date().toISOString()
+          concern: concern,
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent,
+          referrer: document.referrer
         });
+        
+        // Track conversion event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'booking_completed', {
+            'service_type': serviceId,
+            'value': 1
+          });
+        }
+      }
+      
+      formatTimePreference(timePreference) {
+        const timeMap = {
+          'today': 'Today (if available)',
+          'tomorrow': 'Tomorrow - Morning preferred',
+          'this-week': 'This week - When convenient',
+          'next-week': 'Next week - Flexible'
+        };
+        return timeMap[timePreference] || timePreference;
       }
     }
 
