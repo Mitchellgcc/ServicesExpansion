@@ -226,6 +226,41 @@
       @apply border-white/50;
     }
   }
+  
+  /* Ultra-Fast Booking Styles */
+  .booking-step {
+    display: none;
+  }
+  
+  .booking-step.active {
+    display: block;
+  }
+  
+  .time-option {
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .time-option:active {
+    transform: scale(0.98);
+  }
+  
+  /* Disabled button styles */
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Phone input focus styles */
+  #ultra-phone:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Progress indicator animation */
+  .w-8.h-1 {
+    transition: all 0.3s ease;
+  }
 }
 
 /* Custom scrollbar */

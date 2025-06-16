@@ -107,153 +107,477 @@ class PharmacyLandingApp {
 
     this.currentService = service;
     
-    // Track QR code service page view
-    cornwellsTracking.trackPageView(service.title);
-    cornwellsTracking.trackEvent('qr_scan', {
-      service_id: serviceId,
-      service_name: service.title
-    });
+    // Extract QR tracking data for pre-population
+    const urlParams = new URLSearchParams(window.location.search);
+    const branch = urlParams.get('utm_medium') || 'unknown';
+    const material = urlParams.get('utm_source') || 'qr';
     
-    const content = this.generateMobileQRLandingHTML(service);
+    // Track QR landing
+    cornwellsTracking.trackPageView(`${service.title} - QR Landing`);
+    
+    const content = this.generateUltraFastBookingHTML(service, branch, material);
     document.getElementById('app').innerHTML = content;
+    
+    // Initialize ultra-fast booking features
+    this.initializeUltraFastBooking();
     
     // Update page title
     document.title = `Book ${service.title} - Cornwells Pharmacy`;
-    this.updateMetaDescription(`Quick and easy booking for ${service.title}. Professional consultation available within 24-48 hours.`);
-    
-    // Re-initialize animations for new content
-    this.initializeAnimations();
+    this.updateMetaDescription(`Quick booking for ${service.title}. We'll call you within 15 minutes.`);
   }
 
-  // Generate mobile-optimized QR landing page
-  generateMobileQRLandingHTML(service) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const branch = urlParams.get('utm_medium');
-    const branchName = cornwellsTracking.branches[branch] || 'your local';
+  generateUltraFastBookingHTML(service, branch, material) {
+    const branchName = this.getBranchName(branch);
+    const isToday = new Date().getHours() < 17; // Available today if before 5pm
     
     return `
       <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
-        <!-- Mobile Header -->
-        <div class="bg-white/95 backdrop-blur-sm px-4 py-3 flex items-center justify-between">
-          <div class="flex items-center space-x-2">
-            <div class="text-2xl">🏥</div>
-            <div>
-              <div class="font-bold text-gray-900">Cornwells Pharmacy</div>
-              <div class="text-xs text-gray-600">${branchName} branch</div>
+        <!-- Ultra-Minimal Header -->
+        <div class="bg-white/95 backdrop-blur-sm px-4 py-3 safe-area-top">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <div class="text-2xl">${service.icon}</div>
+              <div>
+                <h1 class="font-bold text-gray-900 text-lg leading-tight">${service.title}</h1>
+                <p class="text-sm text-gray-600">${branchName}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-green-600 font-semibold">✅ Available ${isToday ? 'Today' : 'Tomorrow'}</div>
+              <div class="text-xs text-gray-500">15-min response</div>
             </div>
           </div>
-          <button data-call-pharmacy class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm font-semibold">
-            📞 Call
-          </button>
         </div>
 
-        <!-- Hero Section -->
-        <div class="px-4 py-8 text-center text-white">
-          <div class="text-6xl mb-4">${service.icon}</div>
-          <h1 class="text-3xl font-bold mb-3">${service.title}</h1>
-          <p class="text-lg text-white/90 mb-6">${service.description}</p>
+        <!-- Hero Message -->
+        <div class="px-4 py-6 text-center text-white">
+          <h2 class="text-2xl font-bold mb-2 leading-tight">${service.headline}</h2>
+          <p class="text-white/90 mb-6 leading-relaxed">${service.subheadline}</p>
           
-          <!-- Quick Stats -->
-          <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-4 mb-6">
-            <div class="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <div class="text-2xl font-bold">24-48h</div>
-                <div class="text-xs text-white/80">Appointment</div>
+          <!-- Key Benefits (2 max) -->
+          <div class="space-y-2 mb-6">
+            ${service.specificBenefits.slice(0, 2).map(benefit => `
+              <div class="flex items-center justify-center space-x-2 text-sm">
+                <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                <span class="text-white/90">${benefit}</span>
               </div>
-              <div>
-                <div class="text-2xl font-bold">15-30min</div>
-                <div class="text-xs text-white/80">Consultation</div>
-              </div>
-              <div>
-                <div class="text-2xl font-bold">Expert</div>
-                <div class="text-xs text-white/80">Pharmacist</div>
-              </div>
-            </div>
+            `).join('')}
           </div>
         </div>
 
-        <!-- Quick Booking Form -->
-        <div class="bg-white rounded-t-3xl px-4 py-6 min-h-[60vh]">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Book Your Consultation</h2>
-          
-          <form id="mobile-booking-form" class="space-y-4">
-            <div>
-              <label for="mobile-name" class="block text-sm font-semibold text-gray-700 mb-2">Your Name *</label>
-              <input type="text" id="mobile-name" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
-            </div>
+        <!-- Ultra-Fast Booking Form -->
+        <div class="bg-white rounded-t-3xl px-4 py-6 min-h-screen">
+          <div class="max-w-sm mx-auto">
             
-            <div>
-              <label for="mobile-phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-              <input type="tel" id="mobile-phone" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+            <!-- Progress Indicator -->
+            <div class="flex items-center justify-center space-x-2 mb-6">
+              <div class="w-8 h-1 bg-gradient-to-r ${service.colorScheme.primary} rounded-full"></div>
+              <div class="w-8 h-1 bg-gray-200 rounded-full"></div>
+              <div class="w-8 h-1 bg-gray-200 rounded-full"></div>
             </div>
-            
-            <div>
-              <label for="mobile-time" class="block text-sm font-semibold text-gray-700 mb-2">Preferred Time *</label>
-              <select id="mobile-time" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
-                <option value="">When works best for you?</option>
-                <option value="0">Morning (9:00 AM - 12:00 PM)</option>
-                <option value="1">Afternoon (12:00 PM - 5:00 PM)</option>
-                <option value="2">Evening (5:00 PM - 7:00 PM)</option>
-              </select>
-            </div>
-            
-            <div>
-              <label for="mobile-notes" class="block text-sm font-semibold text-gray-700 mb-2">Any specific concerns? (Optional)</label>
-              <textarea id="mobile-notes" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg" placeholder="Tell us what you'd like to discuss..."></textarea>
-            </div>
-            
-            <div class="flex items-start space-x-3 py-2">
-              <input type="checkbox" id="mobile-consent" required class="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-              <label for="mobile-consent" class="text-sm text-gray-700">
-                I consent to Cornwells Pharmacy contacting me about this consultation. *
-              </label>
-            </div>
-            
-            <button type="submit" id="mobile-submit" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-lg">
-              📅 Book My Consultation
-            </button>
-            
-            <div class="text-center space-y-2 pt-4">
-              <p class="text-sm text-gray-600">
-                ✅ We'll call you within 2 hours to confirm
-              </p>
-              <p class="text-sm text-gray-600">
-                📞 Or call us now: <button data-call-pharmacy class="text-blue-600 font-semibold underline">01782 123456</button>
-              </p>
-            </div>
-          </form>
-        </div>
 
-        <!-- Trust Indicators -->
-        <div class="bg-gray-50 px-4 py-6">
-          <div class="text-center mb-4">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">Why Choose Cornwells?</h3>
-          </div>
-          <div class="grid grid-cols-2 gap-4 text-center">
-            <div>
-              <div class="text-3xl mb-2">🏆</div>
-              <div class="text-sm font-semibold text-gray-900">Expert Care</div>
-              <div class="text-xs text-gray-600">Qualified pharmacists</div>
+            <form id="ultra-fast-booking" class="space-y-6">
+              <!-- Step 1: Phone Number -->
+              <div class="booking-step active" data-step="1">
+                <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Your Phone Number</h3>
+                <p class="text-gray-600 text-sm text-center mb-4">We'll call you within 15 minutes</p>
+                
+                <div class="relative">
+                  <input 
+                    type="tel" 
+                    id="ultra-phone" 
+                    placeholder="07XXX XXX XXX" 
+                    class="w-full px-4 py-4 text-lg font-semibold text-center border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-0 transition-colors"
+                    autocomplete="tel"
+                    inputmode="numeric"
+                  >
+                  <div id="phone-feedback" class="mt-2 text-center text-sm"></div>
+                </div>
+              </div>
+
+              <!-- Step 2: Time Preference -->
+              <div class="booking-step" data-step="2">
+                <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">When works best?</h3>
+                <p class="text-gray-600 text-sm text-center mb-4">Choose your preferred time</p>
+                
+                <div class="grid grid-cols-1 gap-3">
+                  ${isToday ? `
+                    <button type="button" class="time-option active" data-time="today">
+                      <div class="flex items-center justify-between p-4 border-2 border-blue-500 bg-blue-50 rounded-2xl">
+                        <div>
+                          <div class="font-semibold text-gray-900">Today</div>
+                          <div class="text-sm text-gray-600">Next available slot</div>
+                        </div>
+                        <div class="text-2xl">⚡</div>
+                      </div>
+                    </button>
+                  ` : ''}
+                  <button type="button" class="time-option ${!isToday ? 'active' : ''}" data-time="tomorrow">
+                    <div class="flex items-center justify-between p-4 border-2 ${!isToday ? 'border-blue-500 bg-blue-50' : 'border-gray-200'} rounded-2xl">
+                      <div>
+                        <div class="font-semibold text-gray-900">Tomorrow</div>
+                        <div class="text-sm text-gray-600">Morning or afternoon</div>
+                      </div>
+                      <div class="text-2xl">📅</div>
+                    </div>
+                  </button>
+                  <button type="button" class="time-option" data-time="this-week">
+                    <div class="flex items-center justify-between p-4 border-2 border-gray-200 rounded-2xl">
+                      <div>
+                        <div class="font-semibold text-gray-900">This Week</div>
+                        <div class="text-sm text-gray-600">When convenient</div>
+                      </div>
+                      <div class="text-2xl">📋</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 3: Confirmation -->
+              <div class="booking-step" data-step="3">
+                <div class="text-center">
+                  <div class="text-6xl mb-4">📞</div>
+                  <h3 class="text-xl font-bold text-gray-900 mb-2">Ready to Book?</h3>
+                  <p class="text-gray-600 text-sm mb-6">We'll call <span id="confirm-phone" class="font-semibold"></span> <span id="confirm-time"></span></p>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="space-y-3">
+                <button 
+                  type="button" 
+                  id="next-step-btn" 
+                  class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95"
+                  disabled
+                >
+                  Enter Phone Number
+                </button>
+                
+                <button 
+                  type="submit" 
+                  id="book-now-btn" 
+                  class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95 hidden"
+                >
+                  📞 Call Me Now
+                </button>
+                
+                <button 
+                  type="button" 
+                  id="back-step-btn" 
+                  class="w-full bg-gray-100 text-gray-700 py-3 rounded-2xl font-semibold hidden"
+                >
+                  ← Back
+                </button>
+              </div>
+            </form>
+
+            <!-- Trust Indicators -->
+            <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-100">
+              <div class="text-center">
+                <div class="text-2xl mb-1">⚡</div>
+                <div class="text-xs font-semibold text-gray-900">15-min response</div>
+              </div>
+              <div class="text-center">
+                <div class="text-2xl mb-1">🔒</div>
+                <div class="text-xs font-semibold text-gray-900">Confidential</div>
+              </div>
+              <div class="text-center">
+                <div class="text-2xl mb-1">💯</div>
+                <div class="text-xs font-semibold text-gray-900">Free consultation</div>
+              </div>
             </div>
-            <div>
-              <div class="text-3xl mb-2">⚡</div>
-              <div class="text-sm font-semibold text-gray-900">Quick Access</div>
-              <div class="text-xs text-gray-600">No long waiting times</div>
+
+            <!-- Emergency Contact -->
+            <div class="text-center mt-6 pt-4 border-t border-gray-100">
+              <p class="text-xs text-gray-500 mb-2">Need to speak to someone now?</p>
+              <button data-call-pharmacy class="text-blue-600 font-semibold text-sm underline">
+                📞 Call Pharmacy Directly
+              </button>
             </div>
-            <div>
-              <div class="text-3xl mb-2">🔒</div>
-              <div class="text-sm font-semibold text-gray-900">Confidential</div>
-              <div class="text-xs text-gray-600">Private consultations</div>
-            </div>
-            <div>
-              <div class="text-3xl mb-2">📍</div>
-              <div class="text-sm font-semibold text-gray-900">Local</div>
-              <div class="text-xs text-gray-600">Community focused</div>
-            </div>
+
+            <div class="safe-area-bottom"></div>
           </div>
         </div>
       </div>
     `;
+  }
+
+  initializeUltraFastBooking() {
+    let currentStep = 1;
+    let selectedTime = '';
+    let phoneNumber = '';
+
+    const phoneInput = document.getElementById('ultra-phone');
+    const phoneFeedback = document.getElementById('phone-feedback');
+    const nextBtn = document.getElementById('next-step-btn');
+    const bookBtn = document.getElementById('book-now-btn');
+    const backBtn = document.getElementById('back-step-btn');
+    const confirmPhone = document.getElementById('confirm-phone');
+    const confirmTime = document.getElementById('confirm-time');
+
+    // Smart phone number formatting
+    phoneInput?.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      
+      // Handle UK mobile numbers
+      if (value.startsWith('44')) value = value.substring(2);
+      if (value.startsWith('0')) value = value.substring(1);
+      
+      // Format as 07XXX XXX XXX
+      if (value.length > 0) {
+        if (value.length <= 5) {
+          value = `07${value}`;
+        } else if (value.length <= 8) {
+          value = `07${value.substring(1, 5)} ${value.substring(5)}`;
+        } else {
+          value = `07${value.substring(1, 5)} ${value.substring(5, 8)} ${value.substring(8, 11)}`;
+        }
+      }
+      
+      e.target.value = value;
+      phoneNumber = value;
+      
+      // Validate and provide feedback
+      if (this.isValidUKMobile(value)) {
+        phoneFeedback.innerHTML = '<span class="text-green-600">✅ Perfect! We\'ll call this number</span>';
+        nextBtn.disabled = false;
+        nextBtn.textContent = 'Choose Time →';
+        nextBtn.classList.remove('opacity-50');
+      } else if (value.length > 5) {
+        phoneFeedback.innerHTML = '<span class="text-orange-600">⚠️ Please check your number</span>';
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Enter Phone Number';
+        nextBtn.classList.add('opacity-50');
+      } else {
+        phoneFeedback.innerHTML = '';
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Enter Phone Number';
+        nextBtn.classList.add('opacity-50');
+      }
+    });
+
+    // Time selection
+    document.querySelectorAll('.time-option').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Remove active from all
+        document.querySelectorAll('.time-option').forEach(b => {
+          b.classList.remove('active');
+          b.querySelector('div').classList.remove('border-blue-500', 'bg-blue-50');
+          b.querySelector('div').classList.add('border-gray-200');
+        });
+        
+        // Add active to clicked
+        btn.classList.add('active');
+        btn.querySelector('div').classList.add('border-blue-500', 'bg-blue-50');
+        btn.querySelector('div').classList.remove('border-gray-200');
+        
+        selectedTime = btn.dataset.time;
+        
+        // Auto-advance to step 3
+        setTimeout(() => {
+          this.advanceToStep(3);
+        }, 300);
+      });
+    });
+
+    // Next step button
+    nextBtn?.addEventListener('click', () => {
+      if (currentStep === 1 && this.isValidUKMobile(phoneNumber)) {
+        this.advanceToStep(2);
+      }
+    });
+
+    // Back button
+    backBtn?.addEventListener('click', () => {
+      if (currentStep > 1) {
+        this.advanceToStep(currentStep - 1);
+      }
+    });
+
+    // Form submission
+    document.getElementById('ultra-fast-booking')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.handleUltraFastBooking(phoneNumber, selectedTime);
+    });
+
+    // Step advancement function
+    this.advanceToStep = (step) => {
+      currentStep = step;
+      
+      // Update progress indicator
+      document.querySelectorAll('.booking-step').forEach((el, index) => {
+        el.classList.toggle('active', index + 1 === step);
+        el.style.display = index + 1 === step ? 'block' : 'none';
+      });
+      
+      // Update progress bars
+      document.querySelectorAll('.w-8.h-1').forEach((bar, index) => {
+        if (index < step) {
+          bar.className = `w-8 h-1 bg-gradient-to-r ${this.currentService.colorScheme.primary} rounded-full`;
+        } else {
+          bar.className = 'w-8 h-1 bg-gray-200 rounded-full';
+        }
+      });
+      
+      // Update buttons
+      if (step === 1) {
+        nextBtn.style.display = 'block';
+        bookBtn.style.display = 'none';
+        backBtn.style.display = 'none';
+      } else if (step === 2) {
+        nextBtn.style.display = 'none';
+        bookBtn.style.display = 'none';
+        backBtn.style.display = 'block';
+      } else if (step === 3) {
+        nextBtn.style.display = 'none';
+        bookBtn.style.display = 'block';
+        backBtn.style.display = 'block';
+        
+        // Update confirmation
+        confirmPhone.textContent = phoneNumber;
+        confirmTime.textContent = this.getTimeText(selectedTime);
+      }
+    };
+  }
+
+  isValidUKMobile(phone) {
+    // UK mobile number validation
+    const cleaned = phone.replace(/\s/g, '');
+    return /^07\d{9}$/.test(cleaned);
+  }
+
+  getTimeText(timeOption) {
+    switch(timeOption) {
+      case 'today': return 'today';
+      case 'tomorrow': return 'tomorrow';
+      case 'this-week': return 'this week';
+      default: return '';
+    }
+  }
+
+  getBranchName(branchCode) {
+    const branches = {
+      'wx': 'Weeping Cross',
+      'gw': 'Great Wyrley', 
+      'hc': 'Holmcroft',
+      'wol': 'Wolstanton',
+      'bc': 'Beaconside',
+      'nc': 'Newcastle',
+      'sv': 'Silverdale',
+      'st4': 'Stoke City Centre',
+      'ch': 'Chadsmoor',
+      'ah': 'Abbey Hulton'
+    };
+    return branches[branchCode] || 'Cornwells Pharmacy';
+  }
+
+  async handleUltraFastBooking(phone, timePreference) {
+    const bookBtn = document.getElementById('book-now-btn');
+    const originalText = bookBtn.textContent;
+    
+    try {
+      bookBtn.textContent = '⏳ Booking...';
+      bookBtn.disabled = true;
+      
+      // Get QR tracking data
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmData = cornwellsTracking.getStoredUTMData();
+      
+      const bookingData = {
+        patient_name: null, // Will be collected on call
+        phone_number: phone.replace(/\s/g, ''),
+        email: null,
+        preferred_time_slot: timePreference,
+        notes: `Ultra-fast booking via ${urlParams.get('utm_source') || 'QR code'}`,
+        service_type: this.currentService.id,
+        service_name: this.currentService.title,
+        source_url: window.location.href,
+        consent_given: true, // Implied consent for callback
+        preferred_contact_method: 'phone',
+        booking_type: 'ultra_fast',
+        utm_params: utmData,
+        branch_code: urlParams.get('utm_medium'),
+        material_type: urlParams.get('utm_source')
+      };
+      
+      console.log('Ultra-fast booking:', bookingData);
+      
+      const { data, error } = await supabase
+        .from('service_consultations')
+        .insert([bookingData])
+        .select();
+      
+      if (error) throw error;
+      
+      // Track conversion
+      cornwellsTracking.trackBookingConversion(this.currentService.id, bookingData);
+      
+      // Show success
+      this.showUltraFastSuccess(phone, timePreference);
+      
+    } catch (error) {
+      console.error('Ultra-fast booking error:', error);
+      this.showUltraFastError();
+      
+      bookBtn.textContent = originalText;
+      bookBtn.disabled = false;
+    }
+  }
+
+  showUltraFastSuccess(phone, timePreference) {
+    const container = document.querySelector('.max-w-sm');
+    if (container) {
+      container.innerHTML = `
+        <div class="text-center py-8">
+          <div class="text-8xl mb-6">✅</div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">Booking Confirmed!</h2>
+          <p class="text-lg text-gray-700 mb-6">
+            We'll call <span class="font-semibold">${phone}</span> within 15 minutes.
+          </p>
+          
+          <div class="bg-green-50 border border-green-200 rounded-2xl p-6 mb-6">
+            <div class="flex items-center justify-center space-x-2 mb-3">
+              <div class="text-2xl">📞</div>
+              <div class="font-semibold text-green-800">Keep your phone nearby!</div>
+            </div>
+            <p class="text-sm text-green-700">
+              Our pharmacist will call to confirm your ${this.getTimeText(timePreference)} appointment.
+            </p>
+          </div>
+          
+          <div class="space-y-3">
+            <button data-call-pharmacy class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold">
+              📞 Call Us Instead
+            </button>
+            <button onclick="window.app.loadServiceSelector()" class="w-full bg-gray-100 text-gray-700 py-3 rounded-2xl font-semibold">
+              ← Back to Services
+            </button>
+          </div>
+          
+          <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+            <p class="text-sm text-gray-600">
+              Booking reference: <span class="font-mono text-xs">#${Date.now().toString().slice(-6)}</span>
+            </p>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  showUltraFastError() {
+    const bookBtn = document.getElementById('book-now-btn');
+    if (bookBtn) {
+      bookBtn.innerHTML = '❌ Try Again';
+      bookBtn.classList.add('bg-red-500');
+      
+      setTimeout(() => {
+        bookBtn.innerHTML = '📞 Call Me Now';
+        bookBtn.classList.remove('bg-red-500');
+        bookBtn.disabled = false;
+      }, 3000);
+    }
   }
 
   async loadServiceLanding(serviceId) {
