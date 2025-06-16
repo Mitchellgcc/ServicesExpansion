@@ -1,6 +1,6 @@
 [build]
-  publish = "."
-  command = "echo 'Cache cleared - serving fresh static files' && ls -la"
+  publish = "deploy"
+  command = "mkdir -p deploy && cp index.html app.js style.css _headers _redirects deploy/ && echo 'Clean deployment created' && ls -la deploy/"
 
 [build.environment]
   NODE_VERSION = "18"
