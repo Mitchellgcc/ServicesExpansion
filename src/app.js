@@ -629,79 +629,362 @@ class PharmacyLandingApp {
           <div class="px-4 py-4">
             <div class="text-center">
               <h1 class="text-xl font-bold text-gray-900">Cornwells Pharmacy</h1>
-              <p class="text-sm text-gray-600 mt-1">Expert Healthcare Services</p>
+              <p class="text-sm text-gray-600 mt-1">Choose Your Service</p>
             </div>
           </div>
         </div>
 
         <!-- Mobile Hero Section -->
-        <div class="px-4 py-8 text-center">
-          <div class="fade-in-up">
-            <h2 class="text-3xl font-bold text-white mb-4 leading-tight">
-              Choose Your<br>Health Service
-            </h2>
-            <p class="text-lg text-white/90 mb-8 max-w-sm mx-auto leading-relaxed">
-              Professional healthcare delivered by qualified pharmacists in your community
-            </p>
+        <div class="px-4 py-6 text-center text-white">
+          <h2 class="text-2xl font-bold mb-2">Expert Healthcare Services</h2>
+          <p class="text-white/90 mb-6">Professional consultations available today</p>
+          
+          <!-- Quick Stats -->
+          <div class="flex justify-center space-x-6 mb-6">
+            <div class="text-center">
+              <div class="text-lg font-bold">15-min</div>
+              <div class="text-xs text-white/80">Response</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg font-bold">10</div>
+              <div class="text-xs text-white/80">Locations</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg font-bold">Free</div>
+              <div class="text-xs text-white/80">Consultation</div>
+            </div>
           </div>
         </div>
 
-        <!-- Mobile Service Grid -->
-        <div class="px-4 pb-8 safe-area-bottom">
-          <div class="space-y-4">
-            ${allServices.map((service, index) => `
-              <div class="fade-in-up" style="animation-delay: ${index * 100}ms">
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-200 active:scale-95" onclick="window.app.loadServiceLanding('${service.id}')">
-                  <!-- Service Header with Gradient -->
-                  <div class="bg-gradient-to-r ${service.colorScheme.primary} p-6 text-white">
-                    <div class="flex items-center space-x-4">
-                      <div class="text-4xl flex-shrink-0">${service.icon}</div>
-                      <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold leading-tight mb-2">${service.title}</h3>
-                        <p class="text-white/90 text-sm leading-relaxed">${service.description}</p>
+        <!-- Enhanced Service Cards -->
+        <div class="bg-white rounded-t-3xl px-4 py-6 min-h-screen">
+          <div class="max-w-2xl mx-auto">
+            <div class="space-y-4">
+              ${allServices.map((service, index) => `
+                <div class="service-card bg-white border-2 border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200" data-service="${service.id}">
+                  <!-- Service Header -->
+                  <div class="p-4 bg-gradient-to-r ${service.colorScheme.primary} text-white">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center space-x-3">
+                        <div class="text-2xl">${service.icon}</div>
+                        <div>
+                          <h3 class="font-bold text-lg leading-tight">${service.title}</h3>
+                          <p class="text-white/90 text-sm">${service.headline}</p>
+                        </div>
+                      </div>
+                      <div class="text-right">
+                        <div class="text-xs font-semibold">Available Today</div>
+                        <div class="text-xs text-white/80">15-min response</div>
                       </div>
                     </div>
                   </div>
                   
-                  <!-- Service Benefits -->
-                  <div class="p-6">
-                    <div class="space-y-3 mb-6">
+                  <!-- Quick Benefits -->
+                  <div class="p-4">
+                    <div class="space-y-2 mb-4">
                       ${service.specificBenefits.slice(0, 2).map(benefit => `
-                        <div class="flex items-start space-x-3">
-                          <div class="w-2 h-2 bg-gradient-to-r ${service.colorScheme.primary} rounded-full mt-2 flex-shrink-0"></div>
-                          <p class="text-gray-700 text-sm leading-relaxed">${benefit}</p>
+                        <div class="flex items-start space-x-2 text-sm">
+                          <div class="w-1.5 h-1.5 bg-gradient-to-r ${service.colorScheme.primary} rounded-full mt-2 flex-shrink-0"></div>
+                          <span class="text-gray-700">${benefit}</span>
                         </div>
                       `).join('')}
                     </div>
                     
-                    <!-- Mobile CTA Button -->
-                    <div class="flex items-center justify-between">
-                      <div class="text-sm text-gray-500">
-                        <span class="font-semibold">${service.socialProof}</span>
-                      </div>
-                      <div class="bg-gradient-to-r ${service.colorScheme.primary} text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-lg">
-                        Learn More →
-                      </div>
+                    <!-- Quick Action Buttons -->
+                    <div class="flex space-x-2">
+                      <button 
+                        onclick="window.app.showQuickBooking('${service.id}')" 
+                        class="flex-1 bg-gradient-to-r ${service.colorScheme.primary} text-white py-3 px-4 rounded-xl font-semibold text-sm shadow-lg transform transition-all active:scale-95"
+                      >
+                        📞 Quick Book
+                      </button>
+                      <button 
+                        onclick="window.app.loadServiceLanding('${service.id}')" 
+                        class="px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold text-sm border border-gray-200"
+                      >
+                        Learn More
+                      </button>
                     </div>
                   </div>
                 </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-
-        <!-- Mobile Footer -->
-        <div class="bg-white/10 backdrop-blur-sm border-t border-white/20 px-4 py-6 safe-area-bottom">
-          <div class="text-center">
-            <p class="text-white/80 text-sm mb-4">Need help choosing?</p>
-            <button data-call-pharmacy class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg shadow-xl w-full max-w-sm mx-auto block">
-              📞 Call Us Now
-            </button>
-            <p class="text-white/60 text-xs mt-3">Available 9am-6pm, Mon-Sat</p>
+              `).join('')}
+            </div>
+            
+            <!-- Emergency Contact -->
+            <div class="text-center mt-8 pt-6 border-t border-gray-100">
+              <p class="text-sm text-gray-600 mb-3">Need to speak to someone immediately?</p>
+              <button data-call-pharmacy class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg">
+                📞 Call Pharmacy Now
+              </button>
+            </div>
+            
+            <div class="safe-area-bottom"></div>
           </div>
         </div>
       </div>
     `;
+  }
+
+  // New Quick Booking Modal (2 fields only)
+  showQuickBooking(serviceId) {
+    const service = getServiceById(serviceId);
+    if (!service) return;
+
+    const modalHTML = `
+      <div id="quick-booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full">
+          <div class="p-6">
+            <!-- Header -->
+            <div class="text-center mb-6">
+              <div class="text-4xl mb-2">${service.icon}</div>
+              <h2 class="text-xl font-bold text-gray-900">${service.title}</h2>
+              <p class="text-sm text-gray-600 mt-1">We'll call you within 15 minutes</p>
+            </div>
+            
+            <form id="quick-booking-form" class="space-y-4">
+              <!-- Phone Number (Primary) -->
+              <div>
+                <label for="quick-phone" class="block text-sm font-semibold text-gray-700 mb-2">Your Phone Number</label>
+                <input 
+                  type="tel" 
+                  id="quick-phone" 
+                  required 
+                  placeholder="07XXX XXX XXX"
+                  class="w-full px-4 py-4 text-lg font-semibold text-center border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-0 transition-colors"
+                  autocomplete="tel"
+                  inputmode="numeric"
+                >
+                <div id="quick-phone-feedback" class="mt-1 text-center text-sm"></div>
+              </div>
+
+              <!-- Time Preference (Simplified) -->
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-3">When works best?</label>
+                <div class="grid grid-cols-1 gap-2">
+                  <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input type="radio" name="quick-time" value="today" class="mr-3" ${new Date().getHours() < 17 ? 'checked' : ''}>
+                    <div class="flex items-center justify-between w-full">
+                      <span class="font-medium">Today</span>
+                      <span class="text-sm text-gray-600">Next available</span>
+                    </div>
+                  </label>
+                  <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input type="radio" name="quick-time" value="tomorrow" class="mr-3" ${new Date().getHours() >= 17 ? 'checked' : ''}>
+                    <div class="flex items-center justify-between w-full">
+                      <span class="font-medium">Tomorrow</span>
+                      <span class="text-sm text-gray-600">Morning/afternoon</span>
+                    </div>
+                  </label>
+                  <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input type="radio" name="quick-time" value="this-week" class="mr-3">
+                    <div class="flex items-center justify-between w-full">
+                      <span class="font-medium">This Week</span>
+                      <span class="text-sm text-gray-600">When convenient</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="space-y-3 pt-2">
+                <button 
+                  type="submit" 
+                  id="quick-submit-btn" 
+                  class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95"
+                  disabled
+                >
+                  📞 Call Me Now
+                </button>
+                <button 
+                  type="button" 
+                  onclick="document.getElementById('quick-booking-modal').remove()" 
+                  class="w-full bg-gray-100 text-gray-700 py-3 rounded-2xl font-semibold"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+
+            <!-- Trust Indicators -->
+            <div class="flex justify-center space-x-6 mt-6 pt-4 border-t border-gray-100">
+              <div class="text-center">
+                <div class="text-lg mb-1">⚡</div>
+                <div class="text-xs font-semibold text-gray-900">15-min response</div>
+              </div>
+              <div class="text-center">
+                <div class="text-lg mb-1">🔒</div>
+                <div class="text-xs font-semibold text-gray-900">Confidential</div>
+              </div>
+              <div class="text-center">
+                <div class="text-lg mb-1">💯</div>
+                <div class="text-xs font-semibold text-gray-900">Free consultation</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Initialize quick booking functionality
+    this.initializeQuickBooking(serviceId);
+  }
+
+  initializeQuickBooking(serviceId) {
+    const phoneInput = document.getElementById('quick-phone');
+    const phoneFeedback = document.getElementById('quick-phone-feedback');
+    const submitBtn = document.getElementById('quick-submit-btn');
+    const form = document.getElementById('quick-booking-form');
+
+    // Smart phone number formatting (same as ultra-fast)
+    phoneInput?.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      
+      // Handle UK mobile numbers
+      if (value.startsWith('44')) value = value.substring(2);
+      if (value.startsWith('0')) value = value.substring(1);
+      
+      // Format as 07XXX XXX XXX
+      if (value.length > 0) {
+        if (value.length <= 5) {
+          value = `07${value}`;
+        } else if (value.length <= 8) {
+          value = `07${value.substring(1, 5)} ${value.substring(5)}`;
+        } else {
+          value = `07${value.substring(1, 5)} ${value.substring(5, 8)} ${value.substring(8, 11)}`;
+        }
+      }
+      
+      e.target.value = value;
+      
+      // Validate and provide feedback
+      if (this.isValidUKMobile(value)) {
+        phoneFeedback.innerHTML = '<span class="text-green-600">✅ Perfect!</span>';
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-50');
+      } else if (value.length > 5) {
+        phoneFeedback.innerHTML = '<span class="text-orange-600">⚠️ Please check your number</span>';
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50');
+      } else {
+        phoneFeedback.innerHTML = '';
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50');
+      }
+    });
+
+    // Form submission
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.handleQuickBookingSubmission(serviceId);
+    });
+  }
+
+  async handleQuickBookingSubmission(serviceId) {
+    const service = getServiceById(serviceId);
+    const submitBtn = document.getElementById('quick-submit-btn');
+    const originalText = submitBtn.textContent;
+    
+    try {
+      submitBtn.textContent = '⏳ Booking...';
+      submitBtn.disabled = true;
+      
+      const phoneNumber = document.getElementById('quick-phone').value.replace(/\s/g, '');
+      const timePreference = document.querySelector('input[name="quick-time"]:checked').value;
+      
+      const bookingData = {
+        patient_name: null, // Will be collected on call
+        phone_number: phoneNumber,
+        email: null,
+        preferred_time_slot: timePreference,
+        notes: `Quick booking from service selector`,
+        service_type: serviceId,
+        service_name: service.title,
+        source_url: window.location.href,
+        consent_given: true, // Implied consent for callback
+        preferred_contact_method: 'phone',
+        booking_type: 'quick_book',
+        utm_params: cornwellsTracking.getStoredUTMData()
+      };
+      
+      const { data, error } = await supabase
+        .from('service_consultations')
+        .insert([bookingData])
+        .select();
+      
+      if (error) throw error;
+      
+      // Track conversion
+      cornwellsTracking.trackBookingConversion(serviceId, bookingData);
+      
+      // Show success
+      this.showQuickBookingSuccess(phoneNumber, timePreference, service);
+      
+    } catch (error) {
+      console.error('Quick booking error:', error);
+      this.showQuickBookingError();
+      
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
+  }
+
+  showQuickBookingSuccess(phone, timePreference, service) {
+    // Replace modal content with success message
+    const modal = document.getElementById('quick-booking-modal');
+    if (modal) {
+      modal.innerHTML = `
+        <div class="bg-white rounded-3xl max-w-sm w-full">
+          <div class="p-6 text-center">
+            <div class="text-6xl mb-4">✅</div>
+            <h2 class="text-xl font-bold text-gray-900 mb-2">Booking Confirmed!</h2>
+            <p class="text-gray-700 mb-6">
+              We'll call <span class="font-semibold">${phone}</span> within 15 minutes to discuss your ${service.title.toLowerCase()}.
+            </p>
+            
+            <div class="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
+              <div class="flex items-center justify-center space-x-2 mb-2">
+                <div class="text-xl">📞</div>
+                <div class="font-semibold text-green-800">Keep your phone nearby!</div>
+              </div>
+              <p class="text-sm text-green-700">
+                Our pharmacist will call to confirm your ${this.getTimeText(timePreference)} appointment.
+              </p>
+            </div>
+            
+            <div class="space-y-3">
+              <button onclick="document.getElementById('quick-booking-modal').remove()" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold">
+                Perfect, Thanks!
+              </button>
+              <button data-call-pharmacy class="w-full bg-gray-100 text-gray-700 py-3 rounded-2xl font-semibold">
+                📞 Call Instead
+              </button>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+              <p class="text-sm text-gray-600">
+                Reference: <span class="font-mono text-xs">#${Date.now().toString().slice(-6)}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  showQuickBookingError() {
+    const submitBtn = document.getElementById('quick-submit-btn');
+    if (submitBtn) {
+      submitBtn.innerHTML = '❌ Try Again';
+      submitBtn.classList.add('bg-red-500');
+      
+      setTimeout(() => {
+        submitBtn.innerHTML = '📞 Call Me Now';
+        submitBtn.classList.remove('bg-red-500');
+        submitBtn.disabled = false;
+      }, 3000);
+    }
   }
 
   handleBookingClick(button) {
