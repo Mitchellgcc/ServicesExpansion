@@ -1,0 +1,433 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans text-base leading-relaxed bg-slate-900 text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold leading-tight;
+    letter-spacing: -0.025em;
+  }
+  
+  /* Enhanced focus states for accessibility */
+  button:focus,
+  a:focus,
+  input:focus,
+  textarea:focus {
+    @apply outline-2 outline-offset-2 outline-blue-400;
+  }
+}
+
+@layer components {
+  
+  /* iPhone Safe Area Support */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Mobile-First Touch Targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Landing Page Hero */
+  .landing-hero {
+    @apply min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden;
+  }
+  
+  .landing-hero::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-black/20 to-transparent;
+  }
+  
+  /* Service Cards */
+  .service-icon {
+    @apply w-20 h-20 mx-auto mb-6 text-6xl flex items-center justify-center bg-white/10 rounded-3xl backdrop-blur-sm;
+  }
+  
+  /* Beautiful Buttons */
+  .btn-primary-landing {
+    @apply w-full py-4 px-8 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-lg font-semibold rounded-2xl shadow-xl hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-200 active:scale-95;
+  }
+  
+  .btn-secondary-landing {
+    @apply w-full py-4 px-8 bg-white/10 text-white text-lg font-medium rounded-2xl border border-white/20 backdrop-blur-sm hover:bg-white/20 transition-all duration-200;
+  }
+  
+  .btn-call {
+    @apply w-full py-4 px-8 bg-gradient-to-r from-green-600 to-green-700 text-white text-lg font-semibold rounded-2xl shadow-xl hover:from-green-700 hover:to-green-800 transform hover:scale-105 transition-all duration-200;
+  }
+  
+  /* Content Sections */
+  .content-section {
+    @apply px-6 py-12 max-w-lg mx-auto;
+  }
+  
+  .benefit-card {
+    @apply bg-white/5 p-6 rounded-2xl backdrop-blur-sm border border-white/10 mb-4;
+  }
+  
+  .process-step {
+    @apply flex items-start space-x-4 mb-6;
+  }
+  
+  .step-number {
+    @apply w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0;
+  }
+  
+  /* Typography Helpers */
+  .hero-title {
+    @apply text-5xl md:text-6xl font-bold text-white text-center leading-tight;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .hero-subtitle {
+    @apply text-xl md:text-2xl text-blue-200 text-center font-medium;
+  }
+  
+  .section-title {
+    @apply text-3xl font-bold text-white mb-6 text-center;
+  }
+  
+  .section-subtitle {
+    @apply text-lg text-gray-300 text-center mb-8 leading-relaxed;
+  }
+  
+  /* Contact Info */
+  .contact-card {
+    @apply bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-6 rounded-2xl backdrop-blur-sm border border-white/10;
+  }
+  
+  .phone-number {
+    @apply text-2xl font-bold text-white;
+  }
+  
+  /* Loading States */
+  .loading-spinner {
+    @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400;
+  }
+  
+  /* Animations */
+  .fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+  
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .hero-title {
+      @apply text-4xl;
+    }
+    
+    .hero-subtitle {
+      @apply text-lg;
+    }
+    
+    .content-section {
+      @apply px-4 py-8;
+    }
+    
+    /* Larger touch targets for mobile */
+    button, .btn-primary-landing, .btn-secondary-landing, .btn-call {
+      @apply touch-target;
+    }
+    
+    /* Better mobile typography */
+    body {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    
+    /* Prevent horizontal scroll */
+    html, body {
+      overflow-x: hidden;
+    }
+    
+    /* Better mobile spacing */
+    .space-y-4 > * + * {
+      margin-top: 1.5rem;
+    }
+  }
+  
+  /* iPhone X and newer specific optimizations */
+  @supports (padding: max(0px)) {
+    .safe-area-top {
+      padding-top: max(env(safe-area-inset-top), 1rem);
+    }
+    
+      .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  
+  /* Enhanced Booking Animations */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+  
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+  
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .animate-bounce-in {
+    animation: bounce-in 0.6s ease-out;
+  }
+  
+  @keyframes progress-fill {
+    from {
+      width: 0%;
+    }
+    to {
+      width: var(--progress-width, 33%);
+    }
+  }
+  
+  .animate-progress {
+    animation: progress-fill 0.5s ease-out;
+  }
+  
+  /* Voice Input Animation */
+  .voice-recording {
+    background: linear-gradient(45deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6);
+    background-size: 400% 400%;
+    animation: gradient-shift 1.5s ease infinite;
+  }
+  
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Scarcity Indicator Animation */
+  .scarcity-blink {
+    animation: scarcity-pulse 1s ease-in-out infinite alternate;
+  }
+  
+  @keyframes scarcity-pulse {
+    from {
+      opacity: 0.7;
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+  
+  /* Success Confetti Effect */
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(-100vh) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #3b82f6;
+    animation: confetti-fall 3s linear infinite;
+    z-index: 1000;
+  }
+  
+  .confetti:nth-child(odd) {
+    background: #ef4444;
+    animation-delay: 0.5s;
+  }
+  
+  .confetti:nth-child(3n) {
+    background: #22c55e;
+    animation-delay: 1s;
+  }
+  
+  /* Multi-channel confirmation animation */
+  .channel-sent {
+    animation: channel-confirm 0.8s ease-out;
+  }
+  
+  @keyframes channel-confirm {
+    0% {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(5px);
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  }
+  
+  /* Accessibility Enhancements */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-up {
+      animation: none;
+    }
+    
+    .btn-primary-landing,
+    .btn-call {
+      transform: none;
+    }
+    
+    .btn-primary-landing:hover,
+    .btn-call:hover {
+      transform: none;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .benefit-card {
+      @apply border-white/50;
+    }
+    
+    .btn-secondary-landing {
+      @apply border-white/50;
+    }
+  }
+  
+  /* Ultra-Fast Booking Styles */
+  .booking-step {
+    display: none;
+  }
+  
+  .booking-step.active {
+    display: block;
+  }
+  
+  .time-option {
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .time-option:active {
+    transform: scale(0.98);
+  }
+  
+  /* Disabled button styles */
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Phone input focus styles */
+  #ultra-phone:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Progress indicator animation */
+  .w-8.h-1 {
+    transition: all 0.3s ease;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-blue-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-blue-500;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+} 

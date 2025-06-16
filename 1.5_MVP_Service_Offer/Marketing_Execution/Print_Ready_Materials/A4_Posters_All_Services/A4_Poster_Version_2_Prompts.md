@@ -73,11 +73,11 @@ Create a majestic, artistic A2 poster celebrating timeless feminine strength. **
 
 ## 7. MEN'S HEALTH: "Men's Confidential MOT"
 **Original Concept:** Kettlebell with golden aura and cracked floor
-**Version 2 Concept:** Precision engineering and hidden power
+**Version 2 Concept:** Ancient wisdom meets modern strength
 
 **IMAGE GENERATION PROMPT:**
 ```
-Create a sophisticated, artistic A2 poster about precision and hidden power. **Visual Concept:** The engine bay of a classic, luxury vintage car - all polished chrome, precision engineering, and beautiful mechanical complexity. A skilled mechanic's hand holds a sleek, modern diagnostic tool that's connected to the engine. On the tool's screen, instead of engine data, we see beautiful, glowing health metrics - heartbeat patterns, vital signs, all rendered in bright turquoise and lime green light. The contrast between the vintage craftsmanship and modern technology is striking. **Color Palette:** Bright chrome and polished steel of the engine, warm cream leather interior, with vibrant turquoise and lime green light from the diagnostic screen, all set against a clean, bright garage with natural lighting. **Typography:** "Precision Care for Peak Performance" in strong, automotive-inspired font with bright blue accents. **Sub-headline:** "Confidential men's health consultations and diagnostics." **Artistic Style:** Bright automotive photography meets colorful tech visualization - masculine, sophisticated, and optimistically precise. **Branding:** "Cornwells Chemists" in confident, welcoming typography with designated logo space.
+Create a breathtaking, artistic A2 poster about timeless masculine wisdom and inner strength. **Visual Concept:** A magnificent, ancient oak tree stands alone in a sunlit meadow, its massive trunk carved with intricate, glowing runic symbols that pulse with soft, warm golden light. The tree's canopy is full and vibrant, with leaves that shimmer like emeralds in the bright sunlight. At the base of the tree, a single, perfect stone cairn sits in balance, each stone glowing with the same golden light as the runes. **Color Palette:** Rich, warm browns of the ancient bark, vibrant emerald greens of the leaves, soft golden light from the glowing runes and stones, against a bright, cheerful meadow background with wildflowers in soft pastels. **Typography:** "Ancient Wisdom, Modern Strength" in elegant, carved-stone inspired serif font with warm golden accents. **Sub-headline:** "Confidential men's health consultations rooted in experience." **Artistic Style:** Fine art landscape photography meets mystical symbolism - majestic, grounding, and deeply masculine in a spiritual way. **Branding:** "Cornwells Chemists" in strong, natural typography with designated logo space.
 ```
 
 ---
@@ -111,6 +111,30 @@ Create a serene, artistic A2 poster about finding inner peace and clarity. **Vis
 **IMAGE GENERATION PROMPT:**
 ```
 Create an adventurous, artistic A2 poster about navigation and discovery. **Visual Concept:** A beautiful, polished brass compass sits open on a bright, clean world map with vibrant colors. The compass needle doesn't point north - instead, it points to a small, glowing coral heart symbol on the map. From this heart, rainbow pathways of light spread out across the map, connecting to various exotic destinations around the world in bright, cheerful colors. The map appears fresh and inviting, with bright blues for oceans and vibrant greens for continents. **Color Palette:** Bright brass and gold tones of the compass, vibrant blues and greens of the fresh map, and brilliant rainbow light pathways (coral, turquoise, lime, sunshine yellow), all suggesting joyful adventure and discovery. **Typography:** "Your Heart Knows the Way" in adventurous, explorer-inspired serif font with bright coral accents. **Sub-headline:** "Complete travel health protection for every journey." **Artistic Style:** Bright cartography meets cheerful adventure photography - optimistic, wanderlust-inducing, and full of colorful possibility. **Branding:** "Cornwells Chemists" styled like a cheerful travel stamp with designated logo space.
+```
+
+---
+
+## MISSING ORIGINAL VERSION 1 PROMPT
+
+### MEN'S HEALTH: "Men's Confidential MOT" - Version 1 (Original)
+**Original Concept:** Kettlebell with golden aura and light from floor cracks
+
+**IMAGE GENERATION PROMPT:**
+```
+Create a powerful, artistic A2 window poster celebrating foundational strength. **Visual Concept:** A stunning, gallery-quality photo of a single, classic, cast-iron kettlebell sitting on a light, polished concrete floor. The kettlebell itself is beautifully sculpted and has a subtle, powerful, golden aura glowing around it. From the base of the kettlebell, cracks spread out across the floor, but instead of destruction, a brilliant, warm, golden light pours out from within the cracks. **Color Palette:** Deep charcoal grey of the kettlebell, radiant molten gold light, against a light, almost white, polished concrete texture. **Typography:** "Strength Starts Within" in a bold, confident, modern sans-serif font. **Sub-headline:** "Confidential men's health consultations." **Artistic Style:** Fine art object photography meets cinematic lighting - dramatic, masculine, and deeply symbolic. **Branding:** "Cornwells Chemists" in a strong, clean typography with designated logo space.
+```
+
+---
+
+## ADDITIONAL VERSION 3 CONCEPT
+
+### MEN'S HEALTH: "Men's Confidential MOT" - Version 3
+**Version 3 Concept:** Celestial navigation and inner compass
+
+**IMAGE GENERATION PROMPT:**
+```
+Create a magnificent, artistic A2 poster about finding your true direction and inner guidance. **Visual Concept:** A stunning, antique brass sextant (maritime navigation instrument) sits elegantly on a weathered ship's chart table. Instead of measuring stars, the sextant is aligned with a constellation of glowing, golden points of light that form the shape of a perfect human silhouette in the sky above. The constellation pulses gently with warm, healing light. Ancient navigation charts spread beneath show not ocean routes, but pathways of light connecting different aspects of health and wellness. **Color Palette:** Rich brass and copper tones of the sextant, warm golden light of the constellation, deep navy blue of the night sky with twinkling stars, and warm amber tones of the aged charts, all illuminated by soft, natural moonlight. **Typography:** "Navigate Your True Course" in elegant, maritime-inspired serif font with golden accents. **Sub-headline:** "Confidential men's health guidance for life's journey." **Artistic Style:** Fine art maritime photography meets celestial symbolism - adventurous, wise, and deeply inspiring. **Branding:** "Cornwells Chemists" styled like an elegant ship's stamp with designated logo space.
 ```
 
 ---

@@ -1,8 +1,12 @@
 # Static assets should be served directly
-/src/*  /src/:splat  200
+/data/*  /data/:splat  200
+/config/*  /config/:splat  200
+/utils/*  /utils/:splat  200
 /public/*  /public/:splat  200
 /favicon.ico  /favicon.ico  200
 /manifest.json  /manifest.json  200
+/*.js  /:splat.js  200
+/*.css  /:splat.css  200
 
 # All other routes should serve the index.html for SPA routing
 /*  /index.html  200 
