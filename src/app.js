@@ -295,247 +295,87 @@ class PharmacyLandingApp {
     this.initializeAnimations();
   }
 
-  generateServiceLandingHTML(service) {
-    return `
-      <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
-        <!-- Navigation -->
-        <nav class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-              <div class="flex items-center space-x-4">
-                <button onclick="window.app.loadServiceSelector()" class="text-gray-600 hover:text-gray-900 font-medium">
-                  ← All Services
-                </button>
-                <div class="h-6 w-px bg-gray-300"></div>
-                <h1 class="text-xl font-bold text-gray-900">Cornwells Pharmacy</h1>
-              </div>
-              <div class="flex items-center space-x-4">
-                <button data-call-pharmacy class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl font-semibold transition-colors">
-                  📞 Call Pharmacy
-                </button>
-                <button data-generate-qr="${service.id}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl font-semibold transition-colors">
-                  📱 QR Code
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
-
-        <!-- Hero Section -->
-        <div class="relative overflow-hidden">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-            <div class="text-center">
-              <div class="text-6xl mb-6 fade-in-up stagger-1">${service.icon}</div>
-              <h1 class="text-5xl md:text-6xl font-bold text-white mb-6 fade-in-up stagger-2">
-                ${service.title}
-              </h1>
-              <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto fade-in-up stagger-3">
-                ${service.description}
-              </p>
-              <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up stagger-4">
-                <button data-book-consultation="${service.id}" class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl">
-                  📅 Book Consultation
-                </button>
-                <button data-call-pharmacy class="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/30 transition-all border border-white/30">
-                  📞 Call to Discuss
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Decorative background -->
-          <div class="absolute inset-0 bg-gradient-to-br ${service.colorScheme.secondary} opacity-20"></div>
-        </div>
-
-        <!-- Service Details -->
-        <div class="bg-white py-24">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <h2 class="text-4xl font-bold text-gray-900 mb-8">What We Offer</h2>
-                <div class="space-y-6">
-                  ${service.specificBenefits.map(benefit => `
-                    <div class="flex items-start space-x-4 fade-in-up">
-                      <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center">
-                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                      </div>
-                      <p class="text-lg text-gray-700">${benefit}</p>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-              
-              <div class="bg-gradient-to-br ${service.colorScheme.primary} rounded-3xl p-8 text-white">
-                <h3 class="text-2xl font-bold mb-6">Ready to Get Started?</h3>
-                <p class="text-lg mb-8 text-white/90">
-                  Book your consultation today and take the first step towards better health.
-                </p>
-                <button data-book-consultation="${service.id}" class="w-full bg-white text-gray-900 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-colors">
-                  📅 Book Your Consultation
-                </button>
-                <p class="text-sm text-white/70 mt-4 text-center">
-                  Usually available within 24-48 hours
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trust Indicators -->
-        <div class="bg-gray-50 py-16">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-2xl font-bold text-gray-900 mb-12">Why Choose Cornwells?</h3>
-            <div class="grid md:grid-cols-3 gap-8">
-              <div class="fade-in-up">
-                <div class="text-4xl mb-4">🏆</div>
-                <h4 class="text-xl font-semibold text-gray-900 mb-2">Expert Pharmacists</h4>
-                <p class="text-gray-600">Qualified healthcare professionals with years of experience</p>
-              </div>
-              <div class="fade-in-up">
-                <div class="text-4xl mb-4">⚡</div>
-                <h4 class="text-xl font-semibold text-gray-900 mb-2">Quick & Convenient</h4>
-                <p class="text-gray-600">Fast appointments without the long GP waiting times</p>
-              </div>
-              <div class="fade-in-up">
-                <div class="text-4xl mb-4">🔒</div>
-                <h4 class="text-xl font-semibold text-gray-900 mb-2">Confidential Care</h4>
-                <p class="text-gray-600">Private consultations in a comfortable, professional setting</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="bg-gray-900 text-white py-12">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-2xl font-bold mb-4">Cornwells Pharmacy</h3>
-            <p class="text-gray-400 mb-6">Your trusted healthcare partner since 1835</p>
-            <div class="flex justify-center space-x-6">
-              <button data-call-pharmacy class="text-gray-400 hover:text-white transition-colors">📞 Call Us</button>
-              <button data-visit-cornwells class="text-gray-400 hover:text-white transition-colors">🌐 Visit Website</button>
-            </div>
-          </div>
-        </footer>
-      </div>
-    `;
-  }
-
   generateServiceSelectorHTML() {
     const allServices = getAllServicesForSelector();
     
     return `
-      <div class="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800">
-        <!-- Hero Section -->
-        <div class="relative overflow-hidden">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+        <!-- Mobile-First Header -->
+        <div class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 safe-area-top">
+          <div class="px-4 py-4">
             <div class="text-center">
-              <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 fade-in-up stagger-1">
-                🏥 Cornwells Pharmacy
-              </h1>
-              <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto fade-in-up stagger-2">
-                Expert healthcare services in your community. Professional consultations, health screenings, and specialized care.
-              </p>
-              <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up stagger-3">
-                <button data-call-pharmacy class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl">
-                  📞 Call Pharmacy
-                </button>
-                <button data-visit-cornwells class="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/30 transition-all border border-white/30">
-                  🌐 Visit Our Website
-                </button>
-              </div>
+              <h1 class="text-xl font-bold text-gray-900">Cornwells Pharmacy</h1>
+              <p class="text-sm text-gray-600 mt-1">Expert Healthcare Services</p>
             </div>
           </div>
         </div>
 
-        <!-- Services Grid -->
-        <div class="bg-white py-24">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-              <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Services</h2>
-              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                Choose from our comprehensive range of healthcare services, all delivered by qualified pharmacists in a professional, caring environment.
-              </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              ${allServices.map((service, index) => `
-                <div class="group cursor-pointer fade-in-up" style="animation-delay: ${index * 100}ms" onclick="window.app.loadServiceLanding('${service.id}')">
-                  <div class="bg-gradient-to-br ${service.colorScheme.primary} rounded-3xl p-8 text-white transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
-                    <div class="text-5xl mb-6">${service.icon}</div>
-                    <h3 class="text-2xl font-bold mb-4">${service.title}</h3>
-                    <p class="text-white/90 mb-6">${service.description}</p>
-                    <div class="flex items-center text-white/80 font-semibold">
-                      <span>Learn More</span>
-                      <svg class="w-5 h-5 ml-2 transform transition-transform group-hover:translate-x-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                      </svg>
+        <!-- Mobile Hero Section -->
+        <div class="px-4 py-8 text-center">
+          <div class="fade-in-up">
+            <h2 class="text-3xl font-bold text-white mb-4 leading-tight">
+              Choose Your<br>Health Service
+            </h2>
+            <p class="text-lg text-white/90 mb-8 max-w-sm mx-auto leading-relaxed">
+              Professional healthcare delivered by qualified pharmacists in your community
+            </p>
+          </div>
+        </div>
+
+        <!-- Mobile Service Grid -->
+        <div class="px-4 pb-8 safe-area-bottom">
+          <div class="space-y-4">
+            ${allServices.map((service, index) => `
+              <div class="fade-in-up" style="animation-delay: ${index * 100}ms">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-200 active:scale-95" onclick="window.app.loadServiceLanding('${service.id}')">
+                  <!-- Service Header with Gradient -->
+                  <div class="bg-gradient-to-r ${service.colorScheme.primary} p-6 text-white">
+                    <div class="flex items-center space-x-4">
+                      <div class="text-4xl flex-shrink-0">${service.icon}</div>
+                      <div class="flex-1 min-w-0">
+                        <h3 class="text-xl font-bold leading-tight mb-2">${service.title}</h3>
+                        <p class="text-white/90 text-sm leading-relaxed">${service.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Service Benefits -->
+                  <div class="p-6">
+                    <div class="space-y-3 mb-6">
+                      ${service.specificBenefits.slice(0, 2).map(benefit => `
+                        <div class="flex items-start space-x-3">
+                          <div class="w-2 h-2 bg-gradient-to-r ${service.colorScheme.primary} rounded-full mt-2 flex-shrink-0"></div>
+                          <p class="text-gray-700 text-sm leading-relaxed">${benefit}</p>
+                        </div>
+                      `).join('')}
+                    </div>
+                    
+                    <!-- Mobile CTA Button -->
+                    <div class="flex items-center justify-between">
+                      <div class="text-sm text-gray-500">
+                        <span class="font-semibold">${service.socialProof}</span>
+                      </div>
+                      <div class="bg-gradient-to-r ${service.colorScheme.primary} text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-lg">
+                        Learn More →
+                      </div>
                     </div>
                   </div>
                 </div>
-              `).join('')}
-            </div>
+              </div>
+            `).join('')}
           </div>
         </div>
 
-        <!-- Trust Section -->
-        <div class="bg-gray-50 py-24">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-              <h2 class="text-4xl font-bold text-gray-900 mb-6">Trusted Healthcare Since 1835</h2>
-              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                With nearly two centuries of experience, Cornwells Pharmacy has been serving communities with expert healthcare services and trusted advice.
-              </p>
-            </div>
-            
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-              <div class="fade-in-up">
-                <div class="text-4xl mb-4">🏆</div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Expert Care</h3>
-                <p class="text-gray-600">Qualified pharmacists and healthcare professionals</p>
-              </div>
-              <div class="fade-in-up">
-                <div class="text-4xl mb-4">⚡</div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Quick Access</h3>
-                <p class="text-gray-600">Fast appointments without long waiting times</p>
-              </div>
-              <div class="fade-in-up">
-                <div class="text-4xl mb-4">🔒</div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Confidential</h3>
-                <p class="text-gray-600">Private consultations in comfortable settings</p>
-              </div>
-              <div class="fade-in-up">
-                <div class="text-4xl mb-4">📍</div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Local</h3>
-                <p class="text-gray-600">Multiple convenient locations across Staffordshire</p>
-              </div>
-            </div>
+        <!-- Mobile Footer -->
+        <div class="bg-white/10 backdrop-blur-sm border-t border-white/20 px-4 py-6 safe-area-bottom">
+          <div class="text-center">
+            <p class="text-white/80 text-sm mb-4">Need help choosing?</p>
+            <button data-call-pharmacy class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg shadow-xl w-full max-w-sm mx-auto block">
+              📞 Call Us Now
+            </button>
+            <p class="text-white/60 text-xs mt-3">Available 9am-6pm, Mon-Sat</p>
           </div>
         </div>
-
-        <!-- Footer -->
-        <footer class="bg-gray-900 text-white py-16">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-              <h3 class="text-3xl font-bold mb-6">Ready to Get Started?</h3>
-              <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                Contact us today to book your consultation or learn more about our services.
-              </p>
-              <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button data-call-pharmacy class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-colors">
-                  📞 Call Pharmacy
-                </button>
-                <button data-visit-cornwells class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-colors">
-                  🌐 Visit Website
-                </button>
-              </div>
-              <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
-                <p>&copy; 2024 Cornwells Pharmacy. Trusted healthcare since 1835.</p>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
     `;
   }
@@ -910,6 +750,125 @@ class PharmacyLandingApp {
       document.head.appendChild(metaDesc);
     }
     metaDesc.content = description;
+  }
+
+  generateServiceLandingHTML(service) {
+    return `
+      <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
+        <!-- Mobile Navigation -->
+        <nav class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 safe-area-top">
+          <div class="px-4 py-4">
+            <div class="flex items-center justify-between">
+              <button onclick="window.app.loadServiceSelector()" class="flex items-center space-x-2 text-gray-600 font-medium">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span>Back</span>
+              </button>
+              <h1 class="text-lg font-bold text-gray-900">Cornwells</h1>
+              <button data-call-pharmacy class="bg-green-600 text-white px-4 py-2 rounded-xl font-semibold text-sm">
+                📞 Call
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Mobile Hero -->
+        <div class="px-4 py-8 text-center text-white">
+          <div class="fade-in-up">
+            <div class="text-6xl mb-6">${service.icon}</div>
+            <h1 class="text-3xl font-bold mb-4 leading-tight">${service.title}</h1>
+            <p class="text-lg text-white/90 mb-8 leading-relaxed max-w-sm mx-auto">
+              ${service.description}
+            </p>
+          </div>
+        </div>
+
+        <!-- Mobile Benefits Section -->
+        <div class="bg-white rounded-t-3xl mt-8 min-h-screen">
+          <div class="px-4 py-8">
+            <!-- What You Get -->
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-6">What You Get</h2>
+              <div class="space-y-4">
+                ${service.specificBenefits.map(benefit => `
+                  <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-2xl">
+                    <div class="w-6 h-6 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                      </svg>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">${benefit}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-6">How It Works</h2>
+              <div class="space-y-4">
+                ${service.uniqueProcess.map((step, index) => `
+                  <div class="flex items-start space-x-4 p-4 bg-gradient-to-r ${service.colorScheme.secondary} rounded-2xl">
+                    <div class="w-8 h-8 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">
+                      ${index + 1}
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">${step}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="bg-gradient-to-r ${service.colorScheme.primary} rounded-2xl p-6 text-white text-center mb-8">
+              <div class="text-3xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="font-semibold text-lg mb-2">${service.socialProof}</p>
+              <p class="text-white/80 text-sm">${service.urgency}</p>
+            </div>
+
+            <!-- Mobile CTA Section -->
+            <div class="space-y-4 mb-8">
+              <button data-book-consultation="${service.id}" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-5 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95">
+                📅 Book My Consultation
+              </button>
+              <button data-call-pharmacy class="w-full bg-gray-100 text-gray-900 py-5 rounded-2xl font-bold text-lg border-2 border-gray-200">
+                📞 Call to Discuss First
+              </button>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">⚡</div>
+                <div class="font-semibold text-gray-900 text-sm">Quick Access</div>
+                <div class="text-xs text-gray-600">24-48h appointments</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">🏆</div>
+                <div class="font-semibold text-gray-900 text-sm">Expert Care</div>
+                <div class="text-xs text-gray-600">Qualified pharmacists</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">🔒</div>
+                <div class="font-semibold text-gray-900 text-sm">Confidential</div>
+                <div class="text-xs text-gray-600">Private consultations</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">📍</div>
+                <div class="font-semibold text-gray-900 text-sm">Local</div>
+                <div class="text-xs text-gray-600">10 locations</div>
+              </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="text-center text-gray-600 text-sm safe-area-bottom">
+              <p class="mb-2">Available Mon-Sat, 9am-6pm</p>
+              <p>Trusted healthcare since 1835</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 }
 

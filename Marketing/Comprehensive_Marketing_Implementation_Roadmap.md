@@ -13,8 +13,6 @@
 3. **Health Screening & Monitoring:** £8,887.60/month (247 patients) 
 4. **Core Vaccinations:** £5,764.75/month (544 patients)
 5. **Women's Health Services:** £3,100.00/month (124 patients)
-
-### New Service Launch Opportunities
 6. **Men's Health & Lifestyle Services:** £0/month (new launch) - Target £8,000+/month
 7. **Travel Health Services:** £0/month (new launch) - Target £5,000+/month
 8. **Gut Health & Digestive Wellness:** £0/month (new launch) - Target £6,000+/month
