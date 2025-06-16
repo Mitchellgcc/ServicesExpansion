@@ -498,35 +498,35 @@ Create an A5 flyer (148mm × 210mm) for "Community Wellbeing Point" at Cornwells
   • Free community talks about managing stress
   We understand family pressures - you're doing great."
 - **Booking:** "No booking needed - just pop in when you're ready"
-- **Footer:** "[Address], Abbey Hulton ST2 8BW | Supporting families since 1835"
+- **Footer:** "1375 Leek Road, Abbey Hulton, Stoke-on-Trent ST2 8BW | Supporting families since 1835"
 - **Compliance:** "Information service only. Crisis support: call 999 or Samaritans 116 123."
 
 **Design:** Family-friendly, warm, supportive, no-pressure, community-focused
 ```
 
-### **7. METABOLIC & WEIGHT MANAGEMENT: "GLP-1 Quickstart"**
+### **7. METABOLIC & WEIGHT MANAGEMENT: "Weight Management Programs"**
 
 #### **Weeping Cross Version:**
 ```
-Create an A5 flyer (148mm × 210mm) for "GLP-1 Quickstart" at Cornwells Chemists Weeping Cross.
+Create an A5 flyer (148mm × 210mm) for "Weight Management Programs" at Cornwells Chemists Weeping Cross.
 
 **Target Audience:** Mid-career NHS & MOD clinicians, sandwich-generation women (47-58), golf-club retirees
 **Messaging Tone:** Aspirational-clinical ("expert insiders")
 **Price Sensitivity:** Low sensitivity; £25–£59 sweet-spot
 
 **Layout:**
-- **Header:** "GLP-1 Quickstart" with elegant stethoscope & gold ribbon icon
+- **Header:** "Weight Management Programs" with elegant stethoscope & gold ribbon icon
 - **Main Visual:** Professional medical consultation with weight management charts, clinical setting
 - **Headline:** "Medically Supervised Weight Management - Evidence-Based Results"
-- **Body Copy:** "As healthcare professionals, you understand the science behind GLP-1:
-  • Comprehensive clinical assessment
-  • Medically supervised program
-  • Starting from £199/month
+- **Body Copy:** "As healthcare professionals, you understand the science behind weight management:
+  • £25 initial consultation
+  • £120 standard program (12 weeks) or £180 intensive program (12 weeks)
+  • Medically supervised approach
   • Professional monitoring and support
   • Evidence-based approach you can trust
   Clinical excellence in weight management."
-- **Booking:** "Call [Phone] for confidential consultation - professional standards guaranteed"
-- **Footer:** "[Address], Weeping Cross, Stafford ST17 | Clinical excellence since 1835"
+- **Booking:** "Call 01785 661765 for confidential consultation - professional standards guaranteed"
+- **Footer:** "51-53 Bodmin Avenue, Weeping Cross, Stafford ST17 0EF | Clinical excellence since 1835"
 - **Compliance:** "POM supplied subject to eligibility and clinical assessment. Not alternative to balanced diet and exercise."
 
 **Design:** Medical authority, clinical credibility, professional peer appeal, evidence-based
@@ -534,53 +534,53 @@ Create an A5 flyer (148mm × 210mm) for "GLP-1 Quickstart" at Cornwells Chemists
 
 #### **Great Wyrley Version:**
 ```
-Create an A5 flyer (148mm × 210mm) for "GLP-1 Quickstart" at Cornwells Chemists Great Wyrley.
+Create an A5 flyer (148mm × 210mm) for "Weight Management Programs" at Cornwells Chemists Great Wyrley.
 
 **Target Audience:** Mid/late-career commuters to Wolverhampton, craft-fair enthusiasts, local SMEs' HR admins
 **Messaging Tone:** "Local heritage + convenience"
 **Price Sensitivity:** Low-medium; bundle incentives work well
 
 **Layout:**
-- **Header:** "GLP-1 Quickstart" with vintage apothecary mortar "since 1835" icon
+- **Header:** "Weight Management Programs" with vintage apothecary mortar "since 1835" icon
 - **Main Visual:** Trusted local pharmacist consultation, heritage pharmacy setting
 - **Headline:** "Trusted Weight Management - Local Expertise Since 1835"
 - **Body Copy:** "Your local pharmacy now offers the latest in weight management:
-  • Professional medical supervision
-  • Convenient local appointments
-  • From £199/month with flexible payment options
+  • £25 initial consultation
+  • £120 standard program (12 weeks) or £180 intensive program (12 weeks)
+  • Convenient local appointments with flexible payment options
   • Personal support throughout your journey
   • Trusted family pharmacy with modern solutions
   Heritage care, modern results."
-- **Booking:** "Call [Phone] - your local pharmacy team is ready to help"
-- **Footer:** "[Address], Great Wyrley WS6 | Trusted local pharmacy since 1835"
+- **Booking:** "Call 01922 414060 - your local pharmacy team is ready to help"
+- **Footer:** "126 Wardles Lane, Great Wyrley, Walsall WS6 6DZ | Trusted local pharmacy since 1835"
 - **Compliance:** "Medical assessment required. Results vary. Professional supervision essential."
 
 **Design:** Heritage trust, local convenience, family pharmacy appeal, flexible payment
 ```
 
-### **8. TRAVEL HEALTH: "Essential Travel Jab Package"**
+### **8. TRAVEL HEALTH: "Travel Clinic Services"**
 
 #### **Newcastle Version:**
 ```
-Create an A5 flyer (148mm × 210mm) for "Essential Travel Jab Package" at Cornwells Chemists Newcastle.
+Create an A5 flyer (148mm × 210mm) for "Travel Clinic Services" at Cornwells Chemists Newcastle.
 
 **Target Audience:** Keele undergrads, night-economy bar staff, post-grad internationals
 **Messaging Tone:** Playful-authoritative ("sorted in 15 min")
 **Price Sensitivity:** High sensitivity; £95 travel pack OK with student code
 
 **Layout:**
-- **Header:** "Essential Travel Jab Package" with passport stamp + QR arrow icon
+- **Header:** "Travel Clinic Services" with passport stamp + QR arrow icon
 - **Main Visual:** Young travelers with backpacks, adventure-ready, modern travel aesthetic
 - **Headline:** "Holiday-Ready in 15 Minutes - Student Discounts Available"
 - **Body Copy:** "Don't let vaccinations stress you out:
-  • Hepatitis A & Typhoid package £95
+  • £20 consultation (redeemable against vaccinations)
   • Student discount available with valid ID
   • Quick 15-minute appointment
   • No fuss, just protection
   • Same-day service available
   Get jabbed, get going, get exploring."
-- **Booking:** "Text [Phone] or scan QR - quick booking, quick service"
-- **Footer:** "[Address], Newcastle-under-Lyme ST5 1RB | Student-friendly travel health since 1835"
+- **Booking:** "Text 01782 616519 or scan QR - quick booking, quick service"
+- **Footer:** "Newcastle-under-Lyme ST5 1RB | Student-friendly travel health since 1835"
 - **Compliance:** "Risk assessment required. Some destinations need additional vaccinations."
 
 **Design:** Adventure appeal, student-friendly, quick service, modern booking
@@ -588,25 +588,25 @@ Create an A5 flyer (148mm × 210mm) for "Essential Travel Jab Package" at Cornwe
 
 #### **Beaconside Version:**
 ```
-Create an A5 flyer (148mm × 210mm) for "Essential Travel Jab Package" at Cornwells Chemists Beaconside.
+Create an A5 flyer (148mm × 210mm) for "Travel Clinic Services" at Cornwells Chemists Beaconside.
 
 **Target Audience:** Tech-park software teams (25-40), MOD Stafford officers, micro-SME owners
 **Messaging Tone:** High-efficiency B2B ("time is capital")
 **Price Sensitivity:** Low resistance B2B; discount triggers faster PO
 
 **Layout:**
-- **Header:** "Essential Travel Jab Package" with minimalist shield tick icon
+- **Header:** "Travel Clinic Services" with minimalist shield tick icon
 - **Main Visual:** Business traveler with laptop and passport, executive travel context
 - **Headline:** "Executive Travel Health - Efficient, Professional, Complete"
 - **Body Copy:** "Business travel demands professional preparation:
-  • Comprehensive travel vaccination package £95
+  • £20 consultation (redeemable against vaccinations)
   • Efficient 15-minute appointments
   • Flexible scheduling around your commitments
   • Professional travel health advice
   • Corporate accounts available
   Protect your productivity, protect your health."
-- **Booking:** "Call [Phone] or email - executive scheduling available"
-- **Footer:** "[Address], Beaconside, Stafford ST18 | Professional travel health since 1835"
+- **Booking:** "Call 01785 247360 or email - executive scheduling available"
+- **Footer:** "Weston Road, Stafford ST18 0BF | Professional travel health since 1835"
 - **Compliance:** "Professional risk assessment included. Additional vaccinations may be required."
 
 **Design:** Executive efficiency, business travel focus, professional service, corporate appeal
@@ -633,8 +633,8 @@ Create an A5 flyer (148mm × 210mm) for "Menopause Symptom Review" at Cornwells 
   • Professional understanding of your needs
   • Flexible appointment scheduling
   Expert care for expert women."
-- **Booking:** "Call [Phone] for confidential appointment - professional discretion guaranteed"
-- **Footer:** "[Address], Weeping Cross, Stafford ST17 | Women's health expertise since 1835"
+- **Booking:** "Call 01785 661765 for confidential appointment - professional discretion guaranteed"
+- **Footer:** "51-53 Bodmin Avenue, Weeping Cross, Stafford ST17 0EF | Women's health expertise since 1835"
 - **Compliance:** "Symptom review only. HRT prescribing requires separate consultation."
 
 **Design:** Professional authority, peer-to-peer appeal, clinical expertise, confidential service
@@ -659,8 +659,8 @@ Create an A5 flyer (148mm × 210mm) for "Menopause Symptom Review" at Cornwells 
   • Local pharmacy you've trusted for years
   • Convenient appointments around your schedule
   Your trusted pharmacy, your menopause journey."
-- **Booking:** "Call [Phone] - discreet, trusted, local care"
-- **Footer:** "[Address], Great Wyrley WS6 | Supporting women's health since 1835"
+- **Booking:** "Call 01922 414060 - discreet, trusted, local care"
+- **Footer:** "126 Wardles Lane, Great Wyrley, Walsall WS6 6DZ | Supporting women's health since 1835"
 - **Compliance:** "Consultation and advice only. Prescription services available separately."
 
 **Design:** Trust and heritage, local community appeal, flexible payment, discreet service
@@ -687,8 +687,8 @@ Create an A5 flyer (148mm × 210mm) for "Vape-Free Kickstart" at Cornwells Chemi
   • Practical strategies that actually work
   • Follow-up support included
   Take control, take back your life."
-- **Booking:** "Text [Phone] or scan QR - confidential and supportive"
-- **Footer:** "[Address], Newcastle-under-Lyme ST5 1RB | Supporting students since 1835"
+- **Booking:** "Text 01782 616519 or scan QR - confidential and supportive"
+- **Footer:** "Newcastle-under-Lyme ST5 1RB | Supporting students since 1835"
 - **Compliance:** "Consultation only. NRT products sold separately. Ongoing support available."
 
 **Design:** Empowerment theme, student appeal, modern approach, supportive tone
@@ -713,8 +713,8 @@ Create an A5 flyer (148mm × 210mm) for "Vape-Free Kickstart" at Cornwells Chemi
   • Practical support, not lectures
   • Get your strength back
   Champions quit when they're ready."
-- **Booking:** "Call [Phone] or just walk in - confidential support"
-- **Footer:** "[Address], Wolstanton ST5 0EP | Supporting Vale fans since 1835"
+- **Booking:** "Call 01782 712165 or just walk in - confidential support"
+- **Footer:** "117-119 High Street, Wolstanton, Newcastle-under-Lyme ST5 0EP | Supporting Vale fans since 1835"
 - **Compliance:** "Professional quit plan. NRT products available separately."
 
 **Design:** Strength and victory theme, sports context, practical approach, local football connection
