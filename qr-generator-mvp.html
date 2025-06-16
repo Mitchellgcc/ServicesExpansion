@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Cornwells MVP Services - QR Code Generator with UTM Tracking</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4299e1;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        select, button {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        button {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: #3182ce;
+        }
+        
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .qr-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-card:hover {
+            border-color: #4299e1;
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.15);
+        }
+        
+        .qr-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .qr-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .version-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .version-a { background: #c6f6d5; color: #22543d; }
+        .version-b { background: #fed7d7; color: #742a2a; }
+        .version-c { background: #feebc8; color: #7b341e; }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 1rem auto;
+            display: block;
+            border-radius: 8px;
+        }
+        
+        .qr-info {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 1rem;
+        }
+        
+        .qr-url {
+            background: #f7fafc;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            word-break: break-all;
+            margin-bottom: 1rem;
+        }
+        
+        .download-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .download-btn:hover {
+            background: #38a169;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #718096;
+        }
+        
+        .utm-info {
+            background: #edf2f7;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .utm-format {
+            font-family: monospace;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Cornwells MVP Services QR Generator</h1>
+        <p class="subtitle">Generate tracked QR codes for all marketing materials with UTM parameters</p>
+        
+        <div class="stats" id="stats">
+            <div class="stat">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Services</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Branches</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Material Types</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">2,100</div>
+                <div class="stat-label">Total QR Codes</div>
+            </div>
+        </div>
+        
+        <div class="utm-info">
+            <strong>📊 UTM Tracking Format:</strong>
+            <div class="utm-format">
+                utm_source={material} &amp; utm_medium={branch} &amp; utm_campaign={service} &amp; utm_term={version} &amp; utm_content=qr
+            </div>
+            <p style="margin-top: 0.5rem;">
+                <strong>Example:</strong> Poster at Weeping Cross for Health Screening (Version A) = 
+                <code>utm_source=poster&utm_medium=wx&utm_campaign=health-screening&utm_term=a&utm_content=qr</code>
+            </p>
+        </div>
+        
+        <div class="controls">
+            <select id="serviceFilter">
+                <option value="">All Services</option>
+                <option value="health-screening">Health Screening & Monitoring</option>
+                <option value="mens-health">Men's Health Services</option>
+                <option value="womens-health">Women's Health Services</option>
+                <option value="metabolic-weight">Metabolic & Weight Management</option>
+                <option value="travel-health">Travel Health Services</option>
+                <option value="nhs-services">Enhanced NHS Services</option>
+                <option value="vaccinations">Core Vaccinations</option>
+                <option value="gut-health">Gut Health & Digestive Wellness</option>
+                <option value="family-health">Family Health Hub</option>
+                <option value="mental-health">Mental Health & Wellbeing</option>
+            </select>
+            
+            <select id="branchFilter">
+                <option value="">All Branches</option>
+                <option value="wx">Weeping Cross</option>
+                <option value="gw">Great Wyrley</option>
+                <option value="hc">Holmcroft</option>
+                <option value="wol">Wolstanton</option>
+                <option value="bc">Beaconside</option>
+                <option value="nc">Newcastle</option>
+                <option value="sv">Silverdale</option>
+                <option value="st4">Stoke City Centre</option>
+                <option value="ch">Chadsmoor</option>
+                <option value="ah">Abbey Hulton</option>
+            </select>
+            
+            <select id="materialFilter">
+                <option value="">All Materials</option>
+                <option value="poster">A4 Poster</option>
+                <option value="flyer">A5 Flyer</option>
+                <option value="counter">Counter Card</option>
+                <option value="window">Window Cling</option>
+                <option value="bag">Prescription Bag Belt</option>
+                <option value="shelf">Shelf Wobbler</option>
+                <option value="partner">Partner Material</option>
+            </select>
+            
+            <button onclick="generateAllQRCodes()">🔄 Generate All QR Codes</button>
+            <button onclick="downloadAllQRCodes()">📥 Download All as ZIP</button>
+        </div>
+        
+        <div id="qr-container" class="qr-grid">
+            <div class="loading">
+                Click "Generate All QR Codes" to create your marketing materials with full UTM tracking
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const baseURL = 'https://cornwells-services.netlify.app';
+        
+        const branches = {
+            'wx': 'Weeping Cross',
+            'gw': 'Great Wyrley', 
+            'hc': 'Holmcroft',
+            'wol': 'Wolstanton',
+            'bc': 'Beaconside',
+            'nc': 'Newcastle',
+            'sv': 'Silverdale',
+            'st4': 'Stoke City Centre',
+            'ch': 'Chadsmoor',
+            'ah': 'Abbey Hulton'
+        };
+        
+        const services = {
+            'health-screening': 'Health Screening & Monitoring',
+            'mens-health': 'Men\'s Health Services',
+            'womens-health': 'Women\'s Health Services',
+            'metabolic-weight': 'Metabolic & Weight Management',
+            'travel-health': 'Travel Health Services',
+            'nhs-services': 'Enhanced NHS Services',
+            'vaccinations': 'Core Vaccinations',
+            'gut-health': 'Gut Health & Digestive Wellness',
+            'family-health': 'Family Health Hub',
+            'mental-health': 'Mental Health & Wellbeing'
+        };
+        
+        const materials = {
+            'poster': 'A4 Poster',
+            'flyer': 'A5 Flyer',
+            'counter': 'Counter Card',
+            'window': 'Window Cling',
+            'bag': 'Prescription Bag Belt',
+            'shelf': 'Shelf Wobbler',
+            'partner': 'Partner Material'
+        };
+
+        let allQRCodes = [];
+
+        function generateTrackingURL(service, branch, material, version = 'a') {
+            const utmParams = new URLSearchParams({
+                utm_source: material,
+                utm_medium: branch,
+                utm_campaign: service,
+                utm_term: version,
+                utm_content: 'qr'
+            });
+            
+            return `${baseURL}/${service}?${utmParams.toString()}`;
+        }
+
+        async function generateQRCode(url) {
+            try {
+                const canvas = document.createElement('canvas');
+                await QRCode.toCanvas(canvas, url, {
+                    width: 200,
+                    margin: 2,
+                    color: { dark: '#000000', light: '#FFFFFF' },
+                    errorCorrectionLevel: 'M'
+                });
+                return canvas;
+            } catch (error) {
+                console.error('QR generation failed:', error);
+                return null;
+            }
+        }
+
+        async function generateAllQRCodes() {
+            const container = document.getElementById('qr-container');
+            container.innerHTML = '<div class="loading">🔄 Generating QR codes with UTM tracking...</div>';
+            
+            allQRCodes = [];
+            let count = 0;
+            const total = Object.keys(services).length * Object.keys(branches).length * Object.keys(materials).length * 3;
+
+            for (const [serviceId, serviceName] of Object.entries(services)) {
+                for (const [branchId, branchName] of Object.entries(branches)) {
+                    for (const [materialId, materialName] of Object.entries(materials)) {
+                        for (const version of ['a', 'b', 'c']) {
+                            const trackingURL = generateTrackingURL(serviceId, branchId, materialId, version);
+                            const qrCanvas = await generateQRCode(trackingURL);
+                            
+                            if (qrCanvas) {
+                                allQRCodes.push({
+                                    id: `${serviceId}-${branchId}-${materialId}-${version}`,
+                                    service: serviceName,
+                                    branch: branchName,
+                                    material: materialName,
+                                    version: version,
+                                    url: trackingURL,
+                                    canvas: qrCanvas
+                                });
+                            }
+                            
+                            count++;
+                            container.innerHTML = `<div class="loading">🔄 Generated ${count}/${total} QR codes...</div>`;
+                        }
+                    }
+                }
+            }
+
+            displayQRCodes();
+        }
+
+        function displayQRCodes() {
+            const container = document.getElementById('qr-container');
+            const serviceFilter = document.getElementById('serviceFilter').value;
+            const branchFilter = document.getElementById('branchFilter').value;
+            const materialFilter = document.getElementById('materialFilter').value;
+
+            let filteredCodes = allQRCodes;
+
+            if (serviceFilter) {
+                filteredCodes = filteredCodes.filter(qr => qr.id.startsWith(serviceFilter));
+            }
+            if (branchFilter) {
+                filteredCodes = filteredCodes.filter(qr => qr.id.includes(`-${branchFilter}-`));
+            }
+            if (materialFilter) {
+                filteredCodes = filteredCodes.filter(qr => qr.id.includes(`-${materialFilter}-`));
+            }
+
+            if (filteredCodes.length === 0) {
+                container.innerHTML = '<div class="loading">No QR codes match your filters. Generate codes first.</div>';
+                return;
+            }
+
+            container.innerHTML = filteredCodes.map(qr => `
+                <div class="qr-card">
+                    <div class="qr-header">
+                        <div class="qr-title">${qr.service}</div>
+                        <div class="version-badge version-${qr.version}">Version ${qr.version.toUpperCase()}</div>
+                    </div>
+                    <div class="qr-info">
+                        <strong>Branch:</strong> ${qr.branch}<br>
+                        <strong>Material:</strong> ${qr.material}
+                    </div>
+                    <canvas class="qr-code" id="qr-${qr.id}"></canvas>
+                    <div class="qr-url">${qr.url}</div>
+                    <button class="download-btn" onclick="downloadQR('${qr.id}', '${qr.service} - ${qr.branch} - ${qr.material} - ${qr.version}')">
+                        📥 Download QR Code
+                    </button>
+                </div>
+            `).join('');
+
+            // Insert canvases
+            filteredCodes.forEach(qr => {
+                const targetCanvas = document.getElementById(`qr-${qr.id}`);
+                if (targetCanvas && qr.canvas) {
+                    targetCanvas.width = qr.canvas.width;
+                    targetCanvas.height = qr.canvas.height;
+                    const ctx = targetCanvas.getContext('2d');
+                    ctx.drawImage(qr.canvas, 0, 0);
+                }
+            });
+        }
+
+        function downloadQR(qrId, filename) {
+            const canvas = document.getElementById(`qr-${qrId}`);
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = `${filename}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+        }
+
+        async function downloadAllQRCodes() {
+            if (allQRCodes.length === 0) {
+                alert('Generate QR codes first!');
+                return;
+            }
+
+            // Note: This would require a ZIP library like JSZip for full implementation
+            alert(`Ready to download ${allQRCodes.length} QR codes. In production, this would create a ZIP file with all codes organized by service/branch/material.`);
+        }
+
+        // Add event listeners for filters
+        document.getElementById('serviceFilter').addEventListener('change', displayQRCodes);
+        document.getElementById('branchFilter').addEventListener('change', displayQRCodes);
+        document.getElementById('materialFilter').addEventListener('change', displayQRCodes);
+    </script>
+</body>
+</html> 

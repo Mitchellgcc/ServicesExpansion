@@ -1,5 +1,6 @@
 import { services, getFeaturedServices, getServiceById } from './data/services.js';
 import { supabase, SERVICE_TYPES, TIME_SLOTS } from './config/supabase.js';
+import { cornwellsTracking } from './utils/tracking.js';
 import QRCode from 'qrcode';
 import anime from 'animejs';
 
@@ -17,6 +18,14 @@ class PharmacyLandingApp {
     this.setupEventListeners();
     this.loadCurrentPage();
     this.initializeAnimations();
+    
+    // Initialize tracking and capture UTM parameters
+    cornwellsTracking.captureUTMParameters();
+    
+    // Track page view with service context
+    const serviceId = this.extractServiceIdFromPath(window.location.pathname);
+    const serviceName = serviceId ? getServiceById(serviceId)?.title : null;
+    cornwellsTracking.trackPageView(serviceName);
   }
 
   setupEventListeners() {
@@ -51,7 +60,7 @@ class PharmacyLandingApp {
     const path = window.location.pathname;
     const serviceId = this.extractServiceIdFromPath(path);
     
-    if (serviceId && services[serviceId]) {
+    if (serviceId && getServiceById(serviceId)) {
       this.loadServiceLanding(serviceId);
     } else {
       this.loadServiceSelector();
@@ -59,17 +68,9 @@ class PharmacyLandingApp {
   }
 
   extractServiceIdFromPath(path) {
-    // Support both /service-name and /services/service-name formats
-    const patterns = [
-      /^\/([^\/]+)$/,  // /menopause
-      /^\/services\/([^\/]+)$/  // /services/menopause
-    ];
-    
-    for (const pattern of patterns) {
-      const match = path.match(pattern);
-      if (match) return match[1];
-    }
-    return null;
+    // Remove leading slash and any trailing slashes
+    const cleanPath = path.replace(/^\/+|\/+$/g, '');
+    return cleanPath || null;
   }
 
   async loadServiceLanding(serviceId) {
@@ -81,267 +82,354 @@ class PharmacyLandingApp {
 
     this.currentService = service;
     
-    try {
-      const content = this.generateServiceLandingHTML(service);
-      document.getElementById('app-content').innerHTML = content;
-      
-      document.title = `${service.title} | Expert Pharmacy Services`;
-      this.updateMetaDescription(service.description);
-      
-      this.initializeAnimations();
-      
-    } catch (error) {
-      console.error('Error loading service landing:', error);
-    }
+    // Track service page view
+    cornwellsTracking.trackPageView(service.title);
+    
+    const content = this.generateServiceLandingHTML(service);
+    document.getElementById('app').innerHTML = content;
+    
+    // Update page title and meta description
+    document.title = `${service.title} - Cornwells Pharmacy Services`;
+    this.updateMetaDescription(service.description);
+    
+    // Re-initialize animations for new content
+    this.initializeAnimations();
   }
 
   loadServiceSelector() {
-    // Simple service selector for development/testing
+    this.currentService = null;
     const content = this.generateServiceSelectorHTML();
-    document.getElementById('app-content').innerHTML = content;
-    document.title = 'Pharmacy Services | Choose Your Service';
+    document.getElementById('app').innerHTML = content;
+    
+    // Update page title
+    document.title = 'Cornwells Pharmacy Services - Expert Healthcare in Your Community';
+    this.updateMetaDescription('Discover our comprehensive range of pharmacy services including health screenings, vaccinations, travel health, and specialized consultations. Book your appointment today.');
+    
+    // Track main page view
+    cornwellsTracking.trackPageView();
+    
+    // Re-initialize animations
+    this.initializeAnimations();
   }
 
   generateServiceLandingHTML(service) {
-    const colorScheme = service.colorScheme;
     return `
-      <div class="landing-hero bg-gradient-to-br ${colorScheme.hero}">
-        <div class="content-section relative z-10">
-          <!-- Service Icon & Title -->
-          <div class="text-center mb-12 fade-in-up">
-            <div class="service-icon stagger-1">
-              ${service.icon}
-            </div>
-            <h1 class="hero-title stagger-2">
-              ${service.headline}
-            </h1>
-            <p class="hero-subtitle mt-4 stagger-3">
-              ${service.subheadline}
-            </p>
-          </div>
-
-          <!-- Primary CTA -->
-          <div class="mb-12 stagger-4">
-            <button class="w-full py-5 px-8 bg-gradient-to-r ${colorScheme.primary} text-white text-xl font-bold rounded-2xl shadow-xl hover:scale-105 transition-all duration-200" data-book-consultation="${service.id}">
-              📅 Book Your Free Consultation
-            </button>
-          </div>
-
-          <!-- Quick Value Proposition -->
-          <div class="text-center mb-12">
-            <p class="text-xl text-gray-200 leading-relaxed mb-6">
-              ${service.description}
-            </p>
-            ${service.socialProof ? `
-              <div class="flex items-center justify-center space-x-2 text-sm text-gray-400">
-                <span>⭐⭐⭐⭐⭐</span>
-                <span>${service.socialProof}</span>
+      <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
+        <!-- Navigation -->
+        <nav class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+              <div class="flex items-center space-x-4">
+                <button onclick="window.app.loadServiceSelector()" class="text-gray-600 hover:text-gray-900 font-medium">
+                  ← All Services
+                </button>
+                <div class="h-6 w-px bg-gray-300"></div>
+                <h1 class="text-xl font-bold text-gray-900">Cornwells Pharmacy</h1>
               </div>
-            ` : ''}
-            ${service.urgency ? `
-              <div class="inline-block bg-orange-500/20 text-orange-300 px-4 py-2 rounded-full text-sm mt-4">
-                ⏰ ${service.urgency}
-              </div>
-            ` : ''}
-          </div>
-        </div>
-      </div>
-
-      <!-- Benefits Section -->
-      <section class="content-section">
-        <h2 class="section-title text-center mb-8">What You'll Experience:</h2>
-        
-        <div class="space-y-6 mb-12">
-          ${service.specificBenefits.slice(0, 3).map((benefit, index) => `
-            <div class="benefit-card fade-in-up stagger-${index + 1}">
-              <div class="flex items-start space-x-4">
-                <div class="w-8 h-8 ${colorScheme.accent} rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                  </svg>
-                </div>
-                <p class="text-gray-200 text-lg leading-relaxed">${benefit}</p>
+              <div class="flex items-center space-x-4">
+                <button data-call-pharmacy class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl font-semibold transition-colors">
+                  📞 Call Pharmacy
+                </button>
+                <button data-generate-qr="${service.id}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl font-semibold transition-colors">
+                  📱 QR Code
+                </button>
               </div>
             </div>
-          `).join('')}
+          </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="relative overflow-hidden">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="text-center">
+              <div class="text-6xl mb-6 fade-in-up stagger-1">${service.icon}</div>
+              <h1 class="text-5xl md:text-6xl font-bold text-white mb-6 fade-in-up stagger-2">
+                ${service.title}
+              </h1>
+              <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto fade-in-up stagger-3">
+                ${service.description}
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up stagger-4">
+                <button data-book-consultation="${service.id}" class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl">
+                  📅 Book Consultation
+                </button>
+                <button data-call-pharmacy class="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/30 transition-all border border-white/30">
+                  📞 Call to Discuss
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Decorative background -->
+          <div class="absolute inset-0 bg-gradient-to-br ${service.colorScheme.secondary} opacity-20"></div>
         </div>
 
-        <!-- Secondary CTA -->
-        <div class="text-center mb-12">
-          <button class="w-full py-4 px-8 bg-gradient-to-r ${colorScheme.primary} text-white text-lg font-semibold rounded-2xl shadow-xl hover:scale-105 transition-all duration-200" data-book-consultation="${service.id}">
-            Start Feeling Better Today
-          </button>
-        </div>
-      </section>
-
-      <!-- How It Works -->
-      <section class="content-section">
-        <h2 class="section-title text-center mb-4">It's Simple:</h2>
-        <p class="section-subtitle text-center mb-10">Three easy steps to start feeling better</p>
-        
-        <div class="space-y-8 mb-12">
-          ${service.uniqueProcess.slice(0, 3).map((step, index) => `
-            <div class="process-step fade-in-up stagger-${index + 1}">
-              <div class="w-12 h-12 bg-gradient-to-r ${colorScheme.primary} text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">${index + 1}</div>
+        <!-- Service Details -->
+        <div class="bg-white py-24">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
               <div>
-                <p class="text-gray-200 text-lg leading-relaxed">${step}</p>
+                <h2 class="text-4xl font-bold text-gray-900 mb-8">What We Offer</h2>
+                <div class="space-y-6">
+                  ${service.features.map(feature => `
+                    <div class="flex items-start space-x-4 fade-in-up">
+                      <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <p class="text-lg text-gray-700">${feature}</p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+              
+              <div class="bg-gradient-to-br ${service.colorScheme.primary} rounded-3xl p-8 text-white">
+                <h3 class="text-2xl font-bold mb-6">Ready to Get Started?</h3>
+                <p class="text-lg mb-8 text-white/90">
+                  Book your consultation today and take the first step towards better health.
+                </p>
+                <button data-book-consultation="${service.id}" class="w-full bg-white text-gray-900 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-colors">
+                  📅 Book Your Consultation
+                </button>
+                <p class="text-sm text-white/70 mt-4 text-center">
+                  Usually available within 24-48 hours
+                </p>
               </div>
             </div>
-          `).join('')}
+          </div>
         </div>
-      </section>
 
-      <!-- Contact Information -->
-      <section class="content-section">
-        <div class="bg-gradient-to-r ${colorScheme.secondary} p-8 rounded-3xl backdrop-blur-sm border border-white/10 text-center">
-          <h3 class="text-2xl font-bold text-white mb-4">Ready to Feel Better?</h3>
-          <p class="text-gray-200 mb-8 text-lg">${service.callToAction}</p>
-          
-          <div class="space-y-4">
-            <button class="w-full py-5 px-8 bg-gradient-to-r ${colorScheme.primary} text-white text-xl font-bold rounded-2xl shadow-xl hover:scale-105 transition-all duration-200" data-book-consultation="${service.id}">
-              📅 Book My Consultation
-            </button>
-            
-            <div class="text-gray-400 text-sm">
-              <span>💬 Free consultation • 📞 Same day appointments available</span>
+        <!-- Trust Indicators -->
+        <div class="bg-gray-50 py-16">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-2xl font-bold text-gray-900 mb-12">Why Choose Cornwells?</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+              <div class="fade-in-up">
+                <div class="text-4xl mb-4">🏆</div>
+                <h4 class="text-xl font-semibold text-gray-900 mb-2">Expert Pharmacists</h4>
+                <p class="text-gray-600">Qualified healthcare professionals with years of experience</p>
+              </div>
+              <div class="fade-in-up">
+                <div class="text-4xl mb-4">⚡</div>
+                <h4 class="text-xl font-semibold text-gray-900 mb-2">Quick & Convenient</h4>
+                <p class="text-gray-600">Fast appointments without the long GP waiting times</p>
+              </div>
+              <div class="fade-in-up">
+                <div class="text-4xl mb-4">🔒</div>
+                <h4 class="text-xl font-semibold text-gray-900 mb-2">Confidential Care</h4>
+                <p class="text-gray-600">Private consultations in a comfortable, professional setting</p>
+              </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Footer -->
-      <footer class="content-section border-t border-white/10">
-        <div class="text-center text-gray-400 space-y-4">
-          <button class="btn-secondary-landing" data-visit-cornwells>
-            Visit Cornwells Pharmacy Website
-          </button>
-          
-          <p class="text-sm">
-            Expert pharmacy services with professional care
-          </p>
-          
-          <div class="flex justify-center space-x-4 text-xs">
-            <span>Privacy Policy</span>
-            <span>•</span>
-            <span>Terms of Service</span>
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-2xl font-bold mb-4">Cornwells Pharmacy</h3>
+            <p class="text-gray-400 mb-6">Your trusted healthcare partner since 1835</p>
+            <div class="flex justify-center space-x-6">
+              <button data-call-pharmacy class="text-gray-400 hover:text-white transition-colors">📞 Call Us</button>
+              <button data-visit-cornwells class="text-gray-400 hover:text-white transition-colors">🌐 Visit Website</button>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
     `;
   }
 
   generateServiceSelectorHTML() {
-    const allServices = Object.values(services);
+    const featuredServices = getFeaturedServices();
     
     return `
-      <div class="landing-hero">
-        <div class="content-section relative z-10">
-          <div class="text-center mb-12">
-            <h1 class="hero-title">Pharmacy Services</h1>
-            <p class="hero-subtitle mt-4">Choose a service to view its landing page</p>
-          </div>
-          
-          <div class="space-y-4">
-            ${allServices.map(service => `
-              <a href="/${service.id}" 
-                 class="block p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
-                <div class="flex items-center space-x-4">
-                  <div class="text-3xl">${service.icon}</div>
-                  <div>
-                    <h3 class="text-lg font-semibold text-white">${service.title}</h3>
-                    <p class="text-gray-300 text-sm">${service.headline}</p>
-                  </div>
-                </div>
-              </a>
-            `).join('')}
+      <div class="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800">
+        <!-- Hero Section -->
+        <div class="relative overflow-hidden">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="text-center">
+              <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 fade-in-up stagger-1">
+                🏥 Cornwells Pharmacy
+              </h1>
+              <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto fade-in-up stagger-2">
+                Expert healthcare services in your community. Professional consultations, health screenings, and specialized care.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up stagger-3">
+                <button data-call-pharmacy class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl">
+                  📞 Call Pharmacy
+                </button>
+                <button data-visit-cornwells class="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/30 transition-all border border-white/30">
+                  🌐 Visit Our Website
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Services Grid -->
+        <div class="bg-white py-24">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+              <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Services</h2>
+              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Choose from our comprehensive range of healthcare services, all delivered by qualified pharmacists in a professional, caring environment.
+              </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              ${featuredServices.map((service, index) => `
+                <div class="group cursor-pointer fade-in-up" style="animation-delay: ${index * 100}ms" onclick="window.app.loadServiceLanding('${service.id}')">
+                  <div class="bg-gradient-to-br ${service.colorScheme.primary} rounded-3xl p-8 text-white transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
+                    <div class="text-5xl mb-6">${service.icon}</div>
+                    <h3 class="text-2xl font-bold mb-4">${service.title}</h3>
+                    <p class="text-white/90 mb-6">${service.description}</p>
+                    <div class="flex items-center text-white/80 font-semibold">
+                      <span>Learn More</span>
+                      <svg class="w-5 h-5 ml-2 transform transition-transform group-hover:translate-x-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Section -->
+        <div class="bg-gray-50 py-24">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+              <h2 class="text-4xl font-bold text-gray-900 mb-6">Trusted Healthcare Since 1835</h2>
+              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                With nearly two centuries of experience, Cornwells Pharmacy has been serving communities with expert healthcare services and trusted advice.
+              </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+              <div class="fade-in-up">
+                <div class="text-4xl mb-4">🏆</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Expert Care</h3>
+                <p class="text-gray-600">Qualified pharmacists and healthcare professionals</p>
+              </div>
+              <div class="fade-in-up">
+                <div class="text-4xl mb-4">⚡</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Quick Access</h3>
+                <p class="text-gray-600">Fast appointments without long waiting times</p>
+              </div>
+              <div class="fade-in-up">
+                <div class="text-4xl mb-4">🔒</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Confidential</h3>
+                <p class="text-gray-600">Private consultations in comfortable settings</p>
+              </div>
+              <div class="fade-in-up">
+                <div class="text-4xl mb-4">📍</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Local</h3>
+                <p class="text-gray-600">Multiple convenient locations across Staffordshire</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-16">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+              <h3 class="text-3xl font-bold mb-6">Ready to Get Started?</h3>
+              <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                Contact us today to book your consultation or learn more about our services.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button data-call-pharmacy class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-colors">
+                  📞 Call Pharmacy
+                </button>
+                <button data-visit-cornwells class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-colors">
+                  🌐 Visit Website
+                </button>
+              </div>
+              <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
+                <p>&copy; 2024 Cornwells Pharmacy. Trusted healthcare since 1835.</p>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     `;
   }
 
   handleBookingClick(button) {
-    const serviceId = button.getAttribute('data-book-consultation') || this.currentService?.id;
-    
-    // Sophisticated booking flow
-    this.showBookingModal(serviceId);
+    const serviceId = button.getAttribute('data-book-consultation');
+    if (serviceId) {
+      // Track booking intent
+      cornwellsTracking.trackEvent('booking_intent', {
+        service_id: serviceId,
+        service_name: cornwellsTracking.services[serviceId] || 'Unknown Service'
+      });
+      
+      this.showBookingModal(serviceId);
+    }
   }
 
   showBookingModal(serviceId) {
     const service = getServiceById(serviceId);
+    if (!service) return;
+
     const modalHTML = `
       <div id="booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-800 rounded-3xl p-8 max-w-md w-full border border-white/10">
-          <h3 class="text-2xl font-bold text-white mb-6 text-center">Book Your Consultation</h3>
-          
-          <form id="booking-form" class="space-y-4 mb-8">
-            <div>
-              <label class="block text-gray-300 mb-2">Your Name*</label>
-              <input 
-                type="text" 
-                id="patient-name" 
-                required
-                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
-                placeholder="Enter your full name">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div class="p-8">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-3xl font-bold text-gray-900">Book ${service.title}</h2>
+              <button onclick="document.getElementById('booking-modal').remove()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
             </div>
             
-            <div>
-              <label class="block text-gray-300 mb-2">Phone Number*</label>
-              <input 
-                type="tel" 
-                id="phone-number" 
-                required
-                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
-                placeholder="Your phone number (e.g., 07123 456789)">
-            </div>
-            
-            <div>
-              <label class="block text-gray-300 mb-2">Email (Optional)</label>
-              <input 
-                type="email" 
-                id="email" 
-                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
-                placeholder="your.email@example.com">
-            </div>
-            
-            <div>
-              <label class="block text-gray-300 mb-2">Preferred Time*</label>
-              <select id="preferred-time" required class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white">
-                <option value="">Select your preferred time</option>
-                <option value="Morning (9am-12pm)">Morning (9am-12pm)</option>
-                <option value="Afternoon (12pm-5pm)">Afternoon (12pm-5pm)</option>
-                <option value="Evening (5pm-7pm)">Evening (5pm-7pm)</option>
-              </select>
-            </div>
-            
-            <div>
-              <label class="block text-gray-300 mb-2">Additional Notes (Optional)</label>
-              <textarea 
-                id="notes" 
-                rows="3"
-                class="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400" 
-                placeholder="Any specific questions or requirements?"></textarea>
-            </div>
-            
-            <div class="text-xs text-gray-400 bg-white/5 p-3 rounded-lg">
-              <label class="flex items-start space-x-2">
-                <input type="checkbox" id="consent" required class="mt-1">
-                <span>I consent to being contacted about this consultation and understand my data will be handled according to privacy policies.*</span>
-              </label>
-            </div>
-          </form>
-          
-          <div class="space-y-3">
-            <button 
-              type="submit" 
-              form="booking-form"
-              class="btn-primary-landing w-full" 
-              id="submit-booking">
-              📅 Request Consultation
-            </button>
-            <button class="btn-secondary-landing" onclick="this.closest('#booking-modal').remove()">
-              Cancel
-            </button>
+            <form id="booking-form" class="space-y-6">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="patient-name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+                  <input type="text" id="patient-name" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div>
+                  <label for="phone-number" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                  <input type="tel" id="phone-number" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+              </div>
+              
+              <div>
+                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              </div>
+              
+              <div>
+                <label for="preferred-time" class="block text-sm font-semibold text-gray-700 mb-2">Preferred Time *</label>
+                <select id="preferred-time" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                  <option value="">Select preferred time</option>
+                  <option value="0">Morning (9:00 AM - 12:00 PM)</option>
+                  <option value="1">Afternoon (12:00 PM - 5:00 PM)</option>
+                  <option value="2">Evening (5:00 PM - 7:00 PM)</option>
+                </select>
+              </div>
+              
+              <div>
+                <label for="notes" class="block text-sm font-semibold text-gray-700 mb-2">Additional Notes</label>
+                <textarea id="notes" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Any specific concerns or questions?"></textarea>
+              </div>
+              
+              <div class="flex items-start space-x-3">
+                <input type="checkbox" id="consent" required class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="consent" class="text-sm text-gray-700">
+                  I consent to Cornwells Pharmacy contacting me about this consultation and understand that my data will be processed in accordance with their privacy policy. *
+                </label>
+              </div>
+              
+              <button type="submit" id="submit-booking" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-opacity">
+                📅 Submit Booking Request
+              </button>
+              
+              <p class="text-sm text-gray-600 text-center">
+                We'll call you within 2 hours to confirm your consultation time.
+              </p>
+            </form>
           </div>
         </div>
       </div>
@@ -357,11 +445,21 @@ class PharmacyLandingApp {
   }
 
   handleCallClick() {
+    // Track call intent
+    cornwellsTracking.trackEvent('call_intent', {
+      source: 'website_button'
+    });
+    
     // In a real implementation, this would use tel: links
     this.showSuccessMessage('📞 Calling pharmacy... (In demo: would open phone dialer)');
   }
 
   handleCornwellsClick() {
+    // Track website visit intent
+    cornwellsTracking.trackEvent('website_visit_intent', {
+      source: 'services_site'
+    });
+    
     // In a real implementation, this would link to the actual Cornwells website
     window.open('https://cornwells.co.uk', '_blank');
   }
@@ -457,17 +555,10 @@ class PharmacyLandingApp {
         preferred_contact_method: 'phone'
       };
       
-      // Get UTM parameters for marketing tracking
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmParams = {};
-      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(param => {
-        if (urlParams.has(param)) {
-          utmParams[param] = urlParams.get(param);
-        }
-      });
-      
-      if (Object.keys(utmParams).length > 0) {
-        formData.utm_params = utmParams;
+      // Add UTM tracking data
+      const utmData = cornwellsTracking.getStoredUTMData();
+      if (Object.keys(utmData).length > 0) {
+        formData.utm_params = utmData;
       }
       
       console.log('Submitting booking:', formData);
@@ -485,18 +576,12 @@ class PharmacyLandingApp {
       
       console.log('Booking submitted successfully:', data);
       
+      // Track successful booking conversion
+      cornwellsTracking.trackBookingConversion(serviceId, formData);
+      
       // Close modal and show success
       document.getElementById('booking-modal').remove();
       this.showSuccessMessage('🎉 Booking request sent! We\'ll call you within 2 hours to confirm your consultation.');
-      
-      // Optional: Track conversion event (for analytics)
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'consultation_booking', {
-          event_category: 'conversion',
-          event_label: serviceId,
-          value: 1
-        });
-      }
       
     } catch (error) {
       console.error('Booking submission error:', error);

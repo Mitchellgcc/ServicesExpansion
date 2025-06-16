@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Cornwells MVP Marketing Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .metric-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .utm-table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .utm-table th {
+            background: #f8fafc;
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .utm-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-active { background: #dcfce7; color: #166534; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-completed { background: #dbeafe; color: #1e40af; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">📊 Cornwells MVP Marketing Dashboard</h1>
+            <p class="text-gray-600">Real-time tracking of UTM parameters, QR codes, and conversion metrics</p>
+            <div class="mt-4 flex space-x-4">
+                <button onclick="refreshData()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    🔄 Refresh Data
+                </button>
+                <button onclick="exportData()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                    📥 Export CSV
+                </button>
+                <button onclick="window.open('qr-generator-mvp.html', '_blank')" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                    📱 Generate QR Codes
+                </button>
+            </div>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="metric-card">
+                <div class="metric-number" id="total-visits">0</div>
+                <div class="metric-label">Total Visits</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-number" id="total-bookings">0</div>
+                <div class="metric-label">Bookings</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-number" id="conversion-rate">0%</div>
+                <div class="metric-label">Conversion Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-number" id="qr-scans">0</div>
+                <div class="metric-label">QR Code Scans</div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Service Performance Chart -->
+            <div class="chart-container">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Service Performance</h3>
+                <canvas id="serviceChart" width="400" height="200"></canvas>
+            </div>
+            
+            <!-- Branch Performance Chart -->
+            <div class="chart-container">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Branch Performance</h3>
+                <canvas id="branchChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- UTM Tracking Table -->
+        <div class="utm-table mb-8">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-xl font-bold text-gray-900">UTM Tracking Performance</h3>
+                <p class="text-gray-600 mt-1">Track performance by source, medium, and campaign</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th>Source</th>
+                            <th>Medium</th>
+                            <th>Visits</th>
+                            <th>Bookings</th>
+                            <th>Conversion</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="utm-table-body">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- QR Code Performance -->
+        <div class="utm-table mb-8">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-xl font-bold text-gray-900">QR Code Performance</h3>
+                <p class="text-gray-600 mt-1">Track individual QR code performance by material and location</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Branch</th>
+                            <th>Material</th>
+                            <th>Version</th>
+                            <th>Scans</th>
+                            <th>Bookings</th>
+                            <th>Conversion</th>
+                            <th>Last Scan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="qr-table-body">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Real-time Activity Feed -->
+        <div class="utm-table">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-xl font-bold text-gray-900">Real-time Activity</h3>
+                <p class="text-gray-600 mt-1">Live feed of visitor activity and conversions</p>
+            </div>
+            <div id="activity-feed" class="p-6 space-y-4 max-h-96 overflow-y-auto">
+                <!-- Activity items will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard data structure
+        let dashboardData = {
+            metrics: {
+                totalVisits: 0,
+                totalBookings: 0,
+                conversionRate: 0,
+                qrScans: 0
+            },
+            services: {},
+            branches: {},
+            utmTracking: [],
+            qrPerformance: [],
+            recentActivity: []
+        };
+
+        // Service and branch mappings
+        const services = {
+            'health-screening': 'Health Screening',
+            'mens-health': 'Men\'s Health',
+            'womens-health': 'Women\'s Health',
+            'metabolic-weight': 'Metabolic & Weight',
+            'travel-health': 'Travel Health',
+            'nhs-services': 'NHS Services',
+            'vaccinations': 'Vaccinations',
+            'gut-health': 'Gut Health',
+            'family-health': 'Family Health',
+            'mental-health': 'Mental Health'
+        };
+
+        const branches = {
+            'wx': 'Weeping Cross',
+            'gw': 'Great Wyrley',
+            'hc': 'Holmcroft',
+            'wol': 'Wolstanton',
+            'bc': 'Beaconside',
+            'nc': 'Newcastle',
+            'sv': 'Silverdale',
+            'st4': 'Stoke City Centre',
+            'ch': 'Chadsmoor',
+            'ah': 'Abbey Hulton'
+        };
+
+        const materials = {
+            'poster': 'A4 Poster',
+            'flyer': 'A5 Flyer',
+            'counter': 'Counter Card',
+            'window': 'Window Cling',
+            'bag': 'Prescription Bag',
+            'shelf': 'Shelf Wobbler',
+            'partner': 'Partner Material'
+        };
+
+        // Initialize dashboard
+        async function initDashboard() {
+            await loadDashboardData();
+            updateMetrics();
+            createCharts();
+            populateUTMTable();
+            populateQRTable();
+            updateActivityFeed();
+            
+            // Set up real-time updates
+            setInterval(refreshData, 30000); // Refresh every 30 seconds
+        }
+
+        // Load data from Supabase (simulated for now)
+        async function loadDashboardData() {
+            // In production, this would fetch from Supabase
+            // For now, we'll simulate some data
+            
+            dashboardData = {
+                metrics: {
+                    totalVisits: 1247,
+                    totalBookings: 89,
+                    conversionRate: 7.1,
+                    qrScans: 342
+                },
+                services: {
+                    'health-screening': { visits: 234, bookings: 18 },
+                    'womens-health': { visits: 189, bookings: 15 },
+                    'mens-health': { visits: 156, bookings: 12 },
+                    'metabolic-weight': { visits: 143, bookings: 11 },
+                    'travel-health': { visits: 98, bookings: 8 },
+                    'nhs-services': { visits: 87, bookings: 7 },
+                    'vaccinations': { visits: 76, bookings: 6 },
+                    'gut-health': { visits: 65, bookings: 5 },
+                    'family-health': { visits: 54, bookings: 4 },
+                    'mental-health': { visits: 45, bookings: 3 }
+                },
+                branches: {
+                    'wx': { visits: 187, bookings: 14 },
+                    'gw': { visits: 156, bookings: 12 },
+                    'hc': { visits: 134, bookings: 10 },
+                    'wol': { visits: 123, bookings: 9 },
+                    'bc': { visits: 112, bookings: 8 },
+                    'nc': { visits: 98, bookings: 7 },
+                    'sv': { visits: 87, bookings: 6 },
+                    'st4': { visits: 76, bookings: 5 },
+                    'ch': { visits: 65, bookings: 4 },
+                    'ah': { visits: 54, bookings: 3 }
+                },
+                utmTracking: generateUTMData(),
+                qrPerformance: generateQRData(),
+                recentActivity: generateActivityData()
+            };
+        }
+
+        // Generate sample UTM tracking data
+        function generateUTMData() {
+            const data = [];
+            Object.keys(services).forEach(service => {
+                Object.keys(materials).forEach(material => {
+                    const visits = Math.floor(Math.random() * 50) + 10;
+                    const bookings = Math.floor(visits * (Math.random() * 0.15 + 0.02));
+                    const conversion = bookings > 0 ? ((bookings / visits) * 100).toFixed(1) : '0.0';
+                    
+                    data.push({
+                        campaign: service,
+                        source: material,
+                        medium: 'qr',
+                        visits: visits,
+                        bookings: bookings,
+                        conversion: conversion + '%',
+                        status: bookings > 5 ? 'active' : bookings > 2 ? 'pending' : 'completed'
+                    });
+                });
+            });
+            return data;
+        }
+
+        // Generate sample QR performance data
+        function generateQRData() {
+            const data = [];
+            Object.keys(services).slice(0, 5).forEach(service => {
+                Object.keys(branches).slice(0, 3).forEach(branch => {
+                    Object.keys(materials).slice(0, 2).forEach(material => {
+                        ['a', 'b', 'c'].forEach(version => {
+                            const scans = Math.floor(Math.random() * 25) + 5;
+                            const bookings = Math.floor(scans * (Math.random() * 0.2 + 0.05));
+                            const conversion = bookings > 0 ? ((bookings / scans) * 100).toFixed(1) : '0.0';
+                            
+                            data.push({
+                                service: services[service],
+                                branch: branches[branch],
+                                material: materials[material],
+                                version: version.toUpperCase(),
+                                scans: scans,
+                                bookings: bookings,
+                                conversion: conversion + '%',
+                                lastScan: new Date(Date.now() - Math.random() * 86400000).toLocaleString()
+                            });
+                        });
+                    });
+                });
+            });
+            return data;
+        }
+
+        // Generate sample activity data
+        function generateActivityData() {
+            const activities = [
+                'New visitor from QR code scan',
+                'Booking completed for Women\'s Health',
+                'QR code scanned at Weeping Cross',
+                'Consultation booked via poster campaign',
+                'New visitor from flyer campaign',
+                'Booking completed for Health Screening',
+                'QR code scanned at Great Wyrley',
+                'Visitor browsed Men\'s Health service'
+            ];
+            
+            return activities.map((activity, index) => ({
+                message: activity,
+                timestamp: new Date(Date.now() - index * 300000).toLocaleString(),
+                type: activity.includes('Booking') ? 'conversion' : 'visit'
+            }));
+        }
+
+        // Update metric cards
+        function updateMetrics() {
+            document.getElementById('total-visits').textContent = dashboardData.metrics.totalVisits.toLocaleString();
+            document.getElementById('total-bookings').textContent = dashboardData.metrics.totalBookings;
+            document.getElementById('conversion-rate').textContent = dashboardData.metrics.conversionRate + '%';
+            document.getElementById('qr-scans').textContent = dashboardData.metrics.qrScans;
+        }
+
+        // Create charts
+        function createCharts() {
+            // Service Performance Chart
+            const serviceCtx = document.getElementById('serviceChart').getContext('2d');
+            new Chart(serviceCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(dashboardData.services).map(key => services[key]),
+                    datasets: [{
+                        label: 'Visits',
+                        data: Object.values(dashboardData.services).map(s => s.visits),
+                        backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Bookings',
+                        data: Object.values(dashboardData.services).map(s => s.bookings),
+                        backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Branch Performance Chart
+            const branchCtx = document.getElementById('branchChart').getContext('2d');
+            new Chart(branchCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(dashboardData.branches).map(key => branches[key]),
+                    datasets: [{
+                        data: Object.values(dashboardData.branches).map(b => b.visits),
+                        backgroundColor: [
+                            '#6366f1', '#8b5cf6', '#ec4899', '#f59e0b',
+                            '#10b981', '#06b6d4', '#84cc16', '#f97316',
+                            '#ef4444', '#6b7280'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Populate UTM tracking table
+        function populateUTMTable() {
+            const tbody = document.getElementById('utm-table-body');
+            tbody.innerHTML = dashboardData.utmTracking.map(row => `
+                <tr class="hover:bg-gray-50">
+                    <td class="font-medium">${services[row.campaign] || row.campaign}</td>
+                    <td>${materials[row.source] || row.source}</td>
+                    <td>${row.medium}</td>
+                    <td>${row.visits}</td>
+                    <td>${row.bookings}</td>
+                    <td>${row.conversion}</td>
+                    <td><span class="status-badge status-${row.status}">${row.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // Populate QR performance table
+        function populateQRTable() {
+            const tbody = document.getElementById('qr-table-body');
+            tbody.innerHTML = dashboardData.qrPerformance.map(row => `
+                <tr class="hover:bg-gray-50">
+                    <td class="font-medium">${row.service}</td>
+                    <td>${row.branch}</td>
+                    <td>${row.material}</td>
+                    <td><span class="font-mono text-sm bg-gray-100 px-2 py-1 rounded">${row.version}</span></td>
+                    <td>${row.scans}</td>
+                    <td>${row.bookings}</td>
+                    <td>${row.conversion}</td>
+                    <td class="text-sm text-gray-600">${row.lastScan}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Update activity feed
+        function updateActivityFeed() {
+            const feed = document.getElementById('activity-feed');
+            feed.innerHTML = dashboardData.recentActivity.map(activity => `
+                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                    <div class="w-2 h-2 rounded-full ${activity.type === 'conversion' ? 'bg-green-500' : 'bg-blue-500'}"></div>
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-900">${activity.message}</p>
+                        <p class="text-xs text-gray-500">${activity.timestamp}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Refresh data
+        async function refreshData() {
+            await loadDashboardData();
+            updateMetrics();
+            populateUTMTable();
+            populateQRTable();
+            updateActivityFeed();
+        }
+
+        // Export data to CSV
+        function exportData() {
+            const csvData = [
+                ['Campaign', 'Source', 'Medium', 'Visits', 'Bookings', 'Conversion', 'Status'],
+                ...dashboardData.utmTracking.map(row => [
+                    services[row.campaign] || row.campaign,
+                    materials[row.source] || row.source,
+                    row.medium,
+                    row.visits,
+                    row.bookings,
+                    row.conversion,
+                    row.status
+                ])
+            ];
+
+            const csvContent = csvData.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cornwells-marketing-data-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</body>
+</html> 
