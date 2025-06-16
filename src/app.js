@@ -135,7 +135,7 @@ class PharmacyLandingApp {
     
     const content = await this.generateUltraFastBookingHTML(service, branch, material);
     document.getElementById('app').innerHTML = content;
-    
+      
     // Initialize ultra-fast booking features
     this.initializeEnhancedUltraFastBooking();
     
@@ -765,7 +765,7 @@ class PharmacyLandingApp {
             </button>
           </div>
         </div>
-      `;
+    `;
       
       // Show PWA install prompt if available
       this.showPWAInstallPrompt();
@@ -865,25 +865,34 @@ class PharmacyLandingApp {
               <p class="text-sm text-gray-600 mt-1">Choose Your Service</p>
             </div>
           </div>
-          </div>
+        </div>
           
         <!-- Mobile Hero Section -->
         <div class="px-4 py-6 text-center text-white">
           <h2 class="text-2xl font-bold mb-2">Expert Healthcare Services</h2>
           <p class="text-white/90 mb-6">Professional consultations available today</p>
           
-          <!-- Quick Stats -->
-          <div class="flex justify-center space-x-6 mb-6">
+          <!-- Quick Stats with Icons -->
+          <div class="flex justify-center space-x-8 mb-6">
             <div class="text-center">
-              <div class="text-lg font-bold">Fast</div>
+              <div class="flex items-center justify-center mb-1">
+                <span class="text-lg mr-1">⚡</span>
+                <div class="text-lg font-bold">Fast</div>
+              </div>
               <div class="text-xs text-white/80">Response</div>
             </div>
             <div class="text-center">
-              <div class="text-lg font-bold">10</div>
+              <div class="flex items-center justify-center mb-1">
+                <span class="text-lg mr-1">📍</span>
+                <div class="text-lg font-bold">10</div>
+              </div>
               <div class="text-xs text-white/80">Locations</div>
             </div>
             <div class="text-center">
-              <div class="text-lg font-bold">Free</div>
+              <div class="flex items-center justify-center mb-1">
+                <span class="text-lg mr-1">💬</span>
+                <div class="text-lg font-bold">Free</div>
+              </div>
               <div class="text-xs text-white/80">Consultation</div>
             </div>
           </div>
@@ -892,48 +901,52 @@ class PharmacyLandingApp {
         <!-- Enhanced Service Cards -->
         <div class="bg-white rounded-t-3xl px-4 py-6 min-h-screen">
           <div class="max-w-2xl mx-auto">
-          <div class="space-y-4">
+            <div class="space-y-5">
               ${allServices.map((service, index) => `
                 <div class="service-card bg-white border-2 border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200" data-service="${service.id}">
-                  <!-- Service Header -->
+                  <!-- Service Header with Fixed Height -->
                   <div class="p-4 bg-gradient-to-r ${service.colorScheme.primary} text-white">
                     <div class="flex items-center justify-between">
-                      <div class="flex items-center space-x-3">
+                      <div class="flex items-center space-x-3 flex-1">
                         <div class="text-2xl">${service.icon}</div>
-                  <div>
+                        <div class="flex-1">
                           <h3 class="font-bold text-lg leading-tight">${service.title}</h3>
-                          <p class="text-white/90 text-sm">${service.headline}</p>
-                  </div>
-                </div>
-                      <div class="text-right">
-                        <div class="text-xs font-semibold">Available Today</div>
-                        <div class="text-xs text-white/80">Quick response</div>
+                          <p class="text-white/90 text-sm mt-0.5">${service.headline}</p>
+                        </div>
+                      </div>
+                      <!-- Fixed Height Availability Block -->
+                      <div class="text-right flex-shrink-0 min-w-[80px]">
+                        <div class="h-8 flex flex-col justify-center">
+                          <div class="text-xs font-semibold leading-tight">Available</div>
+                          <div class="text-xs font-semibold leading-tight">Today</div>
+                        </div>
+                        <div class="text-xs text-white/80 mt-0.5">Quick response</div>
                       </div>
                     </div>
                   </div>
                   
-                  <!-- Quick Benefits -->
+                  <!-- Benefits Section with Consistent Spacing -->
                   <div class="p-4">
-                    <div class="space-y-2 mb-4">
+                    <div class="space-y-3 mb-5">
                       ${service.specificBenefits.slice(0, 2).map(benefit => `
-                        <div class="flex items-start space-x-2 text-sm">
+                        <div class="flex items-start space-x-3 text-sm">
                           <div class="w-1.5 h-1.5 bg-gradient-to-r ${service.colorScheme.primary} rounded-full mt-2 flex-shrink-0"></div>
-                          <span class="text-gray-700">${benefit}</span>
+                          <span class="text-gray-700 leading-relaxed">${benefit}</span>
                         </div>
-            `).join('')}
+                      `).join('')}
                     </div>
                     
-                    <!-- Quick Action Buttons -->
-                    <div class="flex space-x-2">
+                    <!-- Action Buttons with Improved Contrast -->
+                    <div class="flex space-x-3">
                       <button 
                         onclick="window.app.showQuickBooking('${service.id}')" 
-                        class="flex-1 bg-gradient-to-r ${service.colorScheme.primary} text-white py-3 px-4 rounded-xl font-semibold text-sm shadow-lg transform transition-all active:scale-95"
+                        class="flex-1 bg-gradient-to-r ${service.colorScheme.primary} text-white py-3 px-4 rounded-xl font-semibold text-sm shadow-lg transform transition-all active:scale-95 min-h-[44px]"
                       >
                         📞 Quick Book
                       </button>
                       <button 
                         onclick="window.app.loadServiceLanding('${service.id}')" 
-                        class="px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold text-sm border border-gray-200"
+                        class="px-4 py-3 bg-gray-50 text-gray-700 rounded-xl font-semibold text-sm border-2 border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-colors min-h-[44px]"
                       >
                         Learn More
                       </button>
@@ -946,8 +959,9 @@ class PharmacyLandingApp {
             <!-- Emergency Contact -->
             <div class="text-center mt-8 pt-6 border-t border-gray-100">
               <p class="text-sm text-gray-600 mb-3">Need to speak to someone immediately?</p>
-              <button data-call-pharmacy class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg">
-                📞 Call Pharmacy Now
+              <button data-call-pharmacy class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg inline-flex items-center space-x-2">
+                <span>📞</span>
+                <span>Call Pharmacy Now</span>
               </button>
             </div>
             
@@ -1249,7 +1263,7 @@ class PharmacyLandingApp {
               <h2 class="text-3xl font-bold text-gray-900">Book ${service.title}</h2>
               <button onclick="document.getElementById('booking-modal').remove()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
             </div>
-            
+          
             <form id="booking-form" class="space-y-6">
               <div class="grid md:grid-cols-2 gap-6">
             <div>

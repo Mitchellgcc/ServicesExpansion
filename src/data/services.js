@@ -25,7 +25,7 @@ export const services = {
     socialProof: 'Over 300 successful weight loss transformations',
     urgency: 'New patient spots filling fast',
     targetAudience: 'Adults wanting sustainable weight loss with medical support',
-    icon: '⚡',
+    icon: '⚖️',
     featured: true
   },
   
@@ -55,7 +55,7 @@ export const services = {
     socialProof: 'Helping 200+ women reclaim their energy and confidence',
     urgency: 'Limited consultation slots this week',
     targetAudience: 'Women aged 45-65 experiencing menopause symptoms',
-    icon: '🌸',
+    icon: '🌺',
     featured: true
   },
   
@@ -85,7 +85,7 @@ export const services = {
     socialProof: 'Trusted by 1,000+ health-conscious individuals',
     urgency: 'Same-day screening available',
     targetAudience: 'Health-conscious adults 40+ wanting proactive health monitoring',
-    icon: '🔍',
+    icon: '🩺',
     featured: true
   },
   
@@ -115,7 +115,7 @@ export const services = {
     socialProof: 'Protecting 2,000+ families this year',
     urgency: 'Flu season starting - book before it\'s too late',
     targetAudience: 'Individuals and families wanting protection against preventable diseases',
-    icon: '🛡️',
+    icon: '💉',
     featured: true
   },
   
@@ -175,7 +175,7 @@ export const services = {
     socialProof: 'Helping 150+ men reclaim their prime',
     urgency: 'Confidential consultations available this week',
     targetAudience: 'Men 35-65 wanting to optimize health, energy, and performance',
-    icon: '💪',
+    icon: '🔋',
     featured: true
   },
   
