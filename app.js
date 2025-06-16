@@ -832,8 +832,11 @@ class PharmacyLandingApp {
     document.title = `${service.title} - Cornwells Pharmacy Services`;
     this.updateMetaDescription(service.description);
     
-    // Re-initialize animations for new content
+    // Initialize all premium animations and interactions
     this.initializeAnimations();
+    this.initializeCountUpAnimations();
+    this.initializeProgressBars();
+    this.initializeScrollProgress();
   }
 
   loadServiceSelector() {
@@ -1615,140 +1618,430 @@ class PharmacyLandingApp {
 
   generateServiceLandingHTML(service) {
     return `
-      <div class="min-h-screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <!-- Premium Glass Navigation -->
-        <nav class="glass-card sticky top-0 z-50 safe-area-top" style="border-radius: 0; border-top: none; border-left: none; border-right: none;">
+      <div class="min-h-screen premium-gradient">
+        <!-- Premium Glass Navigation with Progress Bar -->
+        <nav class="glass-nav sticky top-0 z-50 safe-area-top">
           <div class="px-6 py-5">
             <div class="flex items-center justify-between">
-              <button onclick="window.app.loadServiceSelector()" class="btn-secondary flex items-center space-x-2">
+              <button onclick="window.app.loadServiceSelector()" class="btn-glass flex items-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
                 <span>Back</span>
               </button>
-              <h1 class="text-xl font-bold text-gray-900">Cornwells</h1>
-              <button data-call-pharmacy class="btn-primary bg-gradient-to-r from-green-500 to-green-600">
+              <h1 class="text-xl font-bold text-white">Cornwells</h1>
+              <button data-call-pharmacy class="btn-cta animate-pulse-glow">
                 📞 Call
               </button>
             </div>
           </div>
+          <div class="progress-bar"></div>
         </nav>
 
-        <!-- Premium Hero Section -->
-        <div class="px-6 py-12 text-center">
-          <div class="glass-card inline-block px-8 py-8 animate-float">
-            <div class="text-7xl mb-6 animate-breathe">${service.icon}</div>
-            <h1 class="text-4xl font-bold text-gray-900 mb-4 leading-tight">${service.title}</h1>
-            <p class="text-lg text-gray-700 mb-6 leading-relaxed max-w-md mx-auto">
+        <!-- Immersive Hero Section -->
+        <div class="hero-section px-6 py-16 text-center relative overflow-hidden">
+          <!-- Floating Background Elements -->
+          <div class="floating-elements">
+            <div class="floating-circle floating-circle-1"></div>
+            <div class="floating-circle floating-circle-2"></div>
+            <div class="floating-circle floating-circle-3"></div>
+          </div>
+          
+          <div class="hero-content relative z-10">
+            <div class="hero-icon-container mb-8">
+              <div class="hero-icon animate-float-slow">${service.icon}</div>
+              <div class="hero-icon-glow"></div>
+            </div>
+            
+            <h1 class="hero-title mb-6">${service.title}</h1>
+            <p class="hero-description mb-8 max-w-lg mx-auto">
               ${service.description}
             </p>
-            <div class="badge-available text-lg px-6 py-2">Available Today</div>
+            
+            <div class="hero-badges flex flex-wrap justify-center gap-3 mb-8">
+              <div class="badge-premium animate-bounce-subtle">✨ Premium Service</div>
+              <div class="badge-available animate-pulse-soft">🟢 Available Today</div>
+              <div class="badge-trusted animate-glow-soft">🏆 Trusted Since 1835</div>
+            </div>
+            
+            <div class="hero-cta-container">
+              <button data-book-consultation="${service.id}" class="btn-hero-primary animate-glow-intense">
+                🚀 Start Your Journey
+              </button>
+              <button data-call-pharmacy class="btn-hero-secondary">
+                💬 Speak to Expert
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Premium Content Sections -->
-        <div class="px-6 pb-8">
-          <div class="max-w-4xl mx-auto space-y-8">
+        <!-- Interactive Content Sections -->
+        <div class="content-sections px-6 pb-12">
+          <div class="max-w-5xl mx-auto space-y-12">
             
-            <!-- What You Get Section -->
-            <div class="glass-card p-8">
-              <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">What You Get</h2>
-              <div class="grid gap-6">
+            <!-- Transformation Promise Section -->
+            <div class="transformation-section glass-card-premium p-10">
+              <div class="section-header text-center mb-10">
+                <div class="section-icon mb-4">🎯</div>
+                <h2 class="section-title">Your Transformation Awaits</h2>
+                <p class="section-subtitle">Discover what makes our approach different</p>
+              </div>
+              
+              <div class="benefits-grid">
                 ${service.specificBenefits.map((benefit, index) => `
-                  <div class="glass-card p-6 stagger-${index + 1} animate-float" style="animation-delay: ${index * 0.1}s;">
-                    <div class="flex items-start space-x-4">
-                      <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));">
-                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
+                  <div class="benefit-card animate-slide-up" style="animation-delay: ${index * 0.15}s;">
+                    <div class="benefit-icon-container">
+                      <div class="benefit-icon">✨</div>
+                      <div class="benefit-number">${index + 1}</div>
+                    </div>
+                    <div class="benefit-content">
+                      <p class="benefit-text">${benefit}</p>
+                      <div class="benefit-progress">
+                        <div class="benefit-progress-bar" style="animation-delay: ${(index * 0.15) + 0.5}s;"></div>
                       </div>
-                      <p class="text-gray-700 leading-relaxed text-lg">${benefit}</p>
                     </div>
                   </div>
                 `).join('')}
               </div>
             </div>
 
-            <!-- How It Works Section -->
-            <div class="glass-card p-8">
-              <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">How It Works</h2>
-              <div class="grid gap-6">
+            <!-- Interactive Process Timeline -->
+            <div class="process-section glass-card-premium p-10">
+              <div class="section-header text-center mb-10">
+                <div class="section-icon mb-4">🛤️</div>
+                <h2 class="section-title">Your Journey to Success</h2>
+                <p class="section-subtitle">Simple steps, powerful results</p>
+              </div>
+              
+              <div class="process-timeline">
                 ${service.uniqueProcess.map((step, index) => `
-                  <div class="glass-card p-6 stagger-${index + 1} animate-float" style="animation-delay: ${(index + 3) * 0.1}s;">
-                    <div class="flex items-start space-x-6">
-                      <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-lg" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));">
-                        ${index + 1}
+                  <div class="timeline-item animate-fade-in-up" style="animation-delay: ${index * 0.2}s;">
+                    <div class="timeline-connector ${index === service.uniqueProcess.length - 1 ? 'timeline-connector-last' : ''}"></div>
+                    <div class="timeline-step">
+                      <div class="step-number-container">
+                        <div class="step-number">${index + 1}</div>
+                        <div class="step-pulse"></div>
                       </div>
-                      <p class="text-gray-700 leading-relaxed text-lg pt-2">${step}</p>
+                      <div class="step-content">
+                        <div class="step-text">${step}</div>
+                        <div class="step-duration">~${this.getStepDuration(index)} mins</div>
+                      </div>
                     </div>
                   </div>
                 `).join('')}
               </div>
             </div>
 
-            <!-- Premium Social Proof -->
-            <div class="glass-card p-8 text-center" style="background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));">
-              <div class="text-5xl mb-4">⭐⭐⭐⭐⭐</div>
-              <h3 class="text-2xl font-bold text-white mb-3">${service.socialProof}</h3>
-              <p class="text-white/90 text-lg">${service.urgency}</p>
+            <!-- Social Proof Showcase -->
+            <div class="social-proof-section">
+              <div class="testimonial-card glass-card-premium p-10 text-center">
+                <div class="testimonial-stars mb-6">
+                  <div class="stars-container">
+                    <span class="star animate-twinkle" style="animation-delay: 0.1s;">⭐</span>
+                    <span class="star animate-twinkle" style="animation-delay: 0.2s;">⭐</span>
+                    <span class="star animate-twinkle" style="animation-delay: 0.3s;">⭐</span>
+                    <span class="star animate-twinkle" style="animation-delay: 0.4s;">⭐</span>
+                    <span class="star animate-twinkle" style="animation-delay: 0.5s;">⭐</span>
+                  </div>
+                </div>
+                
+                <div class="testimonial-content mb-8">
+                  <h3 class="testimonial-title">${service.socialProof}</h3>
+                  <p class="testimonial-subtitle">${service.urgency}</p>
+                </div>
+                
+                <div class="success-metrics grid grid-cols-3 gap-6">
+                  <div class="metric-item">
+                    <div class="metric-number animate-count-up" data-target="98">0</div>
+                    <div class="metric-label">% Success Rate</div>
+                  </div>
+                  <div class="metric-item">
+                    <div class="metric-number animate-count-up" data-target="24">0</div>
+                    <div class="metric-label">Hour Response</div>
+                  </div>
+                  <div class="metric-item">
+                    <div class="metric-number animate-count-up" data-target="1835">0</div>
+                    <div class="metric-label">Since</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Premium CTA Section -->
-            <div class="glass-card p-8">
-              <div class="text-center mb-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Ready to Get Started?</h3>
-                <p class="text-gray-600">Book your consultation or speak to our team</p>
+            <div class="cta-section glass-card-premium p-10">
+              <div class="cta-content text-center">
+                <div class="cta-icon mb-6">🎉</div>
+                <h3 class="cta-title mb-4">Ready to Transform Your Health?</h3>
+                <p class="cta-subtitle mb-8">Join thousands who've already started their journey</p>
+                
+                <div class="cta-buttons-container">
+                  <button data-book-consultation="${service.id}" class="btn-cta-primary animate-glow-pulse">
+                    <span class="btn-icon">📅</span>
+                    <span class="btn-text">Book My Consultation</span>
+                    <span class="btn-badge">Most Popular</span>
+                  </button>
+                  
+                  <button data-call-pharmacy class="btn-cta-secondary">
+                    <span class="btn-icon">📞</span>
+                    <span class="btn-text">Call to Discuss First</span>
+                  </button>
+                </div>
+                
+                <div class="cta-guarantee mt-6">
+                  <div class="guarantee-badge">
+                    <span class="guarantee-icon">🛡️</span>
+                    <span class="guarantee-text">100% Confidential & Professional</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Enhanced Trust Indicators -->
+            <div class="trust-section glass-card-premium p-10">
+              <div class="section-header text-center mb-10">
+                <div class="section-icon mb-4">🏆</div>
+                <h3 class="section-title">Why 10,000+ Choose Cornwells</h3>
               </div>
               
-              <div class="grid gap-4 max-w-md mx-auto">
-                <button data-book-consultation="${service.id}" class="btn-primary w-full text-lg py-5 animate-glow">
-                  📅 Book My Consultation
-                </button>
-                <button data-call-pharmacy class="btn-secondary w-full text-lg py-5">
-                  📞 Call to Discuss First
-                </button>
+              <div class="trust-grid">
+                <div class="trust-item animate-float" style="animation-delay: 0.1s;">
+                  <div class="trust-icon-container">
+                    <div class="trust-icon">⚡</div>
+                    <div class="trust-glow"></div>
+                  </div>
+                  <div class="trust-content">
+                    <div class="trust-title">Lightning Fast</div>
+                    <div class="trust-subtitle">24-48h appointments</div>
+                    <div class="trust-detail">Same-day availability for urgent cases</div>
+                  </div>
+                </div>
+                
+                <div class="trust-item animate-float" style="animation-delay: 0.2s;">
+                  <div class="trust-icon-container">
+                    <div class="trust-icon">🎓</div>
+                    <div class="trust-glow"></div>
+                  </div>
+                  <div class="trust-content">
+                    <div class="trust-title">Expert Pharmacists</div>
+                    <div class="trust-subtitle">Qualified professionals</div>
+                    <div class="trust-detail">Continuous training & certification</div>
+                  </div>
+                </div>
+                
+                <div class="trust-item animate-float" style="animation-delay: 0.3s;">
+                  <div class="trust-icon-container">
+                    <div class="trust-icon">🔒</div>
+                    <div class="trust-glow"></div>
+                  </div>
+                  <div class="trust-content">
+                    <div class="trust-title">100% Private</div>
+                    <div class="trust-subtitle">Confidential consultations</div>
+                    <div class="trust-detail">GDPR compliant & secure</div>
+                  </div>
+                </div>
+                
+                <div class="trust-item animate-float" style="animation-delay: 0.4s;">
+                  <div class="trust-icon-container">
+                    <div class="trust-icon">📍</div>
+                    <div class="trust-glow"></div>
+                  </div>
+                  <div class="trust-content">
+                    <div class="trust-title">Local Presence</div>
+                    <div class="trust-subtitle">10 convenient locations</div>
+                    <div class="trust-detail">Serving communities across the region</div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- Premium Trust Indicators -->
-            <div class="glass-card p-8">
-              <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Why Choose Cornwells?</h3>
-              <div class="grid grid-cols-2 gap-6">
-                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.1s;">
-                  <div class="text-4xl mb-3">⚡</div>
-                  <div class="font-bold text-gray-900 mb-1">Quick Access</div>
-                  <div class="text-sm text-gray-600">24-48h appointments</div>
-                </div>
-                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.2s;">
-                  <div class="text-4xl mb-3">🏆</div>
-                  <div class="font-bold text-gray-900 mb-1">Expert Care</div>
-                  <div class="text-sm text-gray-600">Qualified pharmacists</div>
-                </div>
-                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.3s;">
-                  <div class="text-4xl mb-3">🔒</div>
-                  <div class="font-bold text-gray-900 mb-1">Confidential</div>
-                  <div class="text-sm text-gray-600">Private consultations</div>
-                </div>
-                <div class="glass-card text-center p-6 animate-float" style="animation-delay: 0.4s;">
-                  <div class="text-4xl mb-3">📍</div>
-                  <div class="font-bold text-gray-900 mb-1">Local</div>
-                  <div class="text-sm text-gray-600">10 locations</div>
-                </div>
+            <!-- FAQ Section -->
+            <div class="faq-section glass-card-premium p-10">
+              <div class="section-header text-center mb-10">
+                <div class="section-icon mb-4">❓</div>
+                <h3 class="section-title">Frequently Asked Questions</h3>
+              </div>
+              
+              <div class="faq-list">
+                ${this.getServiceFAQs(service.id).map((faq, index) => `
+                  <div class="faq-item animate-slide-in" style="animation-delay: ${index * 0.1}s;">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('faq-open')">
+                      <span class="faq-question-text">${faq.question}</span>
+                      <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                      <p class="faq-answer-text">${faq.answer}</p>
+                    </div>
+                  </div>
+                `).join('')}
               </div>
             </div>
 
-            <!-- Footer -->
-            <div class="glass-card text-center p-6">
-              <p class="text-gray-600 mb-2">Available Mon-Sat, 9am-6pm</p>
-              <p class="text-gray-500">Trusted healthcare since 1835</p>
+            <!-- Final CTA with Urgency -->
+            <div class="final-cta-section glass-card-premium p-10 text-center">
+              <div class="urgency-indicator mb-6">
+                <div class="urgency-pulse"></div>
+                <span class="urgency-text">⏰ Limited spots available this week</span>
+              </div>
+              
+              <h3 class="final-cta-title mb-4">Don't Wait - Your Health Matters</h3>
+              <p class="final-cta-subtitle mb-8">Book now and take the first step towards better health</p>
+              
+              <button data-book-consultation="${service.id}" class="btn-final-cta animate-glow-intense">
+                🚀 Secure My Spot Now
+              </button>
+              
+              <div class="final-cta-footer mt-6">
+                <p class="footer-text">Available Mon-Sat, 9am-6pm</p>
+                <p class="footer-subtext">Trusted healthcare since 1835</p>
+              </div>
             </div>
             
             <div class="safe-area-bottom"></div>
           </div>
         </div>
+        
+        <!-- Floating Action Button -->
+        <div class="fab-container">
+          <button class="fab animate-breathe" data-book-consultation="${service.id}" title="Quick Book">
+            📅
+          </button>
+        </div>
       </div>
     `;
   }
+  getStepDuration(index) {
+    const durations = [15, 30, 10, 20, 5];
+    return durations[index] || 15;
+  }
+
+  getServiceFAQs(serviceId) {
+    const faqs = {
+      'metabolic-weight': [
+        {
+          question: "How quickly will I see results?",
+          answer: "Most patients see initial results within 2-4 weeks, with significant improvements by 8-12 weeks. Our personalized approach ensures sustainable, long-term success."
+        },
+        {
+          question: "Is this suitable for people with diabetes?",
+          answer: "Yes, our pharmacists are specially trained to work with diabetic patients. We'll coordinate with your existing healthcare team to ensure safe, effective treatment."
+        },
+        {
+          question: "What's included in the consultation?",
+          answer: "Complete health assessment, personalized treatment plan, medication review, lifestyle guidance, and ongoing support with regular check-ins."
+        },
+        {
+          question: "Are there any side effects?",
+          answer: "All treatments are carefully monitored. Our pharmacists will discuss potential side effects and how to manage them during your consultation."
+        }
+      ],
+      'womens-health': [
+        {
+          question: "Is the consultation completely confidential?",
+          answer: "Absolutely. All consultations are private and confidential. We follow strict GDPR guidelines and your information is never shared without your consent."
+        },
+        {
+          question: "Can I speak to a female pharmacist?",
+          answer: "Yes, we have female pharmacists available. You can request this when booking your appointment."
+        },
+        {
+          question: "What conditions do you treat?",
+          answer: "We provide support for contraception, UTIs, thrush, period problems, menopause, and many other women's health concerns."
+        },
+        {
+          question: "Do I need a prescription?",
+          answer: "Our pharmacists can provide treatments under the NHS Pharmacy First scheme for many conditions, often without needing a GP prescription."
+        }
+      ],
+      'mens-health': [
+        {
+          question: "How discreet is the service?",
+          answer: "Completely discreet. Private consultation rooms, confidential discussions, and discreet packaging for any treatments."
+        },
+        {
+          question: "What age groups do you serve?",
+          answer: "We provide men's health services for all adult ages, with treatments tailored to your specific age group and health needs."
+        },
+        {
+          question: "Is erectile dysfunction treatment available?",
+          answer: "Yes, we provide comprehensive ED treatment including consultation, medication, and ongoing support in a private, professional environment."
+        },
+        {
+          question: "Can I get testosterone testing?",
+          answer: "We can arrange appropriate testing and provide guidance on results, working with your GP when necessary."
+        }
+      ]
+    };
+    
+    return faqs[serviceId] || [
+      {
+        question: "How do I book an appointment?",
+        answer: "Simply click the booking button above or call us directly. We offer same-day and next-day appointments."
+      },
+      {
+        question: "What should I bring to my appointment?",
+        answer: "Bring a list of current medications, any relevant medical history, and your questions. We'll handle the rest."
+      },
+      {
+        question: "How long does a consultation take?",
+        answer: "Initial consultations typically take 20-30 minutes, allowing plenty of time for discussion and questions."
+      }
+    ];
+  }
+
+  initializeCountUpAnimations() {
+    const countElements = document.querySelectorAll('.animate-count-up');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          const target = parseInt(element.dataset.target);
+          let current = 0;
+          const increment = target / 50;
+          
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              element.textContent = target;
+              clearInterval(timer);
+            } else {
+              element.textContent = Math.floor(current);
+            }
+          }, 40);
+          
+          observer.unobserve(element);
+        }
+      });
+    });
+    
+    countElements.forEach(el => observer.observe(el));
+  }
+
+  initializeProgressBars() {
+    const progressBars = document.querySelectorAll('.benefit-progress-bar');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.width = '100%';
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    
+    progressBars.forEach(bar => observer.observe(bar));
+  }
+
+  initializeScrollProgress() {
+    const progressBar = document.querySelector('.progress-bar');
+    if (!progressBar) return;
+    
+    window.addEventListener('scroll', () => {
+      const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      progressBar.style.width = `${Math.min(scrolled, 100)}%`;
+    });
+  }
+
   showConfettiEffect() {
     // Create confetti elements
     for (let i = 0; i < 50; i++) {
