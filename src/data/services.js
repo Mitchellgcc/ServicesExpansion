@@ -86,7 +86,7 @@ export const services = {
     urgency: 'Same-day screening available',
     targetAudience: 'Health-conscious adults 40+ wanting proactive health monitoring',
     icon: '🔍',
-    featured: false
+    featured: true
   },
   
   'vaccinations': {
@@ -116,7 +116,7 @@ export const services = {
     urgency: 'Flu season starting - book before it\'s too late',
     targetAudience: 'Individuals and families wanting protection against preventable diseases',
     icon: '🛡️',
-    featured: false
+    featured: true
   },
   
   'nhs-services': {
@@ -146,7 +146,7 @@ export const services = {
     urgency: 'Open now - no appointment needed',
     targetAudience: 'Anyone needing quick NHS healthcare for minor illnesses',
     icon: '🏥',
-    featured: false
+    featured: true
   },
   
   'mens-health': {
@@ -236,7 +236,67 @@ export const services = {
     urgency: 'Limited gut health consultations this month',
     targetAudience: 'Adults with IBS, bloating, food intolerances, or digestive discomfort',
     icon: '🌱',
-    featured: false
+    featured: true
+  },
+
+  'family-health': {
+    id: 'family-health',
+    title: 'Family Health Hub',
+    headline: 'Keep Your Family Healthy',
+    subheadline: 'One-stop healthcare for the whole family',
+    description: 'Convenient healthcare for every family member, from children to grandparents.',
+    colorScheme: {
+      primary: 'from-amber-500 to-orange-600',
+      secondary: 'from-amber-400/20 to-orange-400/20',
+      accent: 'bg-amber-500',
+      hero: 'from-amber-900 via-orange-900 to-slate-900'
+    },
+    specificBenefits: [
+      'Healthcare for all ages in one convenient location',
+      'Family health plans with special pricing',
+      'Child-friendly environment with experienced staff'
+    ],
+    uniqueProcess: [
+      'Family health assessment for all members',
+      'Coordinated care plans for ongoing health needs',
+      'Emergency support when your family needs it most'
+    ],
+    callToAction: 'Ready to simplify your family\'s healthcare? Start today.',
+    socialProof: 'Caring for 400+ families in our community',
+    urgency: 'Family consultation packages available now',
+    targetAudience: 'Families wanting coordinated healthcare for all members',
+    icon: '👨‍👩‍👧‍👦',
+    featured: true
+  },
+
+  'mental-health': {
+    id: 'mental-health',
+    title: 'Mental Health & Wellbeing',
+    headline: 'Feel Like Yourself Again',
+    subheadline: 'Professional support for anxiety, depression, and stress',
+    description: 'Struggling with your mental health? Get professional support in a safe, understanding environment.',
+    colorScheme: {
+      primary: 'from-purple-600 to-indigo-700',
+      secondary: 'from-purple-500/20 to-indigo-500/20',
+      accent: 'bg-purple-600',
+      hero: 'from-purple-900 via-indigo-900 to-slate-900'
+    },
+    specificBenefits: [
+      'Professional counseling without long NHS waiting lists',
+      'Medication reviews and mental health assessments',
+      'Confidential support in a comfortable, private setting'
+    ],
+    uniqueProcess: [
+      'Initial mental health assessment in a safe space',
+      'Personalized treatment plan including therapy options',
+      'Ongoing support with regular check-ins and adjustments'
+    ],
+    callToAction: 'Ready to prioritize your mental health? Take the first step today.',
+    socialProof: 'Supporting 200+ individuals on their mental health journey',
+    urgency: 'Confidential appointments available this week',
+    targetAudience: 'Adults seeking professional mental health support and counseling',
+    icon: '🧠',
+    featured: true
   }
 };
 
@@ -248,11 +308,18 @@ export const serviceCategories = {
   'nhs-services': { name: 'NHS Services', color: 'indigo' },
   'mens-health': { name: 'Men\'s Health', color: 'gray' },
   'travel-health': { name: 'Travel Health', color: 'sky' },
-  'gut-health': { name: 'Gut Health', color: 'lime' }
+  'gut-health': { name: 'Gut Health', color: 'lime' },
+  'family-health': { name: 'Family Health', color: 'amber' },
+  'mental-health': { name: 'Mental Health', color: 'purple' }
 };
 
 export const getFeaturedServices = () => {
   return Object.values(services).filter(service => service.featured);
+};
+
+// Return all services for the main selector (not just featured)
+export const getAllServicesForSelector = () => {
+  return Object.values(services);
 };
 
 export const getServiceById = (id) => {

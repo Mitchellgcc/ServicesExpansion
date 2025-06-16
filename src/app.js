@@ -1,4 +1,4 @@
-import { services, getFeaturedServices, getServiceById } from './data/services.js';
+import { services, getFeaturedServices, getAllServicesForSelector, getServiceById } from './data/services.js';
 import { supabase, SERVICE_TYPES, TIME_SLOTS } from './config/supabase.js';
 import { cornwellsTracking } from './utils/tracking.js';
 import QRCode from 'qrcode';
@@ -423,7 +423,7 @@ class PharmacyLandingApp {
   }
 
   generateServiceSelectorHTML() {
-    const featuredServices = getFeaturedServices();
+    const allServices = getAllServicesForSelector();
     
     return `
       <div class="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800">
@@ -460,7 +460,7 @@ class PharmacyLandingApp {
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              ${featuredServices.map((service, index) => `
+              ${allServices.map((service, index) => `
                 <div class="group cursor-pointer fade-in-up" style="animation-delay: ${index * 100}ms" onclick="window.app.loadServiceLanding('${service.id}')">
                   <div class="bg-gradient-to-br ${service.colorScheme.primary} rounded-3xl p-8 text-white transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
                     <div class="text-5xl mb-6">${service.icon}</div>
