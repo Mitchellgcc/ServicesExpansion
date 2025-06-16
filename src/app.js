@@ -102,7 +102,7 @@ class PharmacyLandingApp {
       if (this.isQRCodeVisit() && this.isMobileDevice()) {
         this.loadMobileQRLanding(serviceId);
       } else {
-        this.loadServiceLanding(serviceId);
+      this.loadServiceLanding(serviceId);
       }
     } else {
       this.loadServiceSelector();
@@ -165,20 +165,20 @@ class PharmacyLandingApp {
                 <h1 class="font-bold text-gray-900 text-lg leading-tight">${service.title}</h1>
                 <p class="text-sm text-gray-600">${branchName}</p>
                 ${personalizedDefaults.isReturningUser ? '<p class="text-xs text-blue-600">👋 Welcome back!</p>' : ''}
-              </div>
             </div>
+          </div>
             <div class="text-right">
               <div class="text-xs text-green-600 font-semibold">✅ Available ${isToday ? 'Today' : 'Tomorrow'}</div>
               ${scarcityData.showScarcity ? `<div class="text-xs text-orange-600 font-semibold">⚡ ${scarcityData.message}</div>` : '<div class="text-xs text-gray-500">Quick response</div>'}
             </div>
           </div>
-          
+
           <!-- Social Proof & Loss Aversion -->
           <div class="mt-2 flex items-center justify-between text-xs">
             <div class="text-gray-600">👥 ${socialProof.message}</div>
             ${lossAversionMsg ? `<div class="text-orange-600 font-semibold">${lossAversionMsg}</div>` : ''}
-          </div>
-        </div>
+              </div>
+              </div>
 
         <!-- Hero Message -->
         <div class="px-4 py-6 text-center text-white">
@@ -191,10 +191,10 @@ class PharmacyLandingApp {
               <div class="flex items-center justify-center space-x-2 text-sm">
                 <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
                 <span class="text-white/90">${benefit}</span>
-              </div>
-            `).join('')}
           </div>
+            `).join('')}
         </div>
+      </div>
 
         <!-- Ultra-Fast Booking Form -->
         <div class="bg-white rounded-t-3xl px-4 py-6 min-h-screen">
@@ -205,7 +205,7 @@ class PharmacyLandingApp {
               <div class="w-8 h-1 bg-gradient-to-r ${service.colorScheme.primary} rounded-full"></div>
               <div class="w-8 h-1 bg-gray-200 rounded-full"></div>
               <div class="w-8 h-1 bg-gray-200 rounded-full"></div>
-            </div>
+                </div>
 
             <form id="ultra-fast-booking" class="space-y-6">
               <!-- Step 1: Enhanced Phone Number with Voice Input -->
@@ -214,7 +214,7 @@ class PharmacyLandingApp {
                   <h3 class="text-xl font-bold text-gray-900 mb-1">Your Phone Number</h3>
                   <p class="text-gray-600 text-sm mb-2">We'll call you back soon</p>
                   <div id="progress-message" class="text-xs text-blue-600 font-semibold"></div>
-                </div>
+              </div>
                 
                 <div class="relative">
                   <input 
@@ -238,8 +238,8 @@ class PharmacyLandingApp {
                   </button>
                   
                   <div id="phone-feedback" class="mt-2 text-center text-sm"></div>
-                </div>
-                
+        </div>
+
                 <!-- One-Tap Quick Options for Returning Users -->
                 ${personalizedDefaults.isReturningUser && personalizedDefaults.phoneNumber ? `
                   <div class="mt-4 text-center">
@@ -249,8 +249,8 @@ class PharmacyLandingApp {
                       class="text-sm text-blue-600 font-semibold underline"
                     >
                       📞 Use ${personalizedDefaults.phoneNumber}
-                    </button>
-                  </div>
+          </button>
+        </div>
                 ` : ''}
               </div>
 
@@ -266,16 +266,16 @@ class PharmacyLandingApp {
                   ${isToday ? `
                     <button type="button" class="time-option active" data-time="today">
                       <div class="flex items-center justify-between p-4 border-2 border-blue-500 bg-blue-50 rounded-2xl">
-                        <div>
+              <div>
                           <div class="font-semibold text-gray-900">Today</div>
                           <div class="text-sm text-gray-600">Next available slot</div>
                           ${scarcityData.showScarcity ? `<div class="text-xs text-orange-600 font-semibold">${scarcityData.message}</div>` : ''}
-                        </div>
+              </div>
                         <div class="text-right">
                           <div class="text-2xl">⚡</div>
                           <div class="text-xs text-green-600">Available</div>
-                        </div>
-                      </div>
+            </div>
+        </div>
                     </button>
                   ` : ''}
                   <button type="button" class="time-option ${!isToday ? 'active' : ''}" data-time="tomorrow">
@@ -335,8 +335,8 @@ class PharmacyLandingApp {
                   disabled
                 >
                   Enter Phone Number
-                </button>
-                
+            </button>
+            
                 <button 
                   type="submit" 
                   id="book-now-btn" 
@@ -352,7 +352,7 @@ class PharmacyLandingApp {
                 >
                   ← Back
                 </button>
-              </div>
+            </div>
             </form>
 
             <!-- Trust Indicators -->
@@ -360,11 +360,11 @@ class PharmacyLandingApp {
               <div class="text-center">
                 <div class="text-2xl mb-1">⚡</div>
                 <div class="text-xs font-semibold text-gray-900">Quick response</div>
-              </div>
+          </div>
               <div class="text-center">
                 <div class="text-2xl mb-1">🔒</div>
                 <div class="text-xs font-semibold text-gray-900">Confidential</div>
-              </div>
+        </div>
               <div class="text-center">
                 <div class="text-2xl mb-1">💯</div>
                 <div class="text-xs font-semibold text-gray-900">Free consultation</div>
@@ -376,7 +376,7 @@ class PharmacyLandingApp {
               <p class="text-xs text-gray-500 mb-2">Need to speak to someone now?</p>
               <button data-call-pharmacy class="text-blue-600 font-semibold text-sm underline">
                 📞 Call Pharmacy Directly
-              </button>
+          </button>
             </div>
 
             <div class="safe-area-bottom"></div>
@@ -725,13 +725,13 @@ class PharmacyLandingApp {
             <div class="flex items-center justify-center space-x-2 mb-3">
               <div class="text-2xl">📞</div>
               <div class="font-semibold text-green-800">Keep your phone nearby!</div>
-            </div>
+          </div>
             <p class="text-sm text-green-700 mb-3">
               Our pharmacist will call to confirm your ${this.getTimeText(timePreference)} appointment.
             </p>
             <div class="text-xs text-green-600 font-semibold">
               Reference: ${bookingDetails?.reference || `#${Date.now().toString().slice(-6)}`}
-            </div>
+        </div>
           </div>
           
           <!-- Multi-Channel Confirmation -->
@@ -865,8 +865,8 @@ class PharmacyLandingApp {
               <p class="text-sm text-gray-600 mt-1">Choose Your Service</p>
             </div>
           </div>
-        </div>
-
+          </div>
+          
         <!-- Mobile Hero Section -->
         <div class="px-4 py-6 text-center text-white">
           <h2 class="text-2xl font-bold mb-2">Expert Healthcare Services</h2>
@@ -892,7 +892,7 @@ class PharmacyLandingApp {
         <!-- Enhanced Service Cards -->
         <div class="bg-white rounded-t-3xl px-4 py-6 min-h-screen">
           <div class="max-w-2xl mx-auto">
-            <div class="space-y-4">
+          <div class="space-y-4">
               ${allServices.map((service, index) => `
                 <div class="service-card bg-white border-2 border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200" data-service="${service.id}">
                   <!-- Service Header -->
@@ -900,11 +900,11 @@ class PharmacyLandingApp {
                     <div class="flex items-center justify-between">
                       <div class="flex items-center space-x-3">
                         <div class="text-2xl">${service.icon}</div>
-                        <div>
+                  <div>
                           <h3 class="font-bold text-lg leading-tight">${service.title}</h3>
                           <p class="text-white/90 text-sm">${service.headline}</p>
-                        </div>
-                      </div>
+                  </div>
+                </div>
                       <div class="text-right">
                         <div class="text-xs font-semibold">Available Today</div>
                         <div class="text-xs text-white/80">Quick response</div>
@@ -920,7 +920,7 @@ class PharmacyLandingApp {
                           <div class="w-1.5 h-1.5 bg-gradient-to-r ${service.colorScheme.primary} rounded-full mt-2 flex-shrink-0"></div>
                           <span class="text-gray-700">${benefit}</span>
                         </div>
-                      `).join('')}
+            `).join('')}
                     </div>
                     
                     <!-- Quick Action Buttons -->
@@ -1233,7 +1233,7 @@ class PharmacyLandingApp {
         service_name: cornwellsTracking.services[serviceId] || 'Unknown Service'
       });
       
-      this.showBookingModal(serviceId);
+    this.showBookingModal(serviceId);
     }
   }
 
@@ -1252,46 +1252,46 @@ class PharmacyLandingApp {
             
             <form id="booking-form" class="space-y-6">
               <div class="grid md:grid-cols-2 gap-6">
-                <div>
+            <div>
                   <label for="patient-name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
                   <input type="text" id="patient-name" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-                <div>
+            </div>
+            <div>
                   <label for="phone-number" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
                   <input type="tel" id="phone-number" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
-              </div>
-              
-              <div>
+            </div>
+            
+            <div>
                 <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
                 <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-              </div>
-              
-              <div>
+            </div>
+            
+            <div>
                 <label for="preferred-time" class="block text-sm font-semibold text-gray-700 mb-2">Preferred Time *</label>
                 <select id="preferred-time" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                   <option value="">Select preferred time</option>
                   <option value="0">Morning (9:00 AM - 12:00 PM)</option>
                   <option value="1">Afternoon (12:00 PM - 5:00 PM)</option>
                   <option value="2">Evening (5:00 PM - 7:00 PM)</option>
-                </select>
-              </div>
-              
-              <div>
+              </select>
+            </div>
+            
+            <div>
                 <label for="notes" class="block text-sm font-semibold text-gray-700 mb-2">Additional Notes</label>
                 <textarea id="notes" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Any specific concerns or questions?"></textarea>
-              </div>
-              
+            </div>
+            
               <div class="flex items-start space-x-3">
                 <input type="checkbox" id="consent" required class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
                 <label for="consent" class="text-sm text-gray-700">
                   I consent to Cornwells Pharmacy contacting me about this consultation and understand that my data will be processed in accordance with their privacy policy. *
-                </label>
-              </div>
+              </label>
+            </div>
               
               <button type="submit" id="submit-booking" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-opacity">
                 📅 Submit Booking Request
-              </button>
+            </button>
               
               <p class="text-sm text-gray-600 text-center">
                 We'll call you within 2 hours to confirm your consultation time.

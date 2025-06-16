@@ -35,7 +35,7 @@ class PharmacyLandingApp {
   registerServiceWorker() {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/src/sw.js')
           .then((registration) => {
             console.log('SW registered: ', registration);
           })
@@ -832,11 +832,8 @@ class PharmacyLandingApp {
     document.title = `${service.title} - Cornwells Pharmacy Services`;
     this.updateMetaDescription(service.description);
     
-    // Initialize all premium animations and interactions
+    // Re-initialize animations for new content
     this.initializeAnimations();
-    this.initializeCountUpAnimations();
-    this.initializeProgressBars();
-    this.initializeScrollProgress();
   }
 
   loadServiceSelector() {
@@ -859,112 +856,104 @@ class PharmacyLandingApp {
     const allServices = getAllServicesForSelector();
     
     return `
-      <div class="min-h-screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <!-- Premium Glass Header -->
-        <div class="glass-card sticky top-0 z-50 safe-area-top" style="border-radius: 0; border-top: none; border-left: none; border-right: none;">
-          <div class="px-6 py-5">
+      <div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+        <!-- Mobile-First Header -->
+        <div class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 safe-area-top">
+          <div class="px-4 py-4">
             <div class="text-center">
-              <h1 class="text-2xl font-bold text-gray-900 mb-1">Cornwells Pharmacy</h1>
-              <p class="text-gray-600">Choose Your Service</p>
+              <h1 class="text-xl font-bold text-gray-900">Cornwells Pharmacy</h1>
+              <p class="text-sm text-gray-600 mt-1">Choose Your Service</p>
             </div>
           </div>
         </div>
 
-        <!-- Floating Hero Stats -->
-        <div class="px-6 py-8 text-center">
-          <div class="glass-card inline-block px-8 py-6 mb-8 animate-float">
-            <h2 class="text-3xl font-bold text-gray-900 mb-2">Expert Healthcare Services</h2>
-            <p class="text-gray-700 mb-6">Professional consultations available today</p>
-            
-            <!-- Premium Stats Grid -->
-            <div class="grid grid-cols-3 gap-6">
-              <div class="text-center">
-                <div class="text-2xl mb-2">⚡</div>
-                <div class="font-bold text-lg text-gray-900">15-min</div>
-                <div class="text-sm text-gray-600">Response</div>
-              </div>
-              <div class="text-center">
-                <div class="text-2xl mb-2">📍</div>
-                <div class="font-bold text-lg text-gray-900">10</div>
-                <div class="text-sm text-gray-600">Locations</div>
-              </div>
-              <div class="text-center">
-                <div class="text-2xl mb-2">💯</div>
-                <div class="font-bold text-lg text-gray-900">Free</div>
-                <div class="text-sm text-gray-600">Consultation</div>
-              </div>
+        <!-- Mobile Hero Section -->
+        <div class="px-4 py-6 text-center text-white">
+          <h2 class="text-2xl font-bold mb-2">Expert Healthcare Services</h2>
+          <p class="text-white/90 mb-6">Professional consultations available today</p>
+          
+          <!-- Quick Stats -->
+          <div class="flex justify-center space-x-6 mb-6">
+            <div class="text-center">
+              <div class="text-lg font-bold">Fast</div>
+              <div class="text-xs text-white/80">Response</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg font-bold">10</div>
+              <div class="text-xs text-white/80">Locations</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg font-bold">Free</div>
+              <div class="text-xs text-white/80">Consultation</div>
             </div>
           </div>
         </div>
 
-        <!-- Premium Service Cards Grid -->
-        <div class="px-6 pb-8">
-          <div class="max-w-4xl mx-auto">
-            <div class="grid gap-6">
+        <!-- Enhanced Service Cards -->
+        <div class="bg-white rounded-t-3xl px-4 py-6 min-h-screen">
+          <div class="max-w-2xl mx-auto">
+            <div class="space-y-4">
               ${allServices.map((service, index) => `
-                <div class="service-card stagger-${(index % 10) + 1} animate-breathe" data-service="${service.id}" style="animation-delay: ${index * 0.1}s;">
-                  <!-- Premium Service Header -->
-                  <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center space-x-4">
-                      <div class="text-4xl animate-float" style="animation-delay: ${index * 0.2}s;">${service.icon}</div>
-                      <div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-1">${service.title}</h3>
-                        <p class="text-gray-600">${service.headline}</p>
+                <div class="service-card bg-white border-2 border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200" data-service="${service.id}">
+                  <!-- Service Header -->
+                  <div class="p-4 bg-gradient-to-r ${service.colorScheme.primary} text-white">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center space-x-3">
+                        <div class="text-2xl">${service.icon}</div>
+                        <div>
+                          <h3 class="font-bold text-lg leading-tight">${service.title}</h3>
+                          <p class="text-white/90 text-sm">${service.headline}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div class="text-right">
-                      <div class="badge-available mb-1">Available Today</div>
-                      <div class="text-xs text-gray-500">15-min response</div>
+                      <div class="text-right">
+                        <div class="text-xs font-semibold">Available Today</div>
+                        <div class="text-xs text-white/80">Quick response</div>
+                      </div>
                     </div>
                   </div>
                   
-                  <!-- Enhanced Benefits -->
-                  <div class="space-y-3 mb-6">
-                    ${service.specificBenefits.slice(0, 2).map(benefit => `
-                      <div class="flex items-start space-x-3">
-                        <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));"></div>
-                        <span class="text-gray-700 leading-relaxed">${benefit}</span>
-                      </div>
-                    `).join('')}
-                  </div>
-                  
-                  <!-- Premium Action Buttons -->
-                  <div class="flex space-x-3">
-                    <button 
-                      onclick="window.app.showQuickBooking('${service.id}')" 
-                      class="btn-primary flex-1 animate-glow"
-                    >
-                      📞 Quick Book
-                    </button>
-                    <button 
-                      onclick="window.app.loadServiceLanding('${service.id}')" 
-                      class="btn-secondary px-6"
-                    >
-                      Learn More →
-                    </button>
+                  <!-- Quick Benefits -->
+                  <div class="p-4">
+                    <div class="space-y-2 mb-4">
+                      ${service.specificBenefits.slice(0, 2).map(benefit => `
+                        <div class="flex items-start space-x-2 text-sm">
+                          <div class="w-1.5 h-1.5 bg-gradient-to-r ${service.colorScheme.primary} rounded-full mt-2 flex-shrink-0"></div>
+                          <span class="text-gray-700">${benefit}</span>
+                        </div>
+                      `).join('')}
+                    </div>
+                    
+                    <!-- Quick Action Buttons -->
+                    <div class="flex space-x-2">
+                      <button 
+                        onclick="window.app.showQuickBooking('${service.id}')" 
+                        class="flex-1 bg-gradient-to-r ${service.colorScheme.primary} text-white py-3 px-4 rounded-xl font-semibold text-sm shadow-lg transform transition-all active:scale-95"
+                      >
+                        📞 Quick Book
+                      </button>
+                      <button 
+                        onclick="window.app.loadServiceLanding('${service.id}')" 
+                        class="px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold text-sm border border-gray-200"
+                      >
+                        Learn More
+                      </button>
+                    </div>
                   </div>
                 </div>
               `).join('')}
             </div>
             
-            <!-- Premium Emergency Contact -->
-            <div class="glass-card text-center mt-12 p-8">
-              <div class="text-3xl mb-4">🚨</div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Need Immediate Help?</h3>
-              <p class="text-gray-600 mb-6">Speak to a qualified pharmacist right now</p>
-              <button data-call-pharmacy class="btn-primary bg-gradient-to-r from-green-500 to-green-600 animate-breathe">
+            <!-- Emergency Contact -->
+            <div class="text-center mt-8 pt-6 border-t border-gray-100">
+              <p class="text-sm text-gray-600 mb-3">Need to speak to someone immediately?</p>
+              <button data-call-pharmacy class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg">
                 📞 Call Pharmacy Now
               </button>
             </div>
             
-            <div class="safe-area-bottom mt-8"></div>
+            <div class="safe-area-bottom"></div>
           </div>
         </div>
-        
-        <!-- Floating Action Button -->
-        <button class="fab animate-breathe" onclick="window.app.handleCallClick()" title="Call Pharmacy">
-          📞
-        </button>
       </div>
     `;
   }
@@ -975,77 +964,70 @@ class PharmacyLandingApp {
     if (!service) return;
 
     const modalHTML = `
-      <div id="quick-booking-modal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-        <!-- Premium Glass Modal -->
-        <div class="modal-content w-full sm:max-w-md sm:w-full sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto">
+      <div id="quick-booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center">
+        <!-- iPhone-optimized modal -->
+        <div class="bg-white w-full sm:max-w-sm sm:w-full sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto">
           <!-- Safe area padding for iPhone -->
-          <div class="px-6 py-6 pb-safe">
-            <!-- Premium Header -->
-            <div class="text-center mb-6">
-              <div class="text-5xl mb-3 animate-float">${service.icon}</div>
-              <h2 class="text-2xl font-bold text-gray-900 mb-2">${service.title}</h2>
-              <div class="badge-available inline-block">📞 Request a callback</div>
+          <div class="px-4 py-4 pb-safe">
+            <!-- Compact Header -->
+            <div class="text-center mb-4">
+              <div class="flex items-center justify-center space-x-2 mb-2">
+                <div class="text-2xl">${service.icon}</div>
+                <h2 class="text-lg font-bold text-gray-900">${service.title}</h2>
+              </div>
+              <p class="text-sm text-blue-600 font-semibold">📞 Request a callback</p>
             </div>
             
-            <form id="quick-booking-form" class="space-y-6">
-              <!-- Premium Phone Input -->
+            <form id="quick-booking-form" class="space-y-4">
+              <!-- Phone Number (Compact) -->
               <div>
-                <label for="quick-phone" class="block text-base font-semibold text-gray-700 mb-3">Your Phone Number</label>
+                <label for="quick-phone" class="block text-sm font-semibold text-gray-700 mb-2">Your Phone Number</label>
                 <input 
                   type="tel" 
                   id="quick-phone" 
                   required 
                   placeholder="07XXX XXX XXX"
-                  class="form-input w-full text-lg font-semibold text-center"
+                  class="w-full px-4 py-3 text-lg font-semibold text-center border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors"
                   autocomplete="tel"
                   inputmode="numeric"
                 >
-                <div id="quick-phone-feedback" class="mt-2 text-center text-sm"></div>
+                <div id="quick-phone-feedback" class="mt-1 text-center text-sm"></div>
               </div>
 
-              <!-- Premium Time Selection -->
+              <!-- Time Preference (Compact) -->
               <div>
-                <label class="block text-base font-semibold text-gray-700 mb-3">When works best?</label>
-                <div class="space-y-3">
-                  <label class="glass-card flex items-center p-4 cursor-pointer hover:bg-white/20 transition-all">
-                    <input type="radio" name="quick-time" value="today" class="mr-4 scale-125" ${new Date().getHours() < 17 ? 'checked' : ''}>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">When works best?</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
+                    <input type="radio" name="quick-time" value="today" class="mr-3 scale-110" ${new Date().getHours() < 17 ? 'checked' : ''}>
                     <div class="flex items-center justify-between w-full">
-                      <div class="flex items-center space-x-3">
-                        <div class="text-xl">⚡</div>
-                        <span class="font-semibold">Today</span>
-                      </div>
-                      <span class="text-sm text-gray-600">Next available</span>
+                      <span class="font-medium text-sm">Today</span>
+                      <span class="text-xs text-gray-600">Next available</span>
                     </div>
                   </label>
-                  <label class="glass-card flex items-center p-4 cursor-pointer hover:bg-white/20 transition-all">
-                    <input type="radio" name="quick-time" value="tomorrow" class="mr-4 scale-125" ${new Date().getHours() >= 17 ? 'checked' : ''}>
+                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
+                    <input type="radio" name="quick-time" value="tomorrow" class="mr-3 scale-110" ${new Date().getHours() >= 17 ? 'checked' : ''}>
                     <div class="flex items-center justify-between w-full">
-                      <div class="flex items-center space-x-3">
-                        <div class="text-xl">🌅</div>
-                        <span class="font-semibold">Tomorrow</span>
-                      </div>
-                      <span class="text-sm text-gray-600">Morning/afternoon</span>
+                      <span class="font-medium text-sm">Tomorrow</span>
+                      <span class="text-xs text-gray-600">Morning/afternoon</span>
                     </div>
                   </label>
-                  <label class="glass-card flex items-center p-4 cursor-pointer hover:bg-white/20 transition-all">
-                    <input type="radio" name="quick-time" value="this-week" class="mr-4 scale-125">
+                  <label class="flex items-center p-2.5 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors active:bg-gray-100">
+                    <input type="radio" name="quick-time" value="this-week" class="mr-3 scale-110">
                     <div class="flex items-center justify-between w-full">
-                      <div class="flex items-center space-x-3">
-                        <div class="text-xl">📅</div>
-                        <span class="font-semibold">This Week</span>
-                      </div>
-                      <span class="text-sm text-gray-600">When convenient</span>
+                      <span class="font-medium text-sm">This Week</span>
+                      <span class="text-xs text-gray-600">When convenient</span>
                     </div>
                   </label>
                 </div>
               </div>
 
-              <!-- Premium Action Buttons -->
-              <div class="space-y-4 pt-4">
+              <!-- Action Buttons (iPhone-optimized) -->
+              <div class="space-y-3 pt-3">
                 <button 
                   type="submit" 
                   id="quick-submit-btn" 
-                  class="btn-primary w-full animate-glow"
+                  class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-4 rounded-xl font-bold text-base shadow-lg transform transition-all active:scale-95 min-h-[44px]"
                   disabled
                 >
                   📞 Book Consultation
@@ -1053,28 +1035,26 @@ class PharmacyLandingApp {
                 <button 
                   type="button" 
                   onclick="document.getElementById('quick-booking-modal').remove()" 
-                  class="btn-secondary w-full"
+                  class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold text-sm min-h-[44px]"
                 >
                   Cancel
                 </button>
               </div>
             </form>
 
-            <!-- Premium Trust Indicators -->
-            <div class="glass-card mt-6 p-4">
-              <div class="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <div class="text-2xl mb-1">⚡</div>
-                  <div class="text-xs font-semibold text-gray-900">Fast</div>
-                </div>
-                <div>
-                  <div class="text-2xl mb-1">🔒</div>
-                  <div class="text-xs font-semibold text-gray-900">Private</div>
-                </div>
-                <div>
-                  <div class="text-2xl mb-1">💯</div>
-                  <div class="text-xs font-semibold text-gray-900">Free</div>
-                </div>
+            <!-- Compact Trust Indicators -->
+            <div class="flex justify-center space-x-4 mt-4 pt-3 border-t border-gray-100">
+              <div class="text-center">
+                <div class="text-sm mb-0.5">⚡</div>
+                <div class="text-xs font-semibold text-gray-900">Fast</div>
+              </div>
+              <div class="text-center">
+                <div class="text-sm mb-0.5">🔒</div>
+                <div class="text-xs font-semibold text-gray-900">Private</div>
+              </div>
+              <div class="text-center">
+                <div class="text-sm mb-0.5">💯</div>
+                <div class="text-xs font-semibold text-gray-900">Free</div>
               </div>
             </div>
           </div>
@@ -1618,430 +1598,122 @@ class PharmacyLandingApp {
 
   generateServiceLandingHTML(service) {
     return `
-      <div class="min-h-screen premium-gradient">
-        <!-- Premium Glass Navigation with Progress Bar -->
-        <nav class="glass-nav sticky top-0 z-50 safe-area-top">
-          <div class="px-6 py-5">
+      <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.primary}">
+        <!-- Mobile Navigation -->
+        <nav class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 safe-area-top">
+          <div class="px-4 py-4">
             <div class="flex items-center justify-between">
-              <button onclick="window.app.loadServiceSelector()" class="btn-glass flex items-center space-x-2">
+              <button onclick="window.app.loadServiceSelector()" class="flex items-center space-x-2 text-gray-600 font-medium">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
                 <span>Back</span>
               </button>
-              <h1 class="text-xl font-bold text-white">Cornwells</h1>
-              <button data-call-pharmacy class="btn-cta animate-pulse-glow">
+              <h1 class="text-lg font-bold text-gray-900">Cornwells</h1>
+              <button data-call-pharmacy class="bg-green-600 text-white px-4 py-2 rounded-xl font-semibold text-sm">
                 📞 Call
               </button>
             </div>
           </div>
-          <div class="progress-bar"></div>
         </nav>
 
-        <!-- Immersive Hero Section -->
-        <div class="hero-section px-6 py-16 text-center relative overflow-hidden">
-          <!-- Floating Background Elements -->
-          <div class="floating-elements">
-            <div class="floating-circle floating-circle-1"></div>
-            <div class="floating-circle floating-circle-2"></div>
-            <div class="floating-circle floating-circle-3"></div>
-          </div>
-          
-          <div class="hero-content relative z-10">
-            <div class="hero-icon-container mb-8">
-              <div class="hero-icon animate-float-slow">${service.icon}</div>
-              <div class="hero-icon-glow"></div>
-            </div>
-            
-            <h1 class="hero-title mb-6">${service.title}</h1>
-            <p class="hero-description mb-8 max-w-lg mx-auto">
+        <!-- Mobile Hero -->
+        <div class="px-4 py-8 text-center text-white">
+          <div class="fade-in-up">
+            <div class="text-6xl mb-6">${service.icon}</div>
+            <h1 class="text-3xl font-bold mb-4 leading-tight">${service.title}</h1>
+            <p class="text-lg text-white/90 mb-8 leading-relaxed max-w-sm mx-auto">
               ${service.description}
             </p>
-            
-            <div class="hero-badges flex flex-wrap justify-center gap-3 mb-8">
-              <div class="badge-premium animate-bounce-subtle">✨ Premium Service</div>
-              <div class="badge-available animate-pulse-soft">🟢 Available Today</div>
-              <div class="badge-trusted animate-glow-soft">🏆 Trusted Since 1835</div>
-            </div>
-            
-            <div class="hero-cta-container">
-              <button data-book-consultation="${service.id}" class="btn-hero-primary animate-glow-intense">
-                🚀 Start Your Journey
-              </button>
-              <button data-call-pharmacy class="btn-hero-secondary">
-                💬 Speak to Expert
-              </button>
-            </div>
           </div>
         </div>
 
-        <!-- Interactive Content Sections -->
-        <div class="content-sections px-6 pb-12">
-          <div class="max-w-5xl mx-auto space-y-12">
-            
-            <!-- Transformation Promise Section -->
-            <div class="transformation-section glass-card-premium p-10">
-              <div class="section-header text-center mb-10">
-                <div class="section-icon mb-4">🎯</div>
-                <h2 class="section-title">Your Transformation Awaits</h2>
-                <p class="section-subtitle">Discover what makes our approach different</p>
-              </div>
-              
-              <div class="benefits-grid">
-                ${service.specificBenefits.map((benefit, index) => `
-                  <div class="benefit-card animate-slide-up" style="animation-delay: ${index * 0.15}s;">
-                    <div class="benefit-icon-container">
-                      <div class="benefit-icon">✨</div>
-                      <div class="benefit-number">${index + 1}</div>
+        <!-- Mobile Benefits Section -->
+        <div class="bg-white rounded-t-3xl mt-8 min-h-screen">
+          <div class="px-4 py-8">
+            <!-- What You Get -->
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-6">What You Get</h2>
+              <div class="space-y-4">
+                ${service.specificBenefits.map(benefit => `
+                  <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-2xl">
+                    <div class="w-6 h-6 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                      </svg>
                     </div>
-                    <div class="benefit-content">
-                      <p class="benefit-text">${benefit}</p>
-                      <div class="benefit-progress">
-                        <div class="benefit-progress-bar" style="animation-delay: ${(index * 0.15) + 0.5}s;"></div>
-                      </div>
-                    </div>
+                    <p class="text-gray-700 leading-relaxed">${benefit}</p>
                   </div>
                 `).join('')}
               </div>
             </div>
 
-            <!-- Interactive Process Timeline -->
-            <div class="process-section glass-card-premium p-10">
-              <div class="section-header text-center mb-10">
-                <div class="section-icon mb-4">🛤️</div>
-                <h2 class="section-title">Your Journey to Success</h2>
-                <p class="section-subtitle">Simple steps, powerful results</p>
-              </div>
-              
-              <div class="process-timeline">
+            <!-- How It Works -->
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-6">How It Works</h2>
+              <div class="space-y-4">
                 ${service.uniqueProcess.map((step, index) => `
-                  <div class="timeline-item animate-fade-in-up" style="animation-delay: ${index * 0.2}s;">
-                    <div class="timeline-connector ${index === service.uniqueProcess.length - 1 ? 'timeline-connector-last' : ''}"></div>
-                    <div class="timeline-step">
-                      <div class="step-number-container">
-                        <div class="step-number">${index + 1}</div>
-                        <div class="step-pulse"></div>
-                      </div>
-                      <div class="step-content">
-                        <div class="step-text">${step}</div>
-                        <div class="step-duration">~${this.getStepDuration(index)} mins</div>
-                      </div>
+                  <div class="flex items-start space-x-4 p-4 bg-gradient-to-r ${service.colorScheme.secondary} rounded-2xl">
+                    <div class="w-8 h-8 bg-gradient-to-r ${service.colorScheme.primary} rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">
+                      ${index + 1}
                     </div>
+                    <p class="text-gray-700 leading-relaxed">${step}</p>
                   </div>
                 `).join('')}
               </div>
             </div>
 
-            <!-- Social Proof Showcase -->
-            <div class="social-proof-section">
-              <div class="testimonial-card glass-card-premium p-10 text-center">
-                <div class="testimonial-stars mb-6">
-                  <div class="stars-container">
-                    <span class="star animate-twinkle" style="animation-delay: 0.1s;">⭐</span>
-                    <span class="star animate-twinkle" style="animation-delay: 0.2s;">⭐</span>
-                    <span class="star animate-twinkle" style="animation-delay: 0.3s;">⭐</span>
-                    <span class="star animate-twinkle" style="animation-delay: 0.4s;">⭐</span>
-                    <span class="star animate-twinkle" style="animation-delay: 0.5s;">⭐</span>
-                  </div>
-                </div>
-                
-                <div class="testimonial-content mb-8">
-                  <h3 class="testimonial-title">${service.socialProof}</h3>
-                  <p class="testimonial-subtitle">${service.urgency}</p>
-                </div>
-                
-                <div class="success-metrics grid grid-cols-3 gap-6">
-                  <div class="metric-item">
-                    <div class="metric-number animate-count-up" data-target="98">0</div>
-                    <div class="metric-label">% Success Rate</div>
-                  </div>
-                  <div class="metric-item">
-                    <div class="metric-number animate-count-up" data-target="24">0</div>
-                    <div class="metric-label">Hour Response</div>
-                  </div>
-                  <div class="metric-item">
-                    <div class="metric-number animate-count-up" data-target="1835">0</div>
-                    <div class="metric-label">Since</div>
-                  </div>
-                </div>
-              </div>
+            <!-- Social Proof -->
+            <div class="bg-gradient-to-r ${service.colorScheme.primary} rounded-2xl p-6 text-white text-center mb-8">
+              <div class="text-3xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="font-semibold text-lg mb-2">${service.socialProof}</p>
+              <p class="text-white/80 text-sm">${service.urgency}</p>
             </div>
 
-            <!-- Premium CTA Section -->
-            <div class="cta-section glass-card-premium p-10">
-              <div class="cta-content text-center">
-                <div class="cta-icon mb-6">🎉</div>
-                <h3 class="cta-title mb-4">Ready to Transform Your Health?</h3>
-                <p class="cta-subtitle mb-8">Join thousands who've already started their journey</p>
-                
-                <div class="cta-buttons-container">
-                  <button data-book-consultation="${service.id}" class="btn-cta-primary animate-glow-pulse">
-                    <span class="btn-icon">📅</span>
-                    <span class="btn-text">Book My Consultation</span>
-                    <span class="btn-badge">Most Popular</span>
-                  </button>
-                  
-                  <button data-call-pharmacy class="btn-cta-secondary">
-                    <span class="btn-icon">📞</span>
-                    <span class="btn-text">Call to Discuss First</span>
-                  </button>
-                </div>
-                
-                <div class="cta-guarantee mt-6">
-                  <div class="guarantee-badge">
-                    <span class="guarantee-icon">🛡️</span>
-                    <span class="guarantee-text">100% Confidential & Professional</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Enhanced Trust Indicators -->
-            <div class="trust-section glass-card-premium p-10">
-              <div class="section-header text-center mb-10">
-                <div class="section-icon mb-4">🏆</div>
-                <h3 class="section-title">Why 10,000+ Choose Cornwells</h3>
-              </div>
-              
-              <div class="trust-grid">
-                <div class="trust-item animate-float" style="animation-delay: 0.1s;">
-                  <div class="trust-icon-container">
-                    <div class="trust-icon">⚡</div>
-                    <div class="trust-glow"></div>
-                  </div>
-                  <div class="trust-content">
-                    <div class="trust-title">Lightning Fast</div>
-                    <div class="trust-subtitle">24-48h appointments</div>
-                    <div class="trust-detail">Same-day availability for urgent cases</div>
-                  </div>
-                </div>
-                
-                <div class="trust-item animate-float" style="animation-delay: 0.2s;">
-                  <div class="trust-icon-container">
-                    <div class="trust-icon">🎓</div>
-                    <div class="trust-glow"></div>
-                  </div>
-                  <div class="trust-content">
-                    <div class="trust-title">Expert Pharmacists</div>
-                    <div class="trust-subtitle">Qualified professionals</div>
-                    <div class="trust-detail">Continuous training & certification</div>
-                  </div>
-                </div>
-                
-                <div class="trust-item animate-float" style="animation-delay: 0.3s;">
-                  <div class="trust-icon-container">
-                    <div class="trust-icon">🔒</div>
-                    <div class="trust-glow"></div>
-                  </div>
-                  <div class="trust-content">
-                    <div class="trust-title">100% Private</div>
-                    <div class="trust-subtitle">Confidential consultations</div>
-                    <div class="trust-detail">GDPR compliant & secure</div>
-                  </div>
-                </div>
-                
-                <div class="trust-item animate-float" style="animation-delay: 0.4s;">
-                  <div class="trust-icon-container">
-                    <div class="trust-icon">📍</div>
-                    <div class="trust-glow"></div>
-                  </div>
-                  <div class="trust-content">
-                    <div class="trust-title">Local Presence</div>
-                    <div class="trust-subtitle">10 convenient locations</div>
-                    <div class="trust-detail">Serving communities across the region</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- FAQ Section -->
-            <div class="faq-section glass-card-premium p-10">
-              <div class="section-header text-center mb-10">
-                <div class="section-icon mb-4">❓</div>
-                <h3 class="section-title">Frequently Asked Questions</h3>
-              </div>
-              
-              <div class="faq-list">
-                ${this.getServiceFAQs(service.id).map((faq, index) => `
-                  <div class="faq-item animate-slide-in" style="animation-delay: ${index * 0.1}s;">
-                    <button class="faq-question" onclick="this.parentElement.classList.toggle('faq-open')">
-                      <span class="faq-question-text">${faq.question}</span>
-                      <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                      <p class="faq-answer-text">${faq.answer}</p>
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-
-            <!-- Final CTA with Urgency -->
-            <div class="final-cta-section glass-card-premium p-10 text-center">
-              <div class="urgency-indicator mb-6">
-                <div class="urgency-pulse"></div>
-                <span class="urgency-text">⏰ Limited spots available this week</span>
-              </div>
-              
-              <h3 class="final-cta-title mb-4">Don't Wait - Your Health Matters</h3>
-              <p class="final-cta-subtitle mb-8">Book now and take the first step towards better health</p>
-              
-              <button data-book-consultation="${service.id}" class="btn-final-cta animate-glow-intense">
-                🚀 Secure My Spot Now
+            <!-- Mobile CTA Section -->
+            <div class="space-y-4 mb-8">
+              <button data-book-consultation="${service.id}" class="w-full bg-gradient-to-r ${service.colorScheme.primary} text-white py-5 rounded-2xl font-bold text-lg shadow-xl transform transition-all active:scale-95">
+                📅 Book My Consultation
               </button>
-              
-              <div class="final-cta-footer mt-6">
-                <p class="footer-text">Available Mon-Sat, 9am-6pm</p>
-                <p class="footer-subtext">Trusted healthcare since 1835</p>
+              <button data-call-pharmacy class="w-full bg-gray-100 text-gray-900 py-5 rounded-2xl font-bold text-lg border-2 border-gray-200">
+                📞 Call to Discuss First
+              </button>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">⚡</div>
+                <div class="font-semibold text-gray-900 text-sm">Quick Access</div>
+                <div class="text-xs text-gray-600">24-48h appointments</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">🏆</div>
+                <div class="font-semibold text-gray-900 text-sm">Expert Care</div>
+                <div class="text-xs text-gray-600">Qualified pharmacists</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">🔒</div>
+                <div class="font-semibold text-gray-900 text-sm">Confidential</div>
+                <div class="text-xs text-gray-600">Private consultations</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-2xl">
+                <div class="text-3xl mb-2">📍</div>
+                <div class="font-semibold text-gray-900 text-sm">Local</div>
+                <div class="text-xs text-gray-600">10 locations</div>
               </div>
             </div>
-            
-            <div class="safe-area-bottom"></div>
+
+            <!-- Contact Info -->
+            <div class="text-center text-gray-600 text-sm safe-area-bottom">
+              <p class="mb-2">Available Mon-Sat, 9am-6pm</p>
+              <p>Trusted healthcare since 1835</p>
+            </div>
           </div>
-        </div>
-        
-        <!-- Floating Action Button -->
-        <div class="fab-container">
-          <button class="fab animate-breathe" data-book-consultation="${service.id}" title="Quick Book">
-            📅
-          </button>
         </div>
       </div>
     `;
   }
-  getStepDuration(index) {
-    const durations = [15, 30, 10, 20, 5];
-    return durations[index] || 15;
-  }
-
-  getServiceFAQs(serviceId) {
-    const faqs = {
-      'metabolic-weight': [
-        {
-          question: "How quickly will I see results?",
-          answer: "Most patients see initial results within 2-4 weeks, with significant improvements by 8-12 weeks. Our personalized approach ensures sustainable, long-term success."
-        },
-        {
-          question: "Is this suitable for people with diabetes?",
-          answer: "Yes, our pharmacists are specially trained to work with diabetic patients. We'll coordinate with your existing healthcare team to ensure safe, effective treatment."
-        },
-        {
-          question: "What's included in the consultation?",
-          answer: "Complete health assessment, personalized treatment plan, medication review, lifestyle guidance, and ongoing support with regular check-ins."
-        },
-        {
-          question: "Are there any side effects?",
-          answer: "All treatments are carefully monitored. Our pharmacists will discuss potential side effects and how to manage them during your consultation."
-        }
-      ],
-      'womens-health': [
-        {
-          question: "Is the consultation completely confidential?",
-          answer: "Absolutely. All consultations are private and confidential. We follow strict GDPR guidelines and your information is never shared without your consent."
-        },
-        {
-          question: "Can I speak to a female pharmacist?",
-          answer: "Yes, we have female pharmacists available. You can request this when booking your appointment."
-        },
-        {
-          question: "What conditions do you treat?",
-          answer: "We provide support for contraception, UTIs, thrush, period problems, menopause, and many other women's health concerns."
-        },
-        {
-          question: "Do I need a prescription?",
-          answer: "Our pharmacists can provide treatments under the NHS Pharmacy First scheme for many conditions, often without needing a GP prescription."
-        }
-      ],
-      'mens-health': [
-        {
-          question: "How discreet is the service?",
-          answer: "Completely discreet. Private consultation rooms, confidential discussions, and discreet packaging for any treatments."
-        },
-        {
-          question: "What age groups do you serve?",
-          answer: "We provide men's health services for all adult ages, with treatments tailored to your specific age group and health needs."
-        },
-        {
-          question: "Is erectile dysfunction treatment available?",
-          answer: "Yes, we provide comprehensive ED treatment including consultation, medication, and ongoing support in a private, professional environment."
-        },
-        {
-          question: "Can I get testosterone testing?",
-          answer: "We can arrange appropriate testing and provide guidance on results, working with your GP when necessary."
-        }
-      ]
-    };
-    
-    return faqs[serviceId] || [
-      {
-        question: "How do I book an appointment?",
-        answer: "Simply click the booking button above or call us directly. We offer same-day and next-day appointments."
-      },
-      {
-        question: "What should I bring to my appointment?",
-        answer: "Bring a list of current medications, any relevant medical history, and your questions. We'll handle the rest."
-      },
-      {
-        question: "How long does a consultation take?",
-        answer: "Initial consultations typically take 20-30 minutes, allowing plenty of time for discussion and questions."
-      }
-    ];
-  }
-
-  initializeCountUpAnimations() {
-    const countElements = document.querySelectorAll('.animate-count-up');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const element = entry.target;
-          const target = parseInt(element.dataset.target);
-          let current = 0;
-          const increment = target / 50;
-          
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              element.textContent = target;
-              clearInterval(timer);
-            } else {
-              element.textContent = Math.floor(current);
-            }
-          }, 40);
-          
-          observer.unobserve(element);
-        }
-      });
-    });
-    
-    countElements.forEach(el => observer.observe(el));
-  }
-
-  initializeProgressBars() {
-    const progressBars = document.querySelectorAll('.benefit-progress-bar');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.width = '100%';
-          observer.unobserve(entry.target);
-        }
-      });
-    });
-    
-    progressBars.forEach(bar => observer.observe(bar));
-  }
-
-  initializeScrollProgress() {
-    const progressBar = document.querySelector('.progress-bar');
-    if (!progressBar) return;
-    
-    window.addEventListener('scroll', () => {
-      const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      progressBar.style.width = `${Math.min(scrolled, 100)}%`;
-    });
-  }
-
   showConfettiEffect() {
     // Create confetti elements
     for (let i = 0; i < 50; i++) {
@@ -2067,6 +1739,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.app = new PharmacyLandingApp();
 });
 
-export default PharmacyLandingApp; console.log('Deployment test');
-// FORCE_CACHE_BUST: 1750083721
-// CACHE_BUST: 1750083945
+export default PharmacyLandingApp; 
