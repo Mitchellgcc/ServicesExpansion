@@ -24,9 +24,6 @@
   <!-- Preload critical resources -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style">
   
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="/style.css">
-  
   <!-- Theme color for mobile browsers -->
   <meta name="theme-color" content="#1e40af">
   <meta name="msapplication-TileColor" content="#1e40af">
@@ -54,6 +51,229 @@
     }
   }
   </script>
+
+  <!-- Inline CSS -->
+  <style>
+    /* Include all CSS content inline */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+    
+    /* Custom styles from style.css */
+    :root {
+      --safe-area-inset-top: env(safe-area-inset-top);
+      --safe-area-inset-bottom: env(safe-area-inset-bottom);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background-color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    .safe-area-top {
+      padding-top: var(--safe-area-inset-top);
+    }
+
+    .safe-area-bottom {
+      padding-bottom: var(--safe-area-inset-bottom);
+    }
+
+    .pb-safe {
+      padding-bottom: calc(1rem + var(--safe-area-inset-bottom));
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f4f6;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Landing hero styles */
+    .landing-hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e40af 0%, #3730a3 50%, #1e1b4b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .content-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* Enhanced animations */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+      }
+    }
+
+    .animate-slide-up {
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .animate-pulse-glow {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    /* Service cards */
+    .service-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid #e5e7eb;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Button styles */
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      .modal-content {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        max-height: 90vh;
+        width: calc(100% - 2rem);
+      }
+      
+      .service-card {
+        padding: 1rem;
+      }
+      
+      .content-section {
+        padding: 1rem;
+      }
+    }
+
+    /* Utility classes */
+    .text-center { text-align: center; }
+    .text-white { color: white; }
+    .text-gray-300 { color: #d1d5db; }
+    .text-xl { font-size: 1.25rem; }
+    .font-bold { font-weight: 700; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .min-h-screen { min-height: 100vh; }
+    .relative { position: relative; }
+    .z-10 { z-index: 10; }
+    .hidden { display: none; }
+    .block { display: block; }
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .space-x-4 > * + * { margin-left: 1rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .gap-6 { gap: 1.5rem; }
+    .p-4 { padding: 1rem; }
+    .p-6 { padding: 1.5rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    .bg-white { background-color: white; }
+    .bg-blue-600 { background-color: #2563eb; }
+    .hover\:bg-blue-700:hover { background-color: #1d4ed8; }
+    .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; }
+    .duration-200 { transition-duration: 200ms; }
+
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 1024px) {
+      .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
 </head>
 <body>
   <!-- Skip to main content link for accessibility -->
@@ -74,8 +294,447 @@
     </div>
   </main>
 
-  <!-- Scripts -->
-  <script type="module" src="/app.js"></script>
+  <!-- Inline JavaScript -->
+  <script type="module">
+    // Inline all JavaScript content here
+    console.log('Pharmacy Services App Starting...');
+    
+    // Services data
+    const services = {
+      'metabolic-weight': {
+        id: 'metabolic-weight',
+        title: 'Metabolic & Weight Management',
+        headline: 'Finally Lose Weight & Keep It Off',
+        subheadline: 'Break free from yo-yo dieting with medical support that actually works.',
+        description: 'Ready for lasting results? Get proven weight loss support with expert medical guidance.',
+        colorScheme: {
+          primary: 'from-orange-600 to-red-600',
+          secondary: 'from-orange-500/20 to-red-500/20',
+          accent: 'bg-orange-500',
+          hero: 'from-orange-900 via-red-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Lose 10-30 pounds safely without crash dieting or hunger',
+          'Get your energy back and stop afternoon crashes',
+          'Keep the weight off for good with proven medical support'
+        ],
+        uniqueProcess: [
+          'Complete health assessment to find what\'s been holding you back',
+          'Personalized plan with medication support if needed',
+          'Weekly check-ins until you reach and maintain your goal'
+        ],
+        callToAction: 'Ready to break the cycle? Start your weight loss journey the right way.',
+        socialProof: 'Over 300 successful weight loss transformations',
+        urgency: 'New patient spots filling fast',
+        targetAudience: 'Adults wanting sustainable weight loss with medical support',
+        icon: '⚡',
+        featured: true
+      },
+      'womens-health': {
+        id: 'womens-health',
+        title: 'Women\'s Health Services',
+        headline: 'Feel Like Yourself Again',
+        subheadline: 'End sleepless nights and hot flashes with expert menopause care',
+        description: 'Menopause doesn\'t have to be this hard. Get personalized support that actually works.',
+        colorScheme: {
+          primary: 'from-pink-600 to-purple-600',
+          secondary: 'from-pink-500/20 to-purple-500/20',
+          accent: 'bg-pink-500',
+          hero: 'from-pink-900 via-purple-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Sleep through the night without hot flashes waking you up',
+          'Feel balanced and energetic instead of exhausted and moody',
+          'Get real solutions that work - not just "it\'s normal" advice'
+        ],
+        uniqueProcess: [
+          'Private 20-minute consultation to understand your symptoms',
+          'Personalized treatment plan (HRT, natural alternatives, or both)',
+          'Ongoing support with adjustments until you feel right again'
+        ],
+        callToAction: 'Ready to feel like yourself again? Book your confidential consultation.',
+        socialProof: 'Helping 200+ women reclaim their energy and confidence',
+        urgency: 'Limited consultation slots this week',
+        targetAudience: 'Women aged 45-65 experiencing menopause symptoms',
+        icon: '🌸',
+        featured: true
+      },
+      'health-screening': {
+        id: 'health-screening',
+        title: 'Health Screening & Monitoring',
+        headline: 'Catch Problems Before They Start',
+        subheadline: 'Find out what\'s really going on inside your body',
+        description: 'Take control of your health. Get instant answers and peace of mind with comprehensive screening.',
+        colorScheme: {
+          primary: 'from-blue-600 to-cyan-600',
+          secondary: 'from-blue-500/20 to-cyan-500/20',
+          accent: 'bg-blue-500',
+          hero: 'from-blue-900 via-cyan-900 to-slate-900'
+        },
+        specificBenefits: [
+          'Catch diabetes, heart disease, and stroke risk before symptoms appear',
+          'Get instant results with clear explanations - no medical jargon',
+          'Walk out with a personalized plan to improve your numbers'
+        ],
+        uniqueProcess: [
+          'Choose your screening level based on your concerns',
+          'Quick 15-minute tests with results explained immediately',
+          'Personalized action plan to keep you healthy long-term'
+        ],
+        callToAction: 'Don\'t wait for warning signs. Know your health status today.',
+        socialProof: 'Trusted by 1,000+ health-conscious individuals',
+        urgency: 'Same-day screening available',
+        targetAudience: 'Health-conscious adults 40+ wanting proactive health monitoring',
+        icon: '🔍',
+        featured: true
+      }
+    };
+
+    // Simple app initialization
+    class PharmacyLandingApp {
+      constructor() {
+        this.currentService = null;
+        this.baseURL = window.location.hostname === 'localhost' ? 
+          'https://cornwells-services.netlify.app' : 
+          window.location.origin;
+        this.init();
+      }
+
+      init() {
+        console.log('Initializing Pharmacy Services App...');
+        this.setupEventListeners();
+        this.loadCurrentPage();
+      }
+
+      setupEventListeners() {
+        document.addEventListener('click', (e) => {
+          if (e.target.matches('[data-book-consultation]')) {
+            e.preventDefault();
+            this.handleBookingClick(e.target);
+          }
+        });
+
+        window.addEventListener('popstate', () => {
+          this.loadCurrentPage();
+        });
+      }
+
+      loadCurrentPage() {
+        const path = window.location.pathname;
+        const serviceId = this.extractServiceIdFromPath(path);
+        
+        if (serviceId && services[serviceId]) {
+          this.loadServiceLanding(serviceId);
+        } else {
+          this.loadServiceSelector();
+        }
+      }
+
+      extractServiceIdFromPath(path) {
+        const cleanPath = path.replace(/^\/+|\/+$/g, '');
+        return cleanPath || null;
+      }
+
+      loadServiceSelector() {
+        const content = this.generateServiceSelectorHTML();
+        document.getElementById('app').innerHTML = content;
+        document.title = 'Expert Pharmacy Services - Your Health, Our Priority';
+      }
+
+      generateServiceSelectorHTML() {
+        const featuredServices = Object.values(services).filter(s => s.featured);
+        
+        return `
+          <div class="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-slate-900">
+            <div class="container mx-auto px-4 py-12">
+              <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 animate-slide-up">
+                  Expert Pharmacy Services
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 animate-slide-up">
+                  Your Health, Our Priority - Professional Care When You Need It Most
+                </p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                ${featuredServices.map(service => `
+                  <div class="service-card animate-slide-up">
+                    <div class="text-center mb-4">
+                      <div class="text-4xl mb-3">${service.icon}</div>
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">${service.title}</h3>
+                      <p class="text-gray-600 text-sm">${service.description}</p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                      <button 
+                        data-book-consultation="${service.id}"
+                        class="w-full btn-primary animate-pulse-glow"
+                      >
+                        📞 Book Consultation
+                      </button>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+              
+              <div class="text-center mt-12">
+                <p class="text-gray-300 mb-4">Need immediate assistance?</p>
+                <div class="space-x-4">
+                  <a href="tel:01782123456" class="btn-primary">📞 Call Now</a>
+                  <a href="https://cornwells.co.uk" target="_blank" class="btn-primary">🌐 Visit Website</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      loadServiceLanding(serviceId) {
+        const service = services[serviceId];
+        if (!service) {
+          this.loadServiceSelector();
+          return;
+        }
+
+        this.currentService = service;
+        const content = this.generateServiceLandingHTML(service);
+        document.getElementById('app').innerHTML = content;
+        document.title = `${service.title} - Cornwells Pharmacy`;
+      }
+
+      generateServiceLandingHTML(service) {
+        return `
+          <div class="min-h-screen bg-gradient-to-br ${service.colorScheme.hero}">
+            <div class="container mx-auto px-4 py-12">
+              <div class="text-center mb-12">
+                <div class="text-6xl mb-4">${service.icon}</div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                  ${service.headline}
+                </h1>
+                <p class="text-xl text-gray-300 mb-8">
+                  ${service.subheadline}
+                </p>
+                
+                <div class="max-w-2xl mx-auto">
+                  <button 
+                    data-book-consultation="${service.id}"
+                    class="btn-primary text-lg px-8 py-4 animate-pulse-glow"
+                  >
+                    📞 Book Consultation Now
+                  </button>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="service-card">
+                  <h3 class="text-xl font-bold mb-4">What You'll Get:</h3>
+                  <ul class="space-y-2">
+                    ${service.specificBenefits.map(benefit => `
+                      <li class="flex items-start">
+                        <span class="text-green-500 mr-2">✓</span>
+                        <span>${benefit}</span>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+                
+                <div class="service-card">
+                  <h3 class="text-xl font-bold mb-4">How It Works:</h3>
+                  <ol class="space-y-2">
+                    ${service.uniqueProcess.map((step, index) => `
+                      <li class="flex items-start">
+                        <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">
+                          ${index + 1}
+                        </span>
+                        <span>${step}</span>
+                      </li>
+                    `).join('')}
+                  </ol>
+                </div>
+              </div>
+              
+              <div class="text-center mt-12">
+                <div class="service-card max-w-2xl mx-auto">
+                  <p class="text-lg mb-4">${service.callToAction}</p>
+                  <p class="text-sm text-gray-600 mb-4">✨ ${service.socialProof}</p>
+                  <p class="text-sm text-orange-600 font-semibold mb-6">⚡ ${service.urgency}</p>
+                  
+                  <button 
+                    data-book-consultation="${service.id}"
+                    class="btn-primary text-lg px-8 py-4 animate-pulse-glow"
+                  >
+                    📞 Book Consultation
+                  </button>
+                </div>
+              </div>
+              
+              <div class="text-center mt-8">
+                <a href="/" class="text-white underline">← Back to All Services</a>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      handleBookingClick(button) {
+        const serviceId = button.getAttribute('data-book-consultation');
+        this.showBookingModal(serviceId);
+      }
+
+      showBookingModal(serviceId) {
+        const service = services[serviceId];
+        if (!service) return;
+
+        const modal = document.createElement('div');
+        modal.className = 'modal active';
+        modal.innerHTML = `
+          <div class="modal-content">
+            <div class="text-center mb-6">
+              <div class="text-4xl mb-3">${service.icon}</div>
+              <h3 class="text-2xl font-bold mb-2">${service.title}</h3>
+              <p class="text-gray-600">Book your consultation now</p>
+            </div>
+            
+            <form id="booking-form" class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold mb-2">Phone Number</label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  placeholder="07XXX XXX XXX" 
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                >
+              </div>
+              
+              <div>
+                <label class="block text-sm font-semibold mb-2">Preferred Time</label>
+                <select 
+                  id="time-preference" 
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                >
+                  <option value="">Select preferred time</option>
+                  <option value="morning">Morning (9am-12pm)</option>
+                  <option value="afternoon">Afternoon (12pm-5pm)</option>
+                  <option value="evening">Evening (5pm-7pm)</option>
+                </select>
+              </div>
+              
+              <div class="flex space-x-3">
+                <button 
+                  type="submit" 
+                  class="flex-1 btn-primary"
+                >
+                  📞 Book Consultation
+                </button>
+                <button 
+                  type="button" 
+                  onclick="this.closest('.modal').remove()"
+                  class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Handle form submission
+        modal.querySelector('#booking-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const phone = modal.querySelector('#phone').value;
+          const timePreference = modal.querySelector('#time-preference').value;
+          
+          if (phone && timePreference) {
+            this.handleBookingSubmission(serviceId, phone, timePreference);
+            modal.remove();
+          }
+        });
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        });
+      }
+
+      handleBookingSubmission(serviceId, phone, timePreference) {
+        const service = services[serviceId];
+        
+        // Show success message
+        const successModal = document.createElement('div');
+        successModal.className = 'modal active';
+        successModal.innerHTML = `
+          <div class="modal-content text-center">
+            <div class="text-6xl mb-4">✅</div>
+            <h3 class="text-2xl font-bold mb-4">Booking Confirmed!</h3>
+            <p class="text-gray-600 mb-4">
+              Thank you for booking ${service.title}. We'll call you back at 
+              <strong>${phone}</strong> during your preferred time 
+              (<strong>${timePreference}</strong>).
+            </p>
+            <p class="text-sm text-gray-500 mb-6">
+              You should receive a call back soon. If you need immediate assistance, 
+              please call us directly.
+            </p>
+            <div class="space-y-3">
+              <button 
+                onclick="this.closest('.modal').remove()"
+                class="w-full btn-primary"
+              >
+                Perfect, Thanks!
+              </button>
+              <a href="tel:01782123456" class="block w-full text-center py-2 text-blue-600 underline">
+                📞 Call Us Directly Instead
+              </a>
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(successModal);
+
+        // Auto-close after 10 seconds
+        setTimeout(() => {
+          if (document.body.contains(successModal)) {
+            successModal.remove();
+          }
+        }, 10000);
+
+        // Close on background click
+        successModal.addEventListener('click', (e) => {
+          if (e.target === successModal) {
+            successModal.remove();
+          }
+        });
+
+        // Track the booking (simplified)
+        console.log('Booking submitted:', {
+          service: serviceId,
+          phone: phone,
+          timePreference: timePreference,
+          timestamp: new Date().toISOString()
+        });
+      }
+    }
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', () => {
+      new PharmacyLandingApp();
+    });
+
+    // Also initialize immediately if DOM is already loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        new PharmacyLandingApp();
+      });
+    } else {
+      new PharmacyLandingApp();
+    }
+  </script>
   
   <!-- Analytics placeholder -->
   <script>
