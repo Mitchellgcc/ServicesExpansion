@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== PREMIUM DESIGN SYSTEM ===== */
+/* ===== PREMIUM DESIGN SYSTEM v=1750083602 ===== */
 :root {
   /* Premium Color Palette */
   --color-primary: #007AFF;
@@ -1650,4 +1650,4 @@
 @media print {
   .no-print { display: none !important; }
   .glass-card { background: white; border: 1px solid #ccc; }
-} 
+} /* DEPLOYMENT_ID: 1750083602 */
